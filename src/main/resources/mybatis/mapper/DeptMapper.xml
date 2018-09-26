@@ -1,0 +1,70 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.liu.oa.sys.mapper.DeptMapper">
+
+    <insert id="insert" parameterType="dept" useGeneratedKeys="true"
+		keyProperty="deptId">
+		insert into sys_dept 
+		(name,level,parent_id,sort,manager,remark,flag)
+		values 
+		(#{name},#{level},#{parentId},#{sort},#{manager},#{remark},0)
+
+	</insert>
+
+	 <select id="selectById" resultType="dept" parameterType="int">
+	 
+	 select * from  sys_dept where  flag= 0 and dept_id=#{deptId}
+	 
+	 </select>
+	
+	<update id="deleteById" parameterType="int" >
+	 
+	update sys_dept set flag=1  where dept_id = #{deptId} 
+	
+	</update>
+	
+	<select id="findAll" resultType="dept">
+	
+	 select * from sys_dept where flag=0
+	
+	</select>
+	
+	
+	<update id="update" parameterType="dept">
+	
+	 update sys_dept
+	 <set>
+	 <if test="name!=null">
+	  name = #{name} ,
+	 </if>
+	  <if test="level!=null">
+	   level = #{level} ,
+	 </if>
+	  <if test="age!=null">
+	  age = #{age} ,
+	 </if>
+	  <if test="parentId!=null">
+	  parent_id = #{parentId} ,
+	 </if>
+	 
+	 <if test="sort!=null">
+	  sort = #{sort} ,
+	 </if>
+	  <if test="manager!=null">
+	  manager = #{manager} ,
+	 </if>
+	  <if test="remark!=null">
+	  remark = #{remark} ,
+	 </if>
+	  <if test="flag!=null">
+	  flag = #{flag} 
+	 </if>
+	 </set>
+	 <where>
+	  dept_id =#{deptId}
+	 </where>
+	</update>
+
+</mapper>

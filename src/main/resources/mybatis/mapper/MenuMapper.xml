@@ -1,0 +1,75 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.liu.oa.sys.mapper.MenuMapper">
+
+	<select id="selectById" resultType="menu" parameterType="int">
+
+		select * from sys_menu where flag= 0 and menu_id=#{menuId}
+
+	</select>
+	
+	
+	<insert id="insert" parameterType="menu" useGeneratedKeys="true"
+		keyProperty="menuId">
+		insert into sys_menu (name,type,sort,parent_id,url,icon,target,flag)
+		values (#{name},#{type},#{sort},#{parentId},#{url},#{icon},#{target},0)
+
+	</insert>
+
+	
+   <update id="deleteById" parameterType="int" >
+	 
+	update sys_menu set flag=1  where menu_id = #{menuId} 
+	
+	</update>
+	
+	<select id="findAll" resultType="menu">
+	
+	 select * from sys_menu where flag=0
+	
+	</select>
+	
+	
+	<update id="update" parameterType="menu">
+	
+	 update sys_menu 
+	 <set>
+	 <if test="name!=null">
+	  name = #{name} ,
+	 </if>
+	  <if test="type!=null">
+	   type = #{type} ,
+	 </if>
+	  <if test="sort!=null">
+	  sort = #{sort} ,
+	 </if>
+	
+	  <if test="parentId!=null">
+	  parent_id = #{parentId} ,
+	 </if>
+	 
+	 <if test="url!=null">
+	  url = #{url} ,
+	 </if>
+	 
+	 <if test="icon!=null">
+	  icon = #{icon} ,
+	 </if>
+	 
+	 <if test="target!=null">
+	  target = #{target} ,
+	 </if>
+	 
+	  <if test="flag!=null">
+	  flag = #{flag} 
+	 </if>
+	 </set>
+	 <where>
+	  menu_id =#{menuId}
+	 </where>
+	</update>
+	
+
+</mapper>

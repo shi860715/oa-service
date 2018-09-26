@@ -1,0 +1,76 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.liu.oa.sys.mapper.UserMapper">
+
+
+
+	<insert id="insert" parameterType="user" useGeneratedKeys="true"
+		keyProperty="userId">
+		insert into sys_user (user_no,user_name,login_name,password,flag,dept_id)
+		values (#{userNo},#{userName},#{loginName},#{password},0,#{deptId})
+
+	</insert>
+	
+	
+	
+	<select id="selectById" resultType="user" parameterType="int">
+
+		select * from sys_user where flag= 0 and user_id=#{userId}
+
+	</select>
+	
+	
+	<update id="deleteById" parameterType="int" >
+	 
+	update sys_user set flag=1  where user_id = #{userId} 
+	
+	</update>
+	
+	<select id="findAll" resultType="user">
+	
+	 select * from sys_user where flag=0
+	
+	</select>
+	
+	
+	<update id="update" parameterType="user">
+	
+	 update sys_user 
+	 <set>
+	 <if test="userName!=null">
+	  user_name = #{userName} ,
+	 </if>
+	  <if test="password!=null">
+	   password = #{password} ,
+	 </if>
+	  <if test="age!=null">
+	  age = #{age} ,
+	 </if>
+	  <if test="brith!=null">
+	  brith = #{brith} ,
+	 </if>
+	  <if test="remark!=null">
+	  remark = #{remark} ,
+	 </if>
+	  <if test="email!=null">
+	  email = #{email} ,
+	 </if>
+	  <if test="phone!=null">
+	  phone = #{phone} 
+	 </if>
+	 
+	 </set>
+	 <where>
+	  user_id =#{userId}
+	 </where>
+	</update>
+	
+	
+	
+
+	
+
+
+</mapper>
