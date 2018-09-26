@@ -25,7 +25,7 @@
         <!--滚动策略-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--路径-->
-            <fileNamePattern>E:\work\logs\boot_info_%d.log</fileNamePattern>
+            <fileNamePattern>E:\work\logs\oa_info_%d.log</fileNamePattern>
         </rollingPolicy>
     </appender>
 
@@ -43,7 +43,7 @@
         <!--滚动策略-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--路径-->
-            <fileNamePattern>E:\work\logs\boot_error_%d.log</fileNamePattern>
+            <fileNamePattern>E:\work\logs\oa_error_%d.log</fileNamePattern>
         </rollingPolicy>
     </appender>
 

@@ -2,6 +2,7 @@ package com.liu.oa.sys.exception;
 
 import com.liu.oa.common.ReslutEmnu;
 
+
 public class UserException extends RuntimeException {
 	
 	
@@ -15,7 +16,8 @@ public class UserException extends RuntimeException {
 	
 	public UserException(Integer code,String message) {
 		
-		
+		super(message);
+		this.code =code;
 		
 		
 	}
