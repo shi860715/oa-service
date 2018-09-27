@@ -8,8 +8,8 @@
 
 	<insert id="insert" parameterType="user" useGeneratedKeys="true"
 		keyProperty="userId">
-		insert into sys_user (user_no,user_name,login_name,password,flag,dept_id)
-		values (#{userNo},#{userName},#{loginName},#{password},0,#{deptId})
+		insert into sys_user (user_no,user_name,login_name,password,flag,dept_id,remark)
+		values (#{userNo},#{userName},#{loginName},#{password},0,#{deptId},#{remark})
 
 	</insert>
 	

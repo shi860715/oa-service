@@ -18,6 +18,10 @@ public class UserForm {
 	@NotBlank(message="密码不能为空")
 	private String password;
 	
+	@NotBlank(message="登录名不能为空")
+	private String loginName;
+	
+	
 	private String remark;
 	@NotBlank(message="请选择部门信息")
 	private Integer deptId;
