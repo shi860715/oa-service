@@ -3,7 +3,7 @@ package com.liu.oa.common;
 import lombok.Getter;
 
 @Getter
-public enum LeaveEmnu {
+public enum LeaveEmnu implements CodeEmnu{
 	
 	LEAVE_S(1,"事假"),
 	LEAVE_J(2,"加班"),
