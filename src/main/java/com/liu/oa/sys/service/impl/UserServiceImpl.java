@@ -6,6 +6,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.liu.oa.framwork.utils.Encrypt;
 import com.liu.oa.framwork.utils.EncryptUtil;
 import com.liu.oa.sys.exception.UserException;
 import com.liu.oa.sys.form.UserForm;
@@ -16,10 +17,10 @@ import com.liu.oa.sys.service.UserService;
 @Service("userService")
 public class UserServiceImpl extends BaseServiceImpl<User> implements UserService{
 	
-	private String salt ="456852a";
+	public static final String salt ="456852a";
 	
 	
-	private int iterations=1026;
+	private static final int iterations=1026;
 	
 
 	@Autowired
@@ -46,8 +47,8 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	private User EncryptPassword(UserForm user) {
 		User u  = new User();
 		BeanUtils.copyProperties(user, u);
-		String password=EncryptUtil.sha1(u.getPassword().getBytes(), salt.getBytes(), iterations).toString();
-		u.setPassword(password);
+		
+		u.setPassword(Encrypt.md5AndSha(user.getPassword()));
 		return u;
 	}
 
