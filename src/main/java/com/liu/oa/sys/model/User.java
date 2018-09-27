@@ -2,6 +2,9 @@ package com.liu.oa.sys.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,6 +13,7 @@ import lombok.Data;
 
 @Data
 @Builder
+@JsonInclude(Include.NON_NULL)
 public class User {
 	
 	
