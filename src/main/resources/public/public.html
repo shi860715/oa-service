@@ -1,10 +1,22 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title,cssPaths)">
 
-</body>
+    <title th:text="${title}"></title>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+
+    <link rel="shortcut icon" th:href="@{/static/assets/demo/default/media/img/logo/favicon.ico}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/assets/vendors/base/fonts/custom.min.css}"/>
+
+    <!--begin::基础样式 -->
+    <link rel="stylesheet" type="text/css" th:href="@{/static/assets/vendors/base/vendors.bundle.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/assets/demo/default/base/style.bundle.css}"/>
+    <!--end::基础样式 -->
+
+    <!--begin::页面样式 -->
+    <link rel="stylesheet" type="text/css" th:each="cssPath,status:${#strings.setSplit(cssPaths,',')}" th:href="@{${cssPath}}"/>
+    <!--end::页面样式 -->
+</head>
 </html>
