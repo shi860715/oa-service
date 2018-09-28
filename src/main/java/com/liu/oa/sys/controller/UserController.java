@@ -33,6 +33,7 @@ public class UserController {
 		return ResultUtils.success("用户创建成功！",result);
 	}
 	
+	
 	@GetMapping("/userManager")
 	public String user() {
 		
