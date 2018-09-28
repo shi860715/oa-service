@@ -10,10 +10,15 @@ public class CommonController {
 	public String loginForm() {
 		
 		return "login";
+	
+	}
+	
+	@RequestMapping("/index")
+	public String index() {
 		
-		
-		
+		return "index";
 		
 	}
+	
 
 }
