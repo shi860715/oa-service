@@ -6,7 +6,7 @@
 </head>
 <body>
 <!-- top start  上边栏 -->
-	<div class="navbar navbar-default" id="navbar" th:fragment="navbar">
+	<div class="navbar navbar-default" id="navbar" th:fragment="topbar">
 			<script type="text/javascript">
 				try{ace.settings.check('navbar' , 'fixed')}catch(e){}
 			</script>
@@ -275,7 +275,7 @@
 		<!-- topbar end  上边栏 -->
 		
 		<!-- siderbar start 侧边栏 -->
-		<div class="sidebar" id="sidebar" th:fragment="sidebar(activeUri)">
+		<div class="sidebar" id="sidebar" th:fragment="sidebar(activeUri,stat)">
 					<script type="text/javascript">
 						try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
 					</script>
@@ -311,7 +311,7 @@
 					</div><!-- #sidebar-shortcuts -->
 
 					<ul class="nav nav-list">
-						<li class="active" th:class="${activeUri=='index'?'active':''}">
+						<li th:class="${activeUri=='index'?'active':''}">
 							<a href="/index">
 								<i class="icon-dashboard"></i>
 								<span class="menu-text"> 控制台 </span>
@@ -320,7 +320,7 @@
 
 					
 
-						<li class="" th:class="${activeUri=='userManager'?'active open':''}">
+						<li class="" th:class="${stat=='open'?'active open':''}">
 							<a href="#" class="dropdown-toggle">
 								<i class="icon-desktop"></i>
 								<span class="menu-text">系统管理 </span>
@@ -329,42 +329,41 @@
 							</a>
 
 							<ul class="submenu">
-								<li>
-									<a href="/sys/user/userManager">
+								<li th:class="${activeUri=='users'?'active':''}">
+									<a href="/sys/user/users">
 										<i class="icon-double-angle-right"></i>
 										用户管理
 									</a>
 								</li>
 
-								<li>
-									<a href="buttons.html">
+								<li th:class="${activeUri=='depts'?'active':''}">
+									<a href="/sys/dept/depts">
 										<i class="icon-double-angle-right"></i>
 										部门管理
 									</a>
 								</li>
 
-								<li>
-									<a href="treeview.html">
+								<li th:class="${activeUri=='user'?'active':''}">
+									<a href="/sys/user/userTree">
 										<i class="icon-double-angle-right"></i>
 										菜单管理
 									</a>
 								</li>
 
-								<li>
-									<a href="jquery-ui.html">
+								<li th:class="${activeUri=='roles'?'active':''}">
+									<a href="/sys/role/roles">
 										<i class="icon-double-angle-right"></i>
 										角色管理
 									</a>
 								</li>
-
-								<li>
-									<a href="nestable-list.html">
+								<li th:class="${activeUri=='dicts'?'active':''}">
+									<a href="/sys/dict/dicts">
 										<i class="icon-double-angle-right"></i>
 										字典管理
 									</a>
 								</li>
-								<li>
-									<a href="nestable-list.html">
+								<li th:class="${activeUri=='areas'?'active':''}">
+									<a href="/sys/area/areas">
 										<i class="icon-double-angle-right"></i>
 										区域管理
 									</a>

@@ -1,6 +1,10 @@
 package com.liu.oa.sys.controller;
 
+import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +19,7 @@ import com.liu.oa.framwork.vo.ResultVO;
 import com.liu.oa.sys.form.UserForm;
 import com.liu.oa.sys.model.User;
 import com.liu.oa.sys.service.UserService;
+import com.mysql.fabric.xmlrpc.base.Array;
 
 @Controller
 @RequestMapping("sys/user")
@@ -34,10 +39,36 @@ public class UserController {
 	}
 	
 	
-	@GetMapping("/userManager")
-	public String user() {
+	@GetMapping("/users")
+	public String user(Map<String, Object> map) {
 		
-		return "/user/user_manager";
+		List<User> users = new ArrayList<>();
+		try {
+			users = userService.findAll();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		
+		map.put("users", users);
+		
+		return "user/user_manager";
 		
 	}
+	
+	
+	@RequestMapping("/userTree")
+	public String userTree() {
+		
+	 return "user/userTree";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 }

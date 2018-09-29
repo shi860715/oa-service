@@ -6,9 +6,7 @@
 		<meta name="keywords" content="IsoftStone模板, Bootstrap模板" />
 		<meta name="description" content=" Bootstrap模板" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-			
 		<div th:include="commons/head::head"></div>
-
 		
 		
 		<script type="text/javascript">
@@ -38,7 +36,7 @@
 					<span class="menu-text"></span>
 				</a>
 
-	          <div th:replace="commons/bar::sidebar(activeUri='users',stat='open')"></div>
+	          <div th:replace="commons/bar::sidebar(activeUri='user',stat='open')"></div>
 				<div class="main-content">
 					<div class="breadcrumbs" id="breadcrumbs">
 						<script type="text/javascript">
@@ -66,17 +64,20 @@
 						</div><!-- #nav-search -->
 					</div>
                     <div class="page-content">
-                     <div class="row">
-                   
-                     </div>
-                   
+            
+						
+						
+						
+						
+						
+	
 					</div><!-- /.page-content -->
 				</div><!-- /.main-content -->
 				
-               <!-- 需引入皮肤模板 -->
-              <div th:replace="commons/skin::skin"></div>
-              
-			
+
+				<!-- 需要引入skin 主体 -->
+	
+	         <div th:replace="commons/skin::skin"></div>
 			</div><!-- /.main-container-inner -->
 
 			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
@@ -86,9 +87,8 @@
 
 		<!-- 需要引入 footjs -->
 		  <div th:replace="commons/footjs::footjs"></div>
-		  
-		  
-		
+
+
 	</body>
 </html>
 

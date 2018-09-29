@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8" />
+		<title>生兴OA->部门管理</title>
+		<meta name="keywords" content="IsoftStone模板, Bootstrap模板" />
+		<meta name="description" content=" Bootstrap模板" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<div th:include="commons/head::head"></div>
+		<script type="text/javascript">
+		 (function(){
+			
+			 
+			 
+			 
+		 });
+		
+		
+		
+		
+		</script>
+	</head>
+
+	<body>
+       <div th:replace="commons/bar::topbar"></div>
+
+		<div class="main-container" id="main-container">
+			<script type="text/javascript">
+				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="main-container-inner">
+				<a class="menu-toggler" id="menu-toggler" href="#">
+					<span class="menu-text"></span>
+				</a>
+
+	          <div th:replace="commons/bar::sidebar(activeUri='depts',stat='open')"></div>
+				<div class="main-content">
+					<div class="breadcrumbs" id="breadcrumbs">
+						<script type="text/javascript">
+							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+						</script>
+
+						<ul class="breadcrumb">
+							<li>
+								<i class="icon-home home-icon"></i>
+								<a href="/index">首页</a>
+							</li>
+							<li >
+							<a href="#">系统管理</a>
+							</li>
+							<li >部门管理</li>
+						</ul><!-- .breadcrumb -->
+
+						<div class="nav-search" id="nav-search">
+							<form class="form-search">
+								<span class="input-icon">
+									<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<i class="icon-search nav-search-icon"></i>
+								</span>
+							</form>
+						</div><!-- #nav-search -->
+					</div>
+                    <div class="page-content">
+                    <!-- <div class="page-header">
+							<h1>
+								用户管理
+								<small>
+									<i class="icon-double-angle-right"></i>
+									  用户列表
+								</small>
+							</h1>
+						</div>/.page-header -->
+						
+						<div class="row">
+							<div class="col-xs-12">
+							
+							<div class="row">
+								<div class="col-xs-12">
+									<div class="btn-group" style="margin-top:5px;">
+									  <button type="button" class="btn btn-primary btn-sm layui-btn" aria-haspopup="true" >
+									  <i class="addIcon"></i> 
+									   添加员工</button>
+									 <button type="button" class="btn btn-success btn-sm"> 启动员工</button>
+									<button type="button" class="btn btn-danger btn-sm"> 禁用员工</button>
+									</div>
+								</div>
+							</div>
+							<div class="hr hr5 dotted hr-double "></div>
+							<div class="table-responsive">
+											<table id="sample-table-2" class="table table-striped table-bordered table-hover">
+												<thead>
+													<tr>
+														<th class="center">
+															<label>
+																<input type="checkbox" class="ace" />
+																<span class="lbl"></span>
+															</label>
+														</th>
+														<th>员工编号</th>
+														<th>姓名</th>
+														<th class="hidden-480">登录名</th>
+
+														<th>
+															<i class="icon-time bigger-110 hidden-480"></i>
+														  出生日期
+														</th>
+														<th class="hidden-480">年龄</th>
+
+														<th>操作</th>
+													</tr>
+												</thead>
+
+												<tbody>
+													<tr th:each="user:${users}">
+														<td class="center">
+															<label>
+																<input type="checkbox" class="ace" />
+																<span class="lbl" ></span>
+															</label>
+															<input type="hidden"  th:value="${user.userId}"/>
+														</td>
+
+														<td>
+															<a href="#">[[${user.userNo}]]</a>
+														</td>
+														<td>[[${user.userName}]]</td>
+														<td class="hidden-480">[[${user.loginName}]]</td>
+													
+
+														<td class="hidden-480" th:text="${#dates.format(user.brith,'yyyy-MM-dd')}" >
+															
+														</td>
+														<td>[[${user.age}]]</td> 
+														<td>
+															<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+																<a class="blue" href="#">
+																	<i class="icon-zoom-in bigger-130"></i>
+																</a>
+
+																<a class="green" href="#">
+																	<i class="icon-pencil bigger-130"></i>
+																</a>
+
+																<a class="red" href="#">
+																	<i class="icon-trash bigger-130"></i>
+																</a>
+															</div>
+
+															<div class="visible-xs visible-sm hidden-md hidden-lg">
+																<div class="inline position-relative">
+																	<button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown">
+																		<i class="icon-caret-down icon-only bigger-120"></i>
+																	</button>
+
+																	<ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
+																		<li>
+																			<a href="#" class="tooltip-info" data-rel="tooltip" title="View">
+																				<span class="blue">
+																					<i class="icon-zoom-in bigger-120"></i>
+																				</span>
+																			</a>
+																		</li>
+
+																		<li>
+																			<a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
+																				<span class="green">
+																					<i class="icon-edit bigger-120"></i>
+																				</span>
+																			</a>
+																		</li>
+
+																		<li>
+																			<a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+																				<span class="red">
+																					<i class="icon-trash bigger-120"></i>
+																				</span>
+																			</a>
+																		</li>
+																	</ul>
+																</div>
+															</div>
+														</td>
+													</tr>
+
+												
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							
+							<div class="hr hr-18 dotted hr-double "></div>
+							
+							</div>
+						</div>	
+	
+					</div><!-- /.page-content -->
+				</div><!-- /.main-content -->
+				
+
+				<!-- 需要引入skin 主体 -->
+	
+	         <div th:replace="commons/skin::skin"></div>
+			</div><!-- /.main-container-inner -->
+
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="icon-double-angle-up icon-only bigger-110"></i>
+			</a>
+		</div><!-- /.main-container -->
+
+		<!-- 需要引入 footjs -->
+		  <div th:replace="commons/footjs::footjs"></div>
+		
+	</body>
+</html>
+

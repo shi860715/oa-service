@@ -6,11 +6,7 @@
 		<meta name="keywords" content="IsoftStone模板, Bootstrap模板" />
 		<meta name="description" content=" Bootstrap模板" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-			
 		<div th:include="commons/head::head"></div>
-
-		
-		
 		<script type="text/javascript">
 		 (function(){
 			
@@ -66,17 +62,48 @@
 						</div><!-- #nav-search -->
 					</div>
                     <div class="page-content">
-                     <div class="row">
-                   
-                     </div>
-                   
+                    <!-- <div class="page-header">
+							<h1>
+								用户管理
+								<small>
+									<i class="icon-double-angle-right"></i>
+									  用户列表
+								</small>
+							</h1>
+						</div>/.page-header -->
+						
+						<div class="row">
+							<div class="col-xs-12">
+							
+							<form role="form">
+								<div class="form-group">
+									 <label for="exampleInputEmail1">Email address</label><input type="email" class="form-control" id="exampleInputEmail1" />
+								</div>
+								<div class="form-group">
+									 <label for="exampleInputPassword1">Password</label><input type="password" class="form-control" id="exampleInputPassword1" />
+								</div>
+								<div class="form-group">
+									 <label for="exampleInputFile">File input</label><input type="file" id="exampleInputFile" />
+									<p class="help-block">
+										Example block-level help text here.
+									</p>
+								</div>
+								<div class="checkbox">
+									 <label><input type="checkbox" />Check me out</label>
+								</div> <button type="submit" class="btn btn-default">Submit</button>
+							</form>
+						</div>	
+						</div>
+						
+						
+						
+	
 					</div><!-- /.page-content -->
 				</div><!-- /.main-content -->
 				
-               <!-- 需引入皮肤模板 -->
+
+	          <!-- 需引入皮肤模板 -->
               <div th:replace="commons/skin::skin"></div>
-              
-			
 			</div><!-- /.main-container-inner -->
 
 			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
@@ -86,8 +113,6 @@
 
 		<!-- 需要引入 footjs -->
 		  <div th:replace="commons/footjs::footjs"></div>
-		  
-		  
 		
 	</body>
 </html>
