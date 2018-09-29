@@ -51,7 +51,7 @@
 	<body>
 	    
 	    <!-- 需要引入topbar -->
-	     <div th:repalce="commons/bar::#navbar"></div>
+	     <div th:repalce="/commons/bar ::navbar"></div>
         
 		<div class="main-container" id="main-container">
 			<script type="text/javascript">
@@ -65,7 +65,7 @@
 
 				
          <!-- 需要引入侧边栏  -->
-          <div th:repalce="commons/bar::sidebar"></div>
+          <div th:repalce="commons/bar::sidebar(activeUri='index')"></div>
          
 				<div class="main-content">
 					<div class="breadcrumbs" id="breadcrumbs">

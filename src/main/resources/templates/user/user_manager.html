@@ -56,7 +56,7 @@
 	</head>
 
 	<body>
-       <div th:replace="index::#navbar"></div>
+       <div th:replace="commons/bar::navbar"></div>
 
 		<div class="main-container" id="main-container">
 			<script type="text/javascript">
@@ -68,7 +68,7 @@
 					<span class="menu-text"></span>
 				</a>
 
-	          <div th:replace="index::#sidebar"></div>
+	          <div th:replace="commons/bar::sidebar(activeUri='userManager')"></div>
 				<div class="main-content">
 					<div class="breadcrumbs" id="breadcrumbs">
 						<script type="text/javascript">
