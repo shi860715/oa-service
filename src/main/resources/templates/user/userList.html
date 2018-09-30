@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>用户管理</title>
+ <div th:replace="commons/easyui::easyui"></div>
+ <script  src="/js/user/users.js" th:src="@{/js/user/users.js}"></script>
+ 
+</head>
+<body class="easyui-layout">
+    <div data-options="region:'west'" style="width: 200px;">
+		<ul id="tree" class="easyui-tree"></ul>
+	</div>
+	<div data-options="region:'center'"	style="padding: 5px; background: #eee;">
+		<table id="datagrid"></table>
+	</div>
+</body>
+</html>

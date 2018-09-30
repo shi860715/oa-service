@@ -1,7 +1,5 @@
 package com.liu.oa.sys.controller;
 
-import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,12 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.liu.oa.common.utils.ResultUtils;
+import com.liu.oa.framwork.utils.GridUtils;
+import com.liu.oa.framwork.vo.GridVo;
 import com.liu.oa.framwork.vo.ResultVO;
 import com.liu.oa.sys.form.UserForm;
 import com.liu.oa.sys.model.User;
 import com.liu.oa.sys.service.UserService;
-import com.mysql.fabric.xmlrpc.base.Array;
 
 @Controller
 @RequestMapping("sys/user")
@@ -39,33 +40,28 @@ public class UserController {
 	}
 	
 	
-	@GetMapping("/users")
-	public String user(Map<String, Object> map) {
-		
-		List<User> users = new ArrayList<>();
-		try {
-			users = userService.findAll();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	@PostMapping("/users")
+	@ResponseBody
+    public   Map<String, Object> users(Integer page,Integer rows){
 	
+        Map<String, Object> result = new HashMap<>();
+        String query="";
+       PageInfo<User> users= userService.findUserByPage(query,page,rows);
 		
-		map.put("users", users);
+        result.put("total", users.getTotal());
+        result.put("rows", users.getList());
+        
+        return result;
+        
+    }
+	
+	@GetMapping("/tousers")
+	public String tousers() {
 		
-		return "user/user_manager";
+		System.out.println("=====================");
 		
+		return "user/userList";
 	}
-	
-	
-	@RequestMapping("/userTree")
-	public String userTree() {
-		
-	 return "user/userTree";
-	}
-	
-	
-	
 	
 	
 	

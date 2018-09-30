@@ -19,6 +19,8 @@ public class UserVo {
 	
 	private String loginName;
 	
+	private Integer sex;
+	
 	private Integer deptId;
 
 	

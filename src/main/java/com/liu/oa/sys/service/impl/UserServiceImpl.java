@@ -2,10 +2,14 @@ package com.liu.oa.sys.service.impl;
 
 import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.liu.oa.framwork.utils.Encrypt;
 import com.liu.oa.framwork.utils.EncryptUtil;
 import com.liu.oa.sys.exception.UserException;
@@ -50,6 +54,20 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		
 		u.setPassword(Encrypt.md5AndSha(user.getPassword()));
 		return u;
+	}
+
+	/**
+	 * 分页查询用户列表
+	 */
+	public  PageInfo<User> findUserByPage(String query, int page, int rows) {
+		       PageHelper.startPage(page, rows);
+		
+		 List<User> users =userMapper.findAll();
+		 PageInfo<User>   usersInfo = new PageInfo<>(users); 
+		
+		
+		
+		return usersInfo;
 	}
 
 }
