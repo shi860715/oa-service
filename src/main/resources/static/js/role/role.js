@@ -115,7 +115,9 @@ function editRow(target) {
 function deleteRow(index) {
 	parent.$.messager.confirm('Confirm', 'Are you sure?', function(r) {
 		if (r) {
-			deleteAccount(index);
+			var rows = $('#datagrid').datagrid('getRows');
+			var row = rows[index];
+			deleteObject(row.roleId);
 		}
 	});
 }
@@ -130,7 +132,7 @@ function saveRow(index) {
 	refreshRowActions(index);
 	var rows = $('#datagrid').datagrid('getRows');
 	var row = rows[index];
-	saveOrUpdateAccount(row);
+	saveOrUpdateObject(row);
 }
 
 /**
@@ -145,10 +147,8 @@ function cancelRow(target) {
 
 //=================数据存储=========================
 
-function saveOrUpdateAccount(row){
-	
-
-	
+function saveOrUpdateObject(row){
+		
 	$.ajax({
 		type : 'post',
 		url : '/sys/role/saveORupdate',
@@ -157,7 +157,7 @@ function saveOrUpdateAccount(row){
 		success : function(data) {
 			$.messager.show({
 				title : '提示消息',
-				msg : data.msg,
+				msg : data.message,
 				timeout : 5000,
 				showType : 'slide'
 			});
@@ -170,6 +170,25 @@ function saveOrUpdateAccount(row){
 	
 }
 
+/*删除角色*/
+function deleteObject(editId) {
+
+	$.ajax({
+		type : 'post',
+		url : '/sys/role/delete',
+		data : {
+			"roleId" : editId
+		},
+		success : function(data) {
+			console.log(data);
+			if (data.code == 1) {
+				parent.$.messager.alert('提示消息', data.message);
+				$('#datagrid').datagrid('reload');
+			}
+		}
+	});
+
+}
 
 var columns = [[
 	{field:'roleId',title:'角色编号',checkbox:true,width:180},    

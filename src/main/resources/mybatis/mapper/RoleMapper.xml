@@ -18,7 +18,7 @@
   
   
  
-		<update id="deleteById" parameterType="int" >
+	<update id="deleteById" parameterType="int" >
 	 
 	update sys_role set flag=1  where role_id = #{roleId} 
 	
@@ -41,9 +41,6 @@
 	  <if test="remark!=null">
 	   remark = #{remark} ,
 	 </if>
-	
-	
-	
 	  <if test="flag!=null">
 	  flag = #{flag} 
 	 </if>
