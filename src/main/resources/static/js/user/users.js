@@ -16,7 +16,9 @@ $(function(){
    		    
    		    columns:[[  
    		    	{field : 'xyz',checkbox : true,width : 100,align : 'center'},
-   		        {field:'userNo',title:'员工编号',width:100},    
+   		        {field:'userNo',title:'员工编号',width:100,editor:{
+   		        	type:'validatebox'
+   		        }},    
    		        {field:'userName',title:'姓名',width:100,editor:{
    		        	type:'validatebox'
    		        }},  
@@ -26,9 +28,36 @@ $(function(){
    		        	  }else{
    		        		return '女'; 
    		        	  }
-   		        }}, 
-   		        {field:'email',title:'邮箱',width:100}, 
-   		        {field:'brith',title:'生日',width:100,align:'center'},
+   		        },
+   		        editor:{
+   		        	type:'combobox',
+   		        	options:{
+   		        		valueField:'label',
+   	   		        	textField:'text',
+   	   		        	data:[{
+   	   		        		label:'0',
+   	   		        		text:'女'
+   	   		        	},{
+   	   		        		label:'1',
+   	   		        		text:'男'
+   	   		        	}]
+   		        	}
+   		        }
+   		        }, 
+   		        {field:'email',title:'邮箱',width:100,
+   		        editor:{
+   		        	type:'validatebox'
+   		        		}
+   		             }
+   		        , 
+   		        {field:'brith',title:'生日',width:100,align:'center',
+   		        	editor:{
+   		        		type:'datebox'
+   		        		
+   		        	}	
+   		        
+   		        
+   		        },
    		       {field : 'action',title : '操作',width : 100,align : 'center',
 					formatter : function(value, row, index) {
 						if (row.edit) {
@@ -109,10 +138,9 @@ $(function(){
 	   $("#ss").searchbox({
 			searcher : function(value, name) {
 				var node =$("#tree").tree('getSelected');
-				var ids=[];
-				getdeptIds(node,ids);
-				var idstr=ids.join(",");
-				$('#datagrid').datagrid('load', {query : value,ids:idstr});
+				console.log("==="+node);
+			
+				$('#datagrid').datagrid('load', {query : value,id:node.id});
 			},
 			prompt : '查询关键字'
 		});   
@@ -124,7 +152,24 @@ $(function(){
     		idFiled : 'id',
 			textFiled : 'text',
 			parentField : 'parentId',
-    		
+			onLoadSuccess:function(node,data){
+				var n= $("#tree").tree("find",1);
+				 if(n!=null){   
+		                $("#tree").tree("select",n.target);    //相当于默认点击了一下第一个节点，执行onSelect方法   
+		           }
+		        
+				
+
+				},
+				onSelect : function(node) {
+				
+					
+					$("#datagrid").datagrid('reload',{
+						    id : node.id,
+							query:$("#ss").searchbox('getValue')
+					});
+
+				}
     		
     	});   
     	   
@@ -138,7 +183,19 @@ $(function(){
     	
     });
 
+//编辑标识
 var editRowIndex = 'undefined';
+
+//获取id
+function getdeptIds(node,ids) {
+	ids.push(node.id);
+	if (node.children) {
+		for (var i = 0; i < node.children.length; i++) {
+			getdeptIds(node.children[i], ids);
+		}
+	}
+	return ids;
+}
 
 function insert() {
 	var row = $("#datagrid").datagrid('getSelected');
@@ -215,4 +272,30 @@ function cancelRow(target) {
 }
 
 
+//=================数据存储=========================
 
+function saveOrUpdateAccount(row){
+	
+	var node =$("#tree").tree('getSelected');
+	row.deptId=node.id;
+	
+	$.ajax({
+		type : 'post',
+		url : '/sys/user/saveORupdate',
+		data : JSON.stringify(row),
+		contentType : 'application/json;charset=UTF-8',
+		success : function(data) {
+			$.messager.show({
+				title : '提示消息',
+				msg : data.msg,
+				timeout : 5000,
+				showType : 'slide'
+			});
+			$("#datagrid").datagrid('clearSelections');
+			$('#datagrid').datagrid('reload');
+		}
+	});
+
+	
+	
+}

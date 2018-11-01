@@ -1,25 +1,22 @@
 package com.liu.oa.sys.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.liu.oa.common.utils.ResultUtils;
-import com.liu.oa.framwork.utils.GridUtils;
-import com.liu.oa.framwork.vo.GridVo;
 import com.liu.oa.framwork.vo.ResultVO;
 import com.liu.oa.sys.form.UserForm;
 import com.liu.oa.sys.model.User;
+import com.liu.oa.sys.service.DeptService;
 import com.liu.oa.sys.service.UserService;
 
 @Controller
@@ -28,6 +25,8 @@ public class UserController {
 	
 	@Autowired
 	UserService userService;
+	@Autowired
+	DeptService deptservice;
 
 	@PostMapping("/create")
 	@ResponseBody
@@ -42,11 +41,23 @@ public class UserController {
 	
 	@PostMapping("/users")
 	@ResponseBody
-    public   Map<String, Object> users(Integer page,Integer rows){
+    public   Map<String, Object> users(Integer id,String query,Integer page,Integer rows){
 	
         Map<String, Object> result = new HashMap<>();
-        String query="";
-       PageInfo<User> users= userService.findUserByPage(query,page,rows);
+        PageInfo<User> users= null;
+        if(id!=null) {
+        	 if(id==1) {
+            	 users= userService.findUserByPage(query,page,rows);
+            }else {
+            	
+            	 users= userService.findUserByDeptParentId(id,query,page,rows);
+            }
+        }else {
+        	 users= userService.findUserByPage(query,page,rows);
+        }
+       
+     
+   
 		
         result.put("total", users.getTotal());
         result.put("rows", users.getList());
@@ -58,13 +69,44 @@ public class UserController {
 	@GetMapping("/tousers")
 	public String tousers() {
 		
-		System.out.println("=====================");
+		
 		
 		return "user/userList";
 	}
 	
-	
-	
+	@RequestMapping("/saveORupdate")
+	@ResponseBody
+	public Map<String, Object> saveORupdate(@RequestBody User user){
+		 Map<String, Object> result = new HashMap<>();
+		
+		if(user!=null) {
+			if(user.getUserId()!=null){
+				
+				try {
+					userService.update(user);
+					result.put("msg", "用户更新成功");
+				} catch (Exception e) {
+					result.put("msg", "用户更新失败");
+				}
+			
+			}else {
+				try {
+					userService.save(user);
+					result.put("msg", "用户创建成功");
+				} catch (Exception e) {
+					result.put("msg", "用户创建失败");
+				
+				}
+				
+			}
+		}
+		
+		
+		
+		
+		
+		return result;
+	}
 	
 	
 }

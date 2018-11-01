@@ -1,7 +1,6 @@
 package com.liu.oa.sys.service.impl;
 
-import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -11,10 +10,11 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.liu.oa.framwork.utils.Encrypt;
-import com.liu.oa.framwork.utils.EncryptUtil;
 import com.liu.oa.sys.exception.UserException;
 import com.liu.oa.sys.form.UserForm;
+import com.liu.oa.sys.mapper.DeptMapper;
 import com.liu.oa.sys.mapper.UserMapper;
+import com.liu.oa.sys.model.Dept;
 import com.liu.oa.sys.model.User;
 import com.liu.oa.sys.service.UserService;
 
@@ -29,6 +29,11 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 
 	@Autowired
 	UserMapper userMapper;
+	
+	@Autowired
+	DeptMapper deptMapper;
+	
+
 	
 	@Override
 	public User create(UserForm user) throws UserException {
@@ -69,5 +74,28 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		
 		return usersInfo;
 	}
+
+	@Override
+	public PageInfo<User> findUserByDeptParentId(Integer id, String query, Integer page, Integer rows) {
+	
+		
+	      PageHelper.startPage(page, rows);
+		  Dept dept = deptMapper.selectById(id);
+		  List<User> users = new ArrayList<>();
+	      if(dept.getLevel()==1) {
+	         users =userMapper.findUserByConpayId(id,query);
+	      }else {
+	    	 users =  userMapper.findUserByDeptId(id, query);
+	      }
+	      
+	      
+	      
+	
+	      PageInfo<User>   usersInfo = new PageInfo<>(users); 
+		
+		return usersInfo;
+	}
+
+	
 
 }

@@ -8,8 +8,8 @@
 
 	<insert id="insert" parameterType="user" useGeneratedKeys="true"
 		keyProperty="userId">
-		insert into sys_user (user_no,user_name,login_name,password,flag,dept_id,remark)
-		values (#{userNo},#{userName},#{loginName},#{password},0,#{deptId},#{remark})
+		insert into sys_user (user_no,user_name,login_name,password,brith,flag,dept_id,remark,sex)
+		values (#{userNo},#{userName},#{loginName},#{password},#{brith},0,#{deptId},#{remark},#{sex})
 
 	</insert>
 	
@@ -30,7 +30,7 @@
 	
 	<select id="findAll" resultType="user">
 	
-	 select * from sys_user where flag=0
+	 select * from sys_user where flag=0 
 	
 	</select>
 	
@@ -68,9 +68,30 @@
 	</update>
 	
 	
+	<select id="findUserByConpayId" resultType="user">
+	select * from sys_user 
+	<where>
+	<if test="query!=null">
+	(user_name like '%${query}%' or remark like '%${query}%') and
+	</if>
+	
+	</where>
+	
+      flag = 0  and dept_id in (select dept_id from sys_dept where parent_id=#{id});
+	</select>
+
+	<select id="findUserByDeptId" resultType="user" >
+	
+	select * from sys_user
+	<where>
+	<if test="query!=null">
+	(user_name like '%${query}%' or remark like '%${query}%') and
+	</if>
+	</where>
+	 flag = 0 and dept_id =#{id};
 	
 
-	
+	</select>
 
 
 </mapper>

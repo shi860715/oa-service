@@ -15,6 +15,6 @@ public interface BaseService<T> {
 	
 	boolean deleteById(Serializable id) throws Exception;
 
-	T update(T t) throws Exception;
+	void update(T t) throws Exception;
 	
 }

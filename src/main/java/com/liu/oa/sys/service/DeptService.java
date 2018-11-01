@@ -4,4 +4,6 @@ import com.liu.oa.sys.model.Dept;
 
 public interface DeptService extends BaseService<Dept>{
 
+	
+
 }

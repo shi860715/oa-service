@@ -9,7 +9,7 @@ import lombok.Data;
 @Builder
 public class Dept {
 	
-	private Integer DeptId;
+	private Integer deptId;
 	
 	private String name;
 	
@@ -29,11 +29,23 @@ public class Dept {
 	
 	private Integer flag;
 	
+	private Integer _parentId;
+	
+
+	
+
+	public Dept() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+
 
 	public Dept(Integer deptId, String name, Integer level, Integer parentId, Integer sort, Integer manager,
-			String remark, Date createTime, Date updateTime, Integer flag) {
+			String remark, Date createTime, Date updateTime, Integer flag, Integer _parentId) {
 		super();
-		DeptId = deptId;
+		this.deptId = deptId;
 		this.name = name;
 		this.level = level;
 		this.parentId = parentId;
@@ -43,14 +55,15 @@ public class Dept {
 		this.createTime = createTime;
 		this.updateTime = updateTime;
 		this.flag = flag;
+		this._parentId = _parentId;
 	}
+	
 
-	public Dept() {
-		super();
-		// TODO Auto-generated constructor stub
+	public Integer get_parentId() {
+		
+		return this.getParentId();
+		
 	}
-	
-	
 	
 	
 

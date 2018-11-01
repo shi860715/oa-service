@@ -34,7 +34,7 @@
 	
 	<update id="update" parameterType="dept">
 	
-	 update sys_dept
+	update sys_dept
 	 <set>
 	 <if test="name!=null">
 	  name = #{name} ,
@@ -42,9 +42,7 @@
 	  <if test="level!=null">
 	   level = #{level} ,
 	 </if>
-	  <if test="age!=null">
-	  age = #{age} ,
-	 </if>
+	  
 	  <if test="parentId!=null">
 	  parent_id = #{parentId} ,
 	 </if>
@@ -62,9 +60,7 @@
 	  flag = #{flag} 
 	 </if>
 	 </set>
-	 <where>
-	  dept_id =#{deptId}
-	 </where>
+	 where dept_id = #{deptId} 
 	</update>
 
 </mapper>

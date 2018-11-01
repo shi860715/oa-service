@@ -43,10 +43,10 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	}
 
 	@Override
-	public T update(T t) {
+	public void update(T t) {
 		 baseMapper.update(t);
 		
-		return t;
+		
 	}
 	
 
