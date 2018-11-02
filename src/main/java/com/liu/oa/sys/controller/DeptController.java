@@ -73,17 +73,18 @@ public class DeptController {
 		
 		Map<String, Object> result= new HashMap<>();
 		
-		List<Dept> depts = null;
+		List<Dept> depts = new ArrayList<>();
 		
 		try {
 			depts = deptService.findAll();
+			result.put("total", depts.size());
+			result.put("rows", depts);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		result.put("total", depts.size());
-		result.put("rows", depts);
+		
 		
 		return result;
 		

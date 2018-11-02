@@ -27,7 +27,7 @@
 	
 	<select id="findAll" resultType="menu">
 	
-	 select * from sys_menu where flag=0
+	 select * from sys_menu where flag=0 order by sort asc
 	
 	</select>
 	
@@ -42,9 +42,9 @@
 	  <if test="type!=null">
 	   type = #{type} ,
 	 </if>
-	  <if test="sort!=null">
+	 
 	  sort = #{sort} ,
-	 </if>
+	
 	
 	  <if test="parentId!=null">
 	  parent_id = #{parentId} ,

@@ -25,6 +25,8 @@ public class Menu {
 	private String target;
 	
 	private Integer flag;
+	
+	private Integer _parentId;
 
 	
 
@@ -35,8 +37,18 @@ public class Menu {
 
 
 
+
+	
+	public Integer get_parentId() {
+		return parentId;
+	}
+
+
+
+
+
 	public Menu(Integer menuId, String name, Integer type, Integer sort, Integer parentId, String url, String icon,
-			String target, Integer flag) {
+			String target, Integer flag, Integer _parentId) {
 		super();
 		this.menuId = menuId;
 		this.name = name;
@@ -47,8 +59,7 @@ public class Menu {
 		this.icon = icon;
 		this.target = target;
 		this.flag = flag;
+		this._parentId = _parentId;
 	}
-	
-	
 
 }

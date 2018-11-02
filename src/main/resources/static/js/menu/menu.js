@@ -1,13 +1,13 @@
 $(function(){
     	   $('#datagrid').treegrid({  
     		   fit:true,
-    		    url:'/sys/dept/depts',    
+    		    url:'/sys/menu/menus',    
     		   loadMsg : '正在准备数据，请稍后。。。。。。',
 			    striped : true,//斑马线效果
 			    fitColumns : true,
 			    animate:true,
 			   
-			    idField:'deptId',    
+			    idField:'menuId',    
 			    treeField:'name',
 			  
 				queryParams:{
@@ -19,25 +19,25 @@ $(function(){
    		   toolbar:toolbars,
 			onBeforeEdit : function(row) {
 				row.edit = true;
-				refreshRowActions(row.deptId);
+				refreshRowActions(row.menuId);
 			},
 			onAfterEdit : function(row, changes) {
 				row.edit = false;
-				refreshRowActions(row.deptId);
+				refreshRowActions(row.menuId);
 			},
 			onCancelEdit : function(row) {
 				row.edit = false;
-				refreshRowActions(row.deptId);
+				refreshRowActions(row.menuId);
 			},
 			onDblClickRow : function(row) {
 				if (editRowIndex == 'undefined') {
-					$(this).treegrid('beginEdit', row.deptId);
+					$(this).treegrid('beginEdit', row.menuId);
 				} else {
 					$(this).treegrid('endEdit', editRowIndex);
-					$(this).treegrid('beginEdit', row.deptId);
+					$(this).treegrid('beginEdit', row.menuId);
 
 				}
-				editRowIndex=row.deptId;
+				editRowIndex=row.menuId;
 
 			}
    		
@@ -65,15 +65,15 @@ function insert() {
 	var node = $("#datagrid").treegrid('getSelected');
 	if (node) {
 		$("#datagrid").treegrid('append', {
-			parent : node.deptId,
+			parent : node.menuId,
 			data : [ {
-				deptId : 0,
-				deptName : '请填写部门名称',
-				parentId : node.deptId
+				menuId : 0,
+				name : '请填写资源名称',
+				parentId : node.menuId
 			} ]
 		});
 	} else {
-		parent.$.messager.alert("提示", "请先选中添加的部门的父节点");
+		parent.$.messager.alert("提示", "请先选中添加的资源的父节点");
 	}
 	$('#datagrid').treegrid('beginEdit', 0);
 }
@@ -110,11 +110,12 @@ function editRow(target) {
  * @param index
  * @returns
  */
-function deleteRow(index) {
+function deleteRow(target) {
 	parent.$.messager.confirm('Confirm', 'Are you sure?', function(r) {
 		if (r) {
 			var row = $('#datagrid').treegrid('find',target);
-			deleteObject(row.deptId);
+			
+			deleteObject(row.menuId);
 		}
 	});
 }
@@ -152,7 +153,7 @@ function saveOrUpdateObject(row){
 	
 	$.ajax({
 		type : 'post',
-		url : '/sys/dept/saveORupdate',
+		url : '/sys/menu/saveORupdate',
 		data : JSON.stringify(row),
 		contentType : 'application/json;charset=UTF-8',
 		success : function(data) {
@@ -173,9 +174,9 @@ function deleteObject(editId) {
 
 	$.ajax({
 		type : 'post',
-		url : '/sys/dept/delete',
+		url : '/sys/menu/delete',
 		data : {
-			"deptId" : editId
+			"menuId" : editId
 		},
 		success : function(data) {
 			console.log(data);
@@ -190,18 +191,18 @@ function deleteObject(editId) {
 
 var columns=[[    
 	
-    {field:'deptId',title:'部门编号',checkbox:true,width:180},    
-    {field:'name',title:'部门名称',width:100,align:'left',editor : {
+    {field:'menuId',title:'资源编号',checkbox:true,},    
+    {field:'name',title:'资源名称',width:100,align:'left',editor : {
 		type : 'validatebox',
 		required : true
 	}},    
-    {field:'level',title:'类型',width:80,formatter:function(value,row,index){
+    {field:'type',title:'类型',width:80,formatter:function(value,row,index){
     	if(value=='0'){
-    		return '集团';
+    		return '功能模块';
     	}else if(value=='1'){
-    		return '一级公司';
+    		return '菜单';
     	}else if(value=='2'){
-    		return '部门';
+    		return '按钮';
     	}else{
     		return '未知';
     	}
@@ -210,13 +211,25 @@ var columns=[[
 		type : 'validatebox',
 		required : true
 	}},    
-    {field:'remark',title:'备注',width:80,editor : {
+    {field:'url',title:'访问路径',width:80,editor : {
 		type : 'validatebox',
 		required : true
 	}}  ,
+	 {field:'sort',title:'排序',width:80,editor : {
+			type : 'validatebox',
+			required : true
+		}}  ,
+	 {field:'icon',title:'图标',width:80,editor : {
+			type : 'validatebox',
+			required : true
+		}}  ,
+	 {field:'target',title:'打开方式',width:80,editor : {
+			type : 'validatebox',
+			required : true
+		}}  ,
     {field : 'action',title : '操作',width : 100,align : 'center',
 		formatter : function(value, row, index) {
-			var editId = row.deptId;
+			var editId = row.menuId;
 			if (row.edit) {
 				var s = '<a href="#" onclick="saveRow('+ editId + ')">保存</a>';
 				var c = '<a href="#" onclick="cancelRow('+ editId + ')">取消</a>';
@@ -231,7 +244,7 @@ var columns=[[
 ]]    
 
 var toolbars=[{text : "检索：<input type='text' id='ss' />"}, 
-    {iconCls : 'icon-add',text : '添加部门',handler : function() {insert();}}]
+    {iconCls : 'icon-add',text : '添加资源',handler : function() {insert();}}]
 
 
 
