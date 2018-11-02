@@ -110,11 +110,10 @@ function editRow(target) {
  * @param index
  * @returns
  */
-function deleteRow(index) {
+function deleteRow(editId) {
 	parent.$.messager.confirm('Confirm', 'Are you sure?', function(r) {
 		if (r) {
-			var row = $('#datagrid').treegrid('find',target);
-			deleteObject(row.deptId);
+			deleteObject(editId);
 		}
 	});
 }

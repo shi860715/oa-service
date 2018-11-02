@@ -20,6 +20,31 @@
    font-size: 20px;
   
   }
+  
+  
+  #nav-accordion  ul {
+	padding: 0px;
+	margin: 0px;
+}
+
+#nav-accordion ul li {
+	background-color: #B4CDCD;
+	list-style: none;
+	padding: 5px 0px;
+	margin: 1px;
+	text-align: center;
+}
+
+#nav-accordion ul li a {
+	text-decoration: none;
+	line-height: 15px;
+	color: #fff;
+}
+
+#nav-accordion ul li a.active {
+	background-color: "#66ccff";
+	color: red;
+}
  </style>
  
  <script type="text/javascript">
@@ -67,7 +92,40 @@
 		}
 
 	}
- 
+	
+	$(function(){
+		
+		$('#tabs').tabs({
+			onSelect : function(title, index) {
+				$("#nav-accordion ul li").css({
+					"background" : "#B4CDCD"
+				});
+				$('#nav-accordion ul li[title=' + title + ']').css({
+					"background" : "#AEEEEE"
+				});
+
+				var pid = $('#nav-accordion ul li[title=' + title + ']').attr("pid");
+				var selectAccordon = $("#menu" + pid).attr("alt");
+				$('#nav-accordion').accordion('select', selectAccordon);
+			}
+
+		});
+		
+		$("#nav-accordion ul li").click(function() {
+			$("#nav-accordion ul li").css({
+				"background" : "#B4CDCD"
+			})
+			$(this).css({
+				"background" : "#AEEEEE"
+			})
+
+		});
+	 
+		
+		
+	});
+	
+	
  
  
  
@@ -87,7 +145,7 @@
 	</div>
        
     <div data-options="region:'west',title:'导航'" style="width:210px;">
-	   <div id="accordion" class="easyui-accordion" data-options="fit:true">   
+	   <div id="nav-accordion" class="easyui-accordion" data-options="fit:true">   
 		    <div title="个人中心" data-options="iconCls:'icon-man'" style="overflow:auto;padding:10px;">   
 		       
 		    </div>   
@@ -96,11 +154,11 @@
 		    </div>   
 		    <div title="系统管理" data-options="iconCls:'icon-man',selected:true"> 
 		      <ul>
-		        <li><a href="javascript:addTab('用户管理', '/sys/user/tousers')">用户管理</a></li>
-		        <li><a href="javascript:addTab('部门管理', '/sys/dept/todepts')">部门管理</a></li>
-		        <li><a href="javascript:addTab('角色管理', '/sys/role/toroles')">角色管理</a></li>
-		        <li><a href="javascript:addTab('资源管理', '/sys/menu/tomenus')">资源管理</a></li>
-		        <li><a href="javascript:addTab('权限管理', 'sys/grant/togrant')">权限管理</a></li>
+		        <li title="用户管理"><a href="javascript:addTab('用户管理', '/sys/user/tousers')">用户管理</a></li>
+		        <li title="部门管理"><a href="javascript:addTab('部门管理', '/sys/dept/todepts')">部门管理</a></li>
+		        <li title="角色管理"><a href="javascript:addTab('角色管理', '/sys/role/toroles')">角色管理</a></li>
+		        <li title="资源管理"><a href="javascript:addTab('资源管理', '/sys/menu/tomenus')">资源管理</a></li>
+		        <li title="权限管理"><a href="javascript:addTab('权限管理', 'sys/grant/togrant')">权限管理</a></li>
 		       
 	          </ul>
 		    </div>   
