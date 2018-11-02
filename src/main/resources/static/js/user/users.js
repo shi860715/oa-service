@@ -104,33 +104,7 @@ $(function(){
 				});
 				editRowIndex = index;
 			},
-   		 toolbar:[{text : "检索：<input type='text' id='ss' />"}, 
-				{iconCls : 'icon-add',text : '添加用户',	handler : function() {insert();}}
-			, '-',
-			{iconCls : 'icon-edit',text : '更换部门',	handler : function() {
-				var rows =$('#datagrid').datagrid('getSelections');
-				if(rows.length<1){
-		               parent.$.messager.alert('提示',"请至少选中一个用户，更换部门");
-		                return;
-					}
-			        $("#dialogDept").dialog('open');
-			}}
-			, '-',
-			{iconCls : 'icon-edit',text : '授予角色',	handler : function() {
-				
-				var rows =$('#datagrid').datagrid('getSelections');
-				if(rows.length<1){
-		               parent.$.messager.alert('提示',"请至少选中一个用户，授予角色");
-		                return;
-					}
-			        $("#dialogRole").dialog('open');
-			}}
-			, '-',
-        {iconCls : 'icon-remove',text : '批量删除',	handler : function() {	
-                     removeAccountBath();
-
-	           } } , '-',
-        {iconCls : 'icon-save',text : '保存',	handler : function() {	} }]
+   		 toolbar:toolbars
    		     
    		});  
     	   
@@ -244,7 +218,9 @@ function editRow(target) {
 function deleteRow(index) {
 	parent.$.messager.confirm('Confirm', 'Are you sure?', function(r) {
 		if (r) {
-			deleteAccount(index);
+			var rows = $('#datagrid').datagrid('getRows');
+			var row = rows[index];
+			deleteObject(row.userId);
 		}
 	});
 }
@@ -259,7 +235,7 @@ function saveRow(index) {
 	refreshRowActions(index);
 	var rows = $('#datagrid').datagrid('getRows');
 	var row = rows[index];
-	saveOrUpdateAccount(row);
+	saveOrUpdateObject(row);
 }
 
 /**
@@ -274,7 +250,7 @@ function cancelRow(target) {
 
 //=================数据存储=========================
 
-function saveOrUpdateAccount(row){
+function saveOrUpdateObject(row){
 	
 	var node =$("#tree").tree('getSelected');
 	row.deptId=node.id;
@@ -299,3 +275,52 @@ function saveOrUpdateAccount(row){
 	
 	
 }
+
+function deleteObject(editId) {
+
+	$.ajax({
+		type : 'post',
+		url : '/sys/user/delete',
+		data : {
+			"userId" : editId
+		},
+		success : function(data) {
+		
+				parent.$.messager.alert('提示消息', data.msg);
+				$('#datagrid').datagrid('reload');
+			
+		}
+	});
+
+}
+
+
+
+var toolbars = [{text : "检索：<input type='text' id='ss' />"}, 
+	{iconCls : 'icon-add',text : '添加用户',	handler : function() {insert();}}
+, '-',
+{iconCls : 'icon-edit',text : '更换部门',	handler : function() {
+	var rows =$('#datagrid').datagrid('getSelections');
+	if(rows.length<1){
+           parent.$.messager.alert('提示',"请至少选中一个用户，更换部门");
+            return;
+		}
+        $("#dialogDept").dialog('open');
+}}
+, '-',
+{iconCls : 'icon-edit',text : '授予角色',	handler : function() {
+	
+	var rows =$('#datagrid').datagrid('getSelections');
+	if(rows.length<1){
+           parent.$.messager.alert('提示',"请至少选中一个用户，授予角色");
+            return;
+		}
+        $("#dialogRole").dialog('open');
+}}
+, '-',
+{iconCls : 'icon-remove',text : '批量删除',	handler : function() {	
+         removeAccountBath();
+
+   } } , '-',
+{iconCls : 'icon-save',text : '保存',	handler : function() {	} }];
+

@@ -97,16 +97,27 @@ public class UserController {
 					result.put("msg", "用户创建失败");
 				
 				}
-				
 			}
 		}
-		
-		
-		
-		
 		
 		return result;
 	}
 	
+	
+	
+	@RequestMapping("/delete")
+	@ResponseBody
+	public Map<String, Object> delete(Integer userId){
+		 Map<String, Object> result = new HashMap<>();
+		 
+		 try {
+			userService.deleteById(userId);
+			result.put("msg", "用户删除成功");
+		} catch (Exception e) {
+			result.put("msg", "用户删除失败");
+		}
+		
+		return result;
+	}
 	
 }
