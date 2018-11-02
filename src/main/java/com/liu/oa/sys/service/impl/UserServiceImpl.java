@@ -1,7 +1,9 @@
 package com.liu.oa.sys.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,36 +66,39 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	/**
 	 * 分页查询用户列表
 	 */
-	public  PageInfo<User> findUserByPage(String query, int page, int rows) {
-		       PageHelper.startPage(page, rows);
+	public  Map<String, Object> findUserByPage(String query, int page, int rows) {
+		Map<String, Object> result = new HashMap<>();
+		 PageHelper.startPage(page, rows);
 		
 		 List<User> users =userMapper.findAll();
 		 PageInfo<User>   usersInfo = new PageInfo<>(users); 
+		 result.put("total", usersInfo.getTotal());
+		 result.put("rows", usersInfo.getList());
 		
 		
-		
-		return usersInfo;
+		return result;
 	}
 
 	@Override
-	public PageInfo<User> findUserByDeptParentId(Integer id, String query, Integer page, Integer rows) {
-	
-		
-	      PageHelper.startPage(page, rows);
+	public Map<String, Object> findUserByDeptParentId(Integer id, String query, Integer page, Integer rows) {
+		Map<String, Object> result = new HashMap<>();
 		  Dept dept = deptMapper.selectById(id);
 		  List<User> users = new ArrayList<>();
+	      PageHelper.startPage(page, rows);
+		
 	      if(dept.getLevel()==1) {
 	         users =userMapper.findUserByConpayId(id,query);
 	      }else {
 	    	 users =  userMapper.findUserByDeptId(id, query);
 	      }
 	      
-	      
+	      PageInfo<User>   usersInfo = new PageInfo<>(users); 
+	         result.put("total", usersInfo.getTotal());
+			 result.put("rows", usersInfo.getList()); 
 	      
 	
-	      PageInfo<User>   usersInfo = new PageInfo<>(users); 
-		
-		return usersInfo;
+	    
+		return result;
 	}
 
 	

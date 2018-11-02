@@ -1,4 +1,27 @@
 $(function(){
+			 /*树形结构      start */  
+			$("#tree").tree({
+				url:'/sys/dept/getTree',
+				idFiled : 'id',
+				textFiled : 'text',
+				parentField : 'parentId',
+				onLoadSuccess:function(node,data){
+					var n= $("#tree").tree("find",1);
+					 if(n!=null){   
+			                $("#tree").tree("select",n.target);    //相当于默认点击了一下第一个节点，执行onSelect方法   
+			           }
+			        
+		
+					},
+					onSelect : function(node) {
+						$("#datagrid").datagrid('reload',{
+							    id : node.id,
+								query:$("#ss").searchbox('getValue')
+						});
+					}
+			});   
+	
+	
     	   $('#datagrid').datagrid({  
     		   fit:true,
     		    url:'/sys/user/users',    
@@ -9,70 +32,12 @@ $(function(){
 			    pageNumber : 1,
 				pageSize :5,
 				queryParams:{
-
+                       id:1
 					},
 				pageList : [ 5, 10, 20 ],
    		   
    		    
-   		    columns:[[  
-   		    	{field : 'xyz',checkbox : true,width : 100,align : 'center'},
-   		        {field:'userNo',title:'员工编号',width:100,editor:{
-   		        	type:'validatebox'
-   		        }},    
-   		        {field:'userName',title:'姓名',width:100,editor:{
-   		        	type:'validatebox'
-   		        }},  
-   		        {field:'sex',title:'性别',width:100,formatter:function(value){
-   		        	  if(value=="1"){
-   		        		  return '男';
-   		        	  }else{
-   		        		return '女'; 
-   		        	  }
-   		        },
-   		        editor:{
-   		        	type:'combobox',
-   		        	options:{
-   		        		valueField:'label',
-   	   		        	textField:'text',
-   	   		        	data:[{
-   	   		        		label:'0',
-   	   		        		text:'女'
-   	   		        	},{
-   	   		        		label:'1',
-   	   		        		text:'男'
-   	   		        	}]
-   		        	}
-   		        }
-   		        }, 
-   		        {field:'email',title:'邮箱',width:100,
-   		        editor:{
-   		        	type:'validatebox'
-   		        		}
-   		             }
-   		        , 
-   		        {field:'brith',title:'生日',width:100,align:'center',
-   		        	editor:{
-   		        		type:'datebox'
-   		        		
-   		        	}	
-   		        
-   		        
-   		        },
-   		       {field : 'action',title : '操作',width : 100,align : 'center',
-					formatter : function(value, row, index) {
-						if (row.edit) {
-							var s = '<a href="#" onclick="saveRow('+ index + ')">保存</a>';
-							var c = '<a href="#" onclick="cancelRow('+ index + ')">取消</a>';
-							return s + '&nbsp&nbsp' + c;
-						} else {
-							var e = '<a href="#" onclick="editRow('+ index + ')">编辑</a>';
-							var d = '<a href="#" onclick="deleteRow('+ index + ')">删除</a>';
-							return e + '&nbsp&nbsp' + d;
-						}
-					}
-				}
-   		   
-   		    ]],
+   		    columns:cloumns,
    		    onDblClickRow : function(index, row) {
 				$(this).datagrid('beginEdit', index);
 			},
@@ -120,32 +85,7 @@ $(function(){
 		});   
 	   /*查询框  end */  
 	   
-	   /*树形结构      start */  
-    	$("#tree").tree({
-    		url:'/sys/dept/getTree',
-    		idFiled : 'id',
-			textFiled : 'text',
-			parentField : 'parentId',
-			onLoadSuccess:function(node,data){
-				var n= $("#tree").tree("find",1);
-				 if(n!=null){   
-		                $("#tree").tree("select",n.target);    //相当于默认点击了一下第一个节点，执行onSelect方法   
-		           }
-		        
-				
-
-				},
-				onSelect : function(node) {
-				
-					
-					$("#datagrid").datagrid('reload',{
-						    id : node.id,
-							query:$("#ss").searchbox('getValue')
-					});
-
-				}
-    		
-    	});   
+	  
     	   
     	/*树形结构      end */     
     	   
@@ -293,6 +233,67 @@ function deleteObject(editId) {
 	});
 
 }
+
+
+var cloumns=[[  
+   	{field : 'xyz',checkbox : true,width : 100,align : 'center'},
+       {field:'userNo',title:'员工编号',width:100,editor:{
+       	type:'validatebox'
+       }},    
+       {field:'userName',title:'姓名',width:100,editor:{
+       	type:'validatebox'
+       }},  
+       {field:'sex',title:'性别',width:100,formatter:function(value){
+       	  if(value=="1"){
+       		  return '男';
+       	  }else{
+       		return '女'; 
+       	  }
+       },
+       editor:{
+       	type:'combobox',
+       	options:{
+       		valueField:'label',
+		        	textField:'text',
+		        	data:[{
+		        		label:'0',
+		        		text:'女'
+		        	},{
+		        		label:'1',
+		        		text:'男'
+		        	}]
+       	}
+       }
+       }, 
+       {field:'email',title:'邮箱',width:100,
+       editor:{
+       	type:'validatebox'
+       		}
+            }
+       , 
+       {field:'brith',title:'生日',width:100,align:'center',
+       	editor:{
+       		type:'datebox'
+       		
+       	}	
+       
+       
+       },
+      {field : 'action',title : '操作',width : 100,align : 'center',
+		formatter : function(value, row, index) {
+			if (row.edit) {
+				var s = '<a href="#" onclick="saveRow('+ index + ')">保存</a>';
+				var c = '<a href="#" onclick="cancelRow('+ index + ')">取消</a>';
+				return s + '&nbsp&nbsp' + c;
+			} else {
+				var e = '<a href="#" onclick="editRow('+ index + ')">编辑</a>';
+				var d = '<a href="#" onclick="deleteRow('+ index + ')">删除</a>';
+				return e + '&nbsp&nbsp' + d;
+			}
+		}
+	}
+  
+   ]];
 
 
 

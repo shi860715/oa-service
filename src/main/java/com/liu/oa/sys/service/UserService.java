@@ -1,5 +1,7 @@
 package com.liu.oa.sys.service;
 
+import java.util.Map;
+
 import com.github.pagehelper.PageInfo;
 import com.liu.oa.sys.exception.UserException;
 import com.liu.oa.sys.form.UserForm;
@@ -10,10 +12,10 @@ public interface UserService extends BaseService<User> {
 	
 	User create(UserForm user ) throws UserException;
 
-	PageInfo<User>findUserByPage(String query, int page, int rows);
+	Map<String, Object> findUserByPage(String query, int page, int rows);
 
 
-	PageInfo<User> findUserByDeptParentId(Integer id, String query, Integer page, Integer rows);
+	Map<String, Object> findUserByDeptParentId(Integer id, String query, Integer page, Integer rows);
 
 
 }

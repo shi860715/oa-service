@@ -41,26 +41,23 @@ public class UserController {
 	
 	@PostMapping("/users")
 	@ResponseBody
-    public   Map<String, Object> users(Integer id,String query,Integer page,Integer rows){
+    public  Map<String, Object> users(int id,String query,int page,int rows){
 	
         Map<String, Object> result = new HashMap<>();
-        PageInfo<User> users= null;
-        if(id!=null) {
-        	 if(id==1) {
-            	 users= userService.findUserByPage(query,page,rows);
+      
+      
+        	 if(id==1 ) {
+            	result =userService.findUserByPage(query,page,rows);
+                
             }else {
             	
-            	 users= userService.findUserByDeptParentId(id,query,page,rows);
+            	result= userService.findUserByDeptParentId(id,query,page,rows);
+              
             }
-        }else {
-        	 users= userService.findUserByPage(query,page,rows);
-        }
-       
      
    
 		
-        result.put("total", users.getTotal());
-        result.put("rows", users.getList());
+   
         
         return result;
         

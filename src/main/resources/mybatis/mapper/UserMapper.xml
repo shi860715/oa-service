@@ -77,7 +77,7 @@
 	
 	</where>
 	
-      flag = 0  and dept_id in (select dept_id from sys_dept where parent_id=#{id});
+      flag = 0  and dept_id in (select dept_id from sys_dept where parent_id=#{id})
 	</select>
 
 	<select id="findUserByDeptId" resultType="user" >
@@ -87,8 +87,9 @@
 	<if test="query!=null">
 	(user_name like '%${query}%' or remark like '%${query}%') and
 	</if>
+	
 	</where>
-	 flag = 0 and dept_id =#{id};
+	 flag = 0 and dept_id =#{id}
 	
 
 	</select>
