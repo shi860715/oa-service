@@ -89,10 +89,40 @@ $(function(){
     	   
     	/*树形结构      end */     
     	   
+    	
+	   
+	   $("#dept_dialog").dialog({
+		    title: '调整部门',    
+		    width: 400,    
+		    height: 600,    
+		    closed: false,    
+		    cache: false,    
+		    modal: true   
+	   });
     	   
+       $("#dept_tree").tree({
+    	    url:'/sys/dept/getDeptTree',
+    	    cascadeCheck: false,
+			idFiled : 'id',
+			textFiled : 'text',
+			parentField : 'parentId',
+			checkbox:true,
+			onlyLeafCheck:true,
+			animate:true,
+			onLoadSuccess:function(node,data){
+				
+			},
+			onSelect:function(node){
+				chekTreeSingle(node);
+				
+			}
+			/*,
+			onCheck:function(node){
+				chekTreeSingle(node);
+			}*/
     	   
-    	   
-    
+       });	   
+	   
     	
     	
     });
@@ -235,6 +265,23 @@ function deleteObject(editId) {
 
 }
 
+
+function chekTreeSingle(node){
+	 var cknodes = $('#dept_tree').tree("getChecked");
+    for (var i = 0; i < cknodes.length; i++) {
+        if (cknodes[i].id != node.id) {
+       	 $('#dept_tree').tree("uncheck", cknodes[i].target);
+        }
+    }
+    if (node.checked) {
+   	 $('#dept_tree').tree('uncheck', node.target);
+
+    } else {
+   	 $('#dept_tree').tree('check', node.target);
+
+    }
+
+}
 
 var cloumns=[[  
    	{field : 'xyz',checkbox : true,width : 100,align : 'center'},

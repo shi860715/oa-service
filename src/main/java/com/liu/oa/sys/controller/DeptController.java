@@ -41,6 +41,34 @@ public class DeptController {
 		 
 		try {
 			
+			depts= deptService.findAll();
+			 for(Dept d:depts){
+				 TreeNode node = new TreeNode();
+				 node.setId(d.getDeptId());
+				 node.setParentId(d.getParentId());
+				 node.setText(d.getName());
+				 treeNodes.add(node);
+			 }
+			 
+			trees= TreeUtils.buildByRecursive(treeNodes);
+			
+		} catch (Exception e) {
+			
+        throw new DeptException(ReslutEmnu.DEPT_TREE_FAIL);
+
+		}
+		return trees;
+	}
+	
+	@RequestMapping("/getDeptTree")
+	@ResponseBody
+	public List<TreeNode> getDeptTree(){
+		List<Dept> depts =new ArrayList<>();
+		 List<TreeNode> treeNodes = new ArrayList<TreeNode>();
+		 List<TreeNode> trees = new ArrayList<TreeNode>();
+		 
+		 
+		try {
 			
 			depts= deptService.findAll();
 			 for(Dept d:depts){
@@ -48,6 +76,10 @@ public class DeptController {
 				 node.setId(d.getDeptId());
 				 node.setParentId(d.getParentId());
 				 node.setText(d.getName());
+				 if(d.getLevel()!=2) {
+					 node.setState("closed");
+				 }
+			
 				 treeNodes.add(node);
 			 }
 			 
