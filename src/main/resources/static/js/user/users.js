@@ -272,14 +272,12 @@ var cloumns=[[
        		}
             }
        , 
-       {field:'brith',title:'生日',width:100,align:'center',formatter:function(value){
-    	   console.log(value);
-    	   return value;
-       },
+       {field:'brith',title:'生日',width:100,align:'center',
        	editor:{
        		type:'datebox',
        		options:{
-       		
+       			formatter:myformatter,
+       			parser:myparser
        		}
        	}	
        

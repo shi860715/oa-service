@@ -63,15 +63,14 @@ window.isNotEmpty = function(obj) {
 
 
 
-$.fn.datebox.defaults.formatter =function(date){
+var myformatter =function(date){
 	var y = date.getFullYear();
 	var m = date.getMonth()+1;
 	var d = date.getDate();
 	return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
 
 }
-
-$.fn.datebox.defaults.myparser=function(s){
+var myparser=function(s){
 	if(!s) return new Date();
 	var ss = (s.split('-'));
 	console.log(ss);
