@@ -30,11 +30,11 @@ $(function(){
 			    fitColumns : true,
 			    pagination : true,
 			    pageNumber : 1,
-				pageSize :5,
+				pageSize :15,
 				queryParams:{
                        id:1
 					},
-				pageList : [ 5, 10, 20 ],
+				pageList : [ 15, 20, 50 ],
    		   
    		    
    		    columns:cloumns,
@@ -194,6 +194,7 @@ function saveOrUpdateObject(row){
 	
 	var node =$("#tree").tree('getSelected');
 	row.deptId=node.id;
+	console.log(row);
 	
 	$.ajax({
 		type : 'post',
@@ -271,10 +272,15 @@ var cloumns=[[
        		}
             }
        , 
-       {field:'brith',title:'生日',width:100,align:'center',
+       {field:'brith',title:'生日',width:100,align:'center',formatter:function(value){
+    	   console.log(value);
+    	   return value;
+       },
        	editor:{
-       		type:'datebox'
+       		type:'datebox',
+       		options:{
        		
+       		}
        	}	
        
        

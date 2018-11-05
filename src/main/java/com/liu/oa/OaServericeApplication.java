@@ -9,4 +9,5 @@ public class OaServericeApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(OaServericeApplication.class, args);
 	}
+	
 }

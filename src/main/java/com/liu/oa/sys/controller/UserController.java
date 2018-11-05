@@ -13,14 +13,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.liu.oa.common.utils.ResultUtils;
+import com.liu.oa.framwork.utils.JacksonUtil;
 import com.liu.oa.framwork.vo.ResultVO;
 import com.liu.oa.sys.form.UserForm;
 import com.liu.oa.sys.model.User;
 import com.liu.oa.sys.service.DeptService;
 import com.liu.oa.sys.service.UserService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
 @RequestMapping("sys/user")
+@Slf4j
 public class UserController {
 	
 	@Autowired
@@ -75,6 +79,7 @@ public class UserController {
 	@ResponseBody
 	public Map<String, Object> saveORupdate(@RequestBody User user){
 		 Map<String, Object> result = new HashMap<>();
+		 log.info("用户保存或者更新{}",JacksonUtil.printJson(user));
 		
 		if(user!=null) {
 			if(user.getUserId()!=null){
