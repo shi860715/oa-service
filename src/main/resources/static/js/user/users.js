@@ -94,10 +94,23 @@ $(function(){
 	   $("#dept_dialog").dialog({
 		    title: '调整部门',    
 		    width: 400,    
-		    height: 600,    
-		    closed: false,    
+		    height: 400,    
+		    closed: true,    
 		    cache: false,    
-		    modal: true   
+		    modal: true,
+		    buttons:[{
+				text:'保存',
+				handler:function(){
+			       
+					updateUserDept();
+				}
+			},{
+				text:'关闭',
+				handler:function(){
+					 $("#dept_dialog").dialog('close');
+				}
+			}]
+		    
 	   });
     	   
        $("#dept_tree").tree({
@@ -110,7 +123,7 @@ $(function(){
 			onlyLeafCheck:true,
 			animate:true,
 			onLoadSuccess:function(node,data){
-				
+				  
 			},
 			onSelect:function(node){
 				chekTreeSingle(node);
@@ -222,9 +235,12 @@ function cancelRow(target) {
 
 function saveOrUpdateObject(row){
 	
-	var node =$("#tree").tree('getSelected');
-	row.deptId=node.id;
-	console.log(row);
+	if(row.userId==null){
+		var node =$("#tree").tree('getSelected');
+		row.deptId=node.id;
+		console.log(row);
+	}
+
 	
 	$.ajax({
 		type : 'post',
@@ -240,6 +256,7 @@ function saveOrUpdateObject(row){
 			});
 			$("#datagrid").datagrid('clearSelections');
 			$('#datagrid').datagrid('reload');
+			$('#dept_dialog').dialog('close');
 		}
 	});
 
@@ -282,6 +299,19 @@ function chekTreeSingle(node){
     }
 
 }
+
+
+function updateUserDept(){
+	 var cknodes=$("#dept_tree").tree('getChecked');
+	 console.log(cknodes);
+	 var rows =$('#datagrid').datagrid('getSelections');
+	 console.log(rows[0]);
+	 rows[0].deptId=cknodes[0].id;
+	 saveOrUpdateObject(rows[0]);
+	
+}
+
+
 
 var cloumns=[[  
    	{field : 'xyz',checkbox : true,width : 100,align : 'center'},
@@ -357,7 +387,7 @@ var toolbars = [{text : "检索：<input type='text' id='ss' />"},
            parent.$.messager.alert('提示',"请至少选中一个用户，更换部门");
             return;
 		}
-        $("#dialogDept").dialog('open');
+	   $("#dept_dialog").dialog('open');
 }}
 , '-',
 {iconCls : 'icon-edit',text : '授予角色',	handler : function() {

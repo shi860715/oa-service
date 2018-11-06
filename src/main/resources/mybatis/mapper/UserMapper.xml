@@ -60,6 +60,9 @@
 	  <if test="phone!=null">
 	  phone = #{phone} 
 	 </if>
+	  <if test="deptId!=null">
+	  dept_id = #{deptId} 
+	 </if>
 	 
 	 </set>
 	 <where>
