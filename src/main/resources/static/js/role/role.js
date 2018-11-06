@@ -7,11 +7,11 @@ $(function(){
 			    fitColumns : true,
 			    pagination : true,
 			    pageNumber : 1,
-				pageSize :5,
+				pageSize :20,
 				queryParams:{
 
 					},
-				pageList : [ 5, 10, 20 ],
+				pageList : [ 20, 30, 50 ],
    		   
    		    
    		    columns:columns,
@@ -61,6 +61,48 @@ $(function(){
 			prompt : '查询关键字'
 		});   
 	   /*查询框  end */  
+	   
+	   
+	   $("#menu_dialog").dialog({
+		   
+		   title: '分配资源',    
+		    width: 400,    
+		    height: 400,    
+		    closed: true,    
+		    cache: false,    
+		    modal: true,
+		    buttons:[{
+				text:'保存',
+				handler:function(){
+			       updateRoleMenu();
+					
+				}
+			},{
+				text:'关闭',
+				handler:function(){
+					 $("#menu_dialog").dialog('close');	
+				}
+			}]
+		   
+		   
+	   });
+	   
+	   $("#menu_tree").tree({
+		   url:'/sys/menu/getMenuTree',
+   	        cascadeCheck: true,
+			idFiled : 'id',
+			textFiled : 'text',
+			parentField : 'parentId',
+			checkbox:true,
+			onlyLeafCheck:true,
+			animate:true
+		   	   
+	   }); 
+	   
+	   
+	   
+	   
+	   
 	 
     });
 
@@ -180,7 +222,7 @@ function deleteObject(editId) {
 			"roleId" : editId
 		},
 		success : function(data) {
-			console.log(data);
+			
 			if (data.code == 1) {
 				parent.$.messager.alert('提示消息', data.message);
 				$('#datagrid').datagrid('reload');
@@ -189,6 +231,45 @@ function deleteObject(editId) {
 	});
 
 }
+
+/*保存角色和资源之间的关系*/
+function updateRoleMenu(){
+	
+	var nodes = $("#menu_tree").tree('getChecked');
+//	获取菜单的id
+	var ids = getMenuIds(nodes);
+	var rows = $('#datagrid').datagrid('getSelections');
+	
+//	console.log(rows[0]);
+//	console.log(ids);
+	
+	var obj={};
+	obj.roleId=rows[0].roleId;
+	obj.ids=ids;
+//	console.log(obj);
+	
+	
+	
+}
+
+
+/*获取菜单id*/
+function getMenuIds(nodes){
+	var ids = new Array();
+	nodes.forEach(function(item,index){
+		
+		ids.push(item.id);
+		
+	});
+	
+	return ids;
+	
+}
+
+
+
+
+
 
 var columns = [[
 	{field:'roleId',title:'角色编号',checkbox:true,width:180},    
@@ -229,6 +310,9 @@ var columns = [[
 	
 
 var toolbars =[{text : "检索：<input type='text' id='ss' />"}, 
-	          {iconCls : 'icon-add',text : '添加角色',handler : function() {insert();}}]
+	          {iconCls : 'icon-add',text : '添加角色',handler : function() {insert();}},
+	          {iconCls : 'icon-edit',text : '授予资源',handler : function() {
+	        	  $("#menu_dialog").dialog('open');
+	          }}]
 
 

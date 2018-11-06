@@ -31,6 +31,8 @@ public class User {
 	
 	private String email;
 	
+	private Integer status;
+	
 	private String phone;
 	
 	private String password;
@@ -58,8 +60,8 @@ public class User {
 
 
 	public User(Integer userId, String userNo, Integer sex, String userName, String loginName, String email,
-			String phone, String password, Integer age, Date brith, String remark, Integer flag, Date createTime,
-			Date updateTime, Integer deptId) {
+			Integer status, String phone, String password, Integer age, Date brith, String remark, Integer flag,
+			Date createTime, Date updateTime, Integer deptId) {
 		super();
 		this.userId = userId;
 		this.userNo = userNo;
@@ -67,6 +69,7 @@ public class User {
 		this.userName = userName;
 		this.loginName = loginName;
 		this.email = email;
+		this.status = status;
 		this.phone = phone;
 		this.password = password;
 		this.age = age;
@@ -77,6 +80,9 @@ public class User {
 		this.updateTime = updateTime;
 		this.deptId = deptId;
 	}
+
+
+	
 
 
 	

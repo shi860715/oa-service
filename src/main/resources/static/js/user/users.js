@@ -346,13 +346,25 @@ var cloumns=[[
 		        	}]
        	}
        }
-       }, 
-       {field:'email',title:'邮箱',width:100,
+       },
+       {field:'status',title:'状态',width:100,formatter:function(value){
+		  if(value=="1"){
+	   		  return '启用';
+	   	  }else{
+	   		return '禁用'; 
+	   	  }
+	  },
        editor:{
        	type:'validatebox'
        		}
             }
        , 
+       {field:'email',title:'邮箱',width:100,
+           editor:{
+           	type:'validatebox'
+           		}
+                }
+           , 
        {field:'brith',title:'生日',width:100,align:'center',
        	editor:{
        		type:'datebox',

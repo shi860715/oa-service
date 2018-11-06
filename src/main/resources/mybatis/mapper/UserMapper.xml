@@ -6,8 +6,7 @@
 
 
 
-	<insert id="insert" parameterType="user" useGeneratedKeys="true"
-		keyProperty="userId">
+	<insert id="insert" parameterType="user" useGeneratedKeys="true" keyProperty="userId">
 		insert into sys_user (user_no,user_name,login_name,password,brith,flag,dept_id,remark,sex)
 		values (#{userNo},#{userName},#{loginName},#{password},#{brith},0,#{deptId},#{remark},#{sex})
 
@@ -58,7 +57,7 @@
 	  email = #{email} ,
 	 </if>
 	  <if test="phone!=null">
-	  phone = #{phone} 
+	  phone = #{phone} ,
 	 </if>
 	  <if test="deptId!=null">
 	  dept_id = #{deptId} 

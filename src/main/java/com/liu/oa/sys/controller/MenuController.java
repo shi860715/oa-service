@@ -11,7 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.liu.oa.common.ReslutEmnu;
+import com.liu.oa.framwork.model.TreeNode;
 import com.liu.oa.framwork.utils.JacksonUtil;
+import com.liu.oa.framwork.utils.TreeUtils;
+import com.liu.oa.sys.exception.DeptException;
 import com.liu.oa.sys.model.Dept;
 import com.liu.oa.sys.model.Menu;
 import com.liu.oa.sys.service.MenuService;
@@ -34,6 +38,38 @@ public class MenuController {
 		
 	}
 	
+	
+	
+	@RequestMapping("/getMenuTree")
+	@ResponseBody
+	public List<TreeNode> getMenuTree(){
+		List<Menu> menus =new ArrayList<>();
+		 List<TreeNode> treeNodes = new ArrayList<TreeNode>();
+		 List<TreeNode> trees = new ArrayList<TreeNode>();
+		 
+		 
+		try {
+			
+			menus= menuService.findAll();
+			 for(Menu d:menus){
+				 TreeNode node = new TreeNode();
+				 node.setId(d.getMenuId());
+				 node.setParentId(d.getParentId());
+				 node.setText(d.getName());
+				 
+			
+				 treeNodes.add(node);
+			 }
+			 
+			trees= TreeUtils.buildByRecursive(treeNodes);
+			
+		} catch (Exception e) {
+			
+        throw new DeptException(ReslutEmnu.DEPT_TREE_FAIL);
+
+		}
+		return trees;
+	}
 	
 	
 	@RequestMapping("/menus")
