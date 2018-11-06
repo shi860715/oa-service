@@ -248,7 +248,23 @@ function updateRoleMenu(){
 	obj.ids=ids;
 //	console.log(obj);
 	
-	
+	$.ajax({
+		type : 'post',
+		url : '/sys/role/updateRoleMenu',
+		data : JSON.stringify(obj),
+		contentType : 'application/json;charset=UTF-8',
+		success : function(data) {
+			$.messager.show({
+				title : '提示消息',
+				msg : data.message,
+				timeout : 5000,
+				showType : 'slide'
+			});
+			$("#datagrid").datagrid('clearSelections');
+			$('#datagrid').datagrid('reload');
+		}
+	});
+
 	
 }
 

@@ -1,26 +1,16 @@
 package com.liu.oa.sys.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.activiti.engine.identity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.liu.oa.common.ReslutEmnu;
-import com.liu.oa.framwork.model.TreeNode;
 import com.liu.oa.framwork.utils.JacksonUtil;
-import com.liu.oa.framwork.utils.TreeUtils;
-import com.liu.oa.sys.exception.DeptException;
-import com.liu.oa.sys.model.Dept;
+import com.liu.oa.sys.form.RoleMenus;
 import com.liu.oa.sys.model.Role;
 import com.liu.oa.sys.service.RoleService;
 
@@ -114,6 +104,18 @@ public class RoleController {
 	
 	
 	
+	@RequestMapping("/updateRoleMenu")
+	@ResponseBody
+	public Map<String, Object> updateRoleMenu(@RequestBody RoleMenus role){
+		Map<String, Object> result = new HashMap<>();
+		log.info("测试角色分配资源{}",JacksonUtil.printJson(role));
+		
+		roleService.updateRoleMenu(role);
+		
+		
+		return result;
+		
+	}
 	
 	
 	
