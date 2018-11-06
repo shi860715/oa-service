@@ -257,6 +257,10 @@ function saveOrUpdateObject(row){
 			$("#datagrid").datagrid('clearSelections');
 			$('#datagrid').datagrid('reload');
 			$('#dept_dialog').dialog('close');
+			var node = $('#dept_tree').tree('find', row.deptId);
+              console.log(node);
+			$('#dept_tree').tree('uncheck',node.target);
+			
 		}
 	});
 
@@ -303,9 +307,9 @@ function chekTreeSingle(node){
 
 function updateUserDept(){
 	 var cknodes=$("#dept_tree").tree('getChecked');
-	 console.log(cknodes);
+//	 console.log(cknodes);
 	 var rows =$('#datagrid').datagrid('getSelections');
-	 console.log(rows[0]);
+//	 console.log(rows[0]);
 	 rows[0].deptId=cknodes[0].id;
 	 saveOrUpdateObject(rows[0]);
 	
@@ -388,6 +392,10 @@ var toolbars = [{text : "检索：<input type='text' id='ss' />"},
             return;
 		}
 	   $("#dept_dialog").dialog('open');
+	  var node= $("#dept_tree").tree('find',rows[0].deptId);
+	  $("#dept_tree").tree('check',node.target);
+	   
+	   
 }}
 , '-',
 {iconCls : 'icon-edit',text : '授予角色',	handler : function() {
@@ -398,6 +406,8 @@ var toolbars = [{text : "检索：<input type='text' id='ss' />"},
             return;
 		}
         $("#dialogRole").dialog('open');
+        
+        
 }}
 , '-',
 {iconCls : 'icon-remove',text : '批量删除',	handler : function() {	
