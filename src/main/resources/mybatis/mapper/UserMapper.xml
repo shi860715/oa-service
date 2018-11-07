@@ -60,7 +60,12 @@
 	  phone = #{phone} ,
 	 </if>
 	  <if test="deptId!=null">
-	  dept_id = #{deptId} 
+	  dept_id = #{deptId} ,
+	  
+	 </if>
+	 <if test="status!=null">
+	    status = #{status} 
+	  
 	 </if>
 	 
 	 </set>
