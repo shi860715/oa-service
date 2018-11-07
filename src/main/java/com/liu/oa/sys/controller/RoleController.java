@@ -1,6 +1,8 @@
 package com.liu.oa.sys.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,7 +112,13 @@ public class RoleController {
 		Map<String, Object> result = new HashMap<>();
 		log.info("测试角色分配资源{}",JacksonUtil.printJson(role));
 		
-		roleService.updateRoleMenu(role);
+		try {
+			roleService.updateRoleMenu(role);
+			result.put("message","资源授权成功" );
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("message","资源授权失败" );
+		}
 		
 		
 		return result;
@@ -121,6 +129,26 @@ public class RoleController {
 	
 	
 	
+	@RequestMapping("/checkInfoByRoleId")
+	@ResponseBody
+	public Map<String, Object> checkInfoByRoleId(@RequestBody RoleMenus role){
+		Map<String, Object> result = new HashMap<>();
+		List<Integer> menuIds = new ArrayList<>();
+		log.info("测试角色分配资源{}",JacksonUtil.printJson(role));
+		
+		try {
+			menuIds =roleService.getMenusByRoleId(role);
+			result.put("ids", menuIds);
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		
+		
+		return result;
+		
+	}
 	
 	
 	

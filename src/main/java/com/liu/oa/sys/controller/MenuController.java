@@ -43,7 +43,7 @@ public class MenuController {
 	@RequestMapping("/getMenuTree")
 	@ResponseBody
 	public List<TreeNode> getMenuTree(){
-		List<Menu> menus =new ArrayList<>();
+		 List<Menu> menus =new ArrayList<>();
 		 List<TreeNode> treeNodes = new ArrayList<TreeNode>();
 		 List<TreeNode> trees = new ArrayList<TreeNode>();
 		 

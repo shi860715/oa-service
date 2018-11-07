@@ -2,6 +2,7 @@ package com.liu.oa.sys.service.impl;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.liu.oa.sys.form.RoleMenus;
 import com.liu.oa.sys.mapper.RoleMapper;
+import com.liu.oa.sys.model.Menu;
 import com.liu.oa.sys.model.Role;
 import com.liu.oa.sys.model.RoleMenu;
 import com.liu.oa.sys.model.User;
@@ -44,11 +46,32 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
 	@Override
 	public void updateRoleMenu(RoleMenus role) {
 		
+		roleMapper.deleteRoleMenuByRoleId(role.getRoleId());
+		
+		
 		for (Integer id : role.getIds()) {
 			
 			RoleMenu rolemenu = RoleMenu.builder().roleId(role.getRoleId()).menuId(id).build();
 			roleMapper.saveRoleMenu(rolemenu);
 		}
+	}
+
+
+	@Override
+	public List<Integer> getMenusByRoleId(RoleMenus role) throws Exception {
+		List<Integer> menus = new ArrayList<>();
+		if(role.getRoleId()!=null) {
+			
+			menus=	roleMapper.getMenuIdByRoleId(role.getRoleId());
+			
+			
+		}
+		
+		
+		
+		
+		
+		return menus;
 	}
 	
 	

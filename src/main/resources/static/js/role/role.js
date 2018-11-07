@@ -1,8 +1,9 @@
 $(function(){
     	   $('#datagrid').datagrid({  
-    		   fit:true,
+    		    fit:true,
     		    url:'/sys/role/roles',    
-    		   loadMsg : '正在准备数据，请稍后。。。。。。',
+    		    loadMsg : '正在准备数据，请稍后。。。。。。',
+    		    singleSelect:true,
 			    striped : true,//斑马线效果
 			    fitColumns : true,
 			    pagination : true,
@@ -87,9 +88,10 @@ $(function(){
 		   
 	   });
 	   
+
 	   $("#menu_tree").tree({
-		   url:'/sys/menu/getMenuTree',
-   	        cascadeCheck: true,
+		    url:'/sys/menu/getMenuTree',
+		       cascadeCheck: true,
 			idFiled : 'id',
 			textFiled : 'text',
 			parentField : 'parentId',
@@ -97,9 +99,7 @@ $(function(){
 			onlyLeafCheck:true,
 			animate:true
 		   	   
-	   }); 
-	   
-	   
+		}); 
 	   
 	   
 	   
@@ -108,6 +108,8 @@ $(function(){
 
 //编辑标识
 var editRowIndex = 'undefined';
+
+
 
 
 function insert() {
@@ -260,6 +262,7 @@ function updateRoleMenu(){
 				timeout : 5000,
 				showType : 'slide'
 			});
+			 $("#menu_dialog").dialog('close');
 			$("#datagrid").datagrid('clearSelections');
 			$('#datagrid').datagrid('reload');
 		}
@@ -282,7 +285,36 @@ function getMenuIds(nodes){
 	
 }
 
-
+//  用于角色，菜单权限的返现
+function checkInfoByRoleId(roleId){
+	var obj = {};
+	obj.roleId=roleId;
+	
+	$.ajax({
+		type : 'post',
+		url : '/sys/role/checkInfoByRoleId',
+		data : JSON.stringify(obj),
+		contentType : 'application/json;charset=UTF-8',
+		success : function(data) {
+			console.log(data);
+			var nodes = $("#menu_tree").tree('getChecked');
+			nodes.forEach(function(item){
+				
+				$("#menu_tree").tree("uncheck",item.target);
+			});
+			
+			data.ids.forEach(function(item,index){
+				 var node =  $("#menu_tree").tree("find",item);
+				 $("#menu_tree").tree("check",node.target);
+			});
+			
+			
+			
+		}
+	});
+	
+	
+}
 
 
 
@@ -328,7 +360,15 @@ var columns = [[
 var toolbars =[{text : "检索：<input type='text' id='ss' />"}, 
 	          {iconCls : 'icon-add',text : '添加角色',handler : function() {insert();}},
 	          {iconCls : 'icon-edit',text : '授予资源',handler : function() {
+	        	  
+	        	  var rows = $('#datagrid').datagrid('getSelections');
+	        	  
+	        	  
+	        	  checkInfoByRoleId(rows[0].roleId);
 	        	  $("#menu_dialog").dialog('open');
+	        	  
+	        	  
+	        	  
 	          }}]
 
 
