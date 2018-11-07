@@ -20,5 +20,11 @@ public class CommonController {
 		
 	}
 	
+	@RequestMapping("/roleComm")
+	public String toRoleCom() {
+		
+		return "/commons/roleCom";
+		
+	}
 
 }

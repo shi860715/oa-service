@@ -134,11 +134,29 @@ $(function(){
 				chekTreeSingle(node);
 			}*/
     	   
-       });	   
-	   
+       });	  
+       
+       
+       
+       parent.$("#dialog").window({
+    	    title: '授予角色',    
+		    width: 1000,    
+		    height: 800,    
+		    closed: true,    
+		    cache: false,
+		    content:createContent('/roleComm'),
+		    modal: true,
+       });
+      
     	
     	
     });
+
+function createContent(url) {
+    var strHtml = '<iframe src="' + url + '" scrolling="no" frameborder="0" width="100%" height="100%"></iframe>';
+    return strHtml;
+}
+
 
 //编辑标识
 var editRowIndex = 'undefined';
@@ -417,7 +435,7 @@ var toolbars = [{text : "检索：<input type='text' id='ss' />"},
            parent.$.messager.alert('提示',"请至少选中一个用户，授予角色");
             return;
 		}
-        $("#dialogRole").dialog('open');
+	parent.$("#dialog").window('open');
         
         
 }}
