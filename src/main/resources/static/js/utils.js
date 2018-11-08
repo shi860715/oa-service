@@ -88,7 +88,10 @@ var myparser=function(s){
 	
 }
 
-
+function createContent(name,url) {
+    var strHtml = '<iframe name="'+name+'" src="' + url + '" scrolling="no" frameborder="0" width="100%" height="100%"></iframe>';
+    return strHtml;
+}
 	
 
 

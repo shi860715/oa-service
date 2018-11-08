@@ -3,15 +3,12 @@ $(function(){
     		    fit:true,
     		    url:'/sys/role/roles',    
     		    loadMsg : '正在准备数据，请稍后。。。。。。',
-    		    singleSelect:true,
+    		    singleSelect:false,
 			    striped : true,//斑马线效果
 			    fitColumns : true,
 			    pagination : true,
 			    pageNumber : 1,
 				pageSize :20,
-				queryParams:{
-
-					},
 				pageList : [ 20, 30, 50 ],
    		   
    		    
@@ -53,7 +50,7 @@ $(function(){
    		});  
     	   
     	/*查询框  start */  
-	   $("#ss").searchbox({
+	   $("#role_search").searchbox({
 			searcher : function(value, name) {
 				
 			
@@ -357,7 +354,7 @@ var columns = [[
     ]]
 	
 
-var toolbars =[{text : "检索：<input type='text' id='ss' />"}, 
+var toolbars =[{text : "检索：<input type='text' id='role_search' />"}, 
 	          {iconCls : 'icon-add',text : '添加角色',handler : function() {insert();}}
 	          
 	        	  

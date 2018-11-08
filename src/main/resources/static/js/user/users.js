@@ -138,28 +138,43 @@ $(function(){
        
        
        
-       parent.$("#dialog").window({
+       parent.$("#dialog").dialog({
     	    title: '授予角色',    
 		    width: 1000,    
 		    height: 800,    
 		    closed: true,    
 		    cache: false,
-		    content:createContent('/roleComm'),
+		    content:createContent('roles','/roleComm'),
 		    modal: true,
+		    buttons:[{
+				text:'保存',
+				handler:function(){
+					saveUserRoles();
+				}
+			},{
+				text:'关闭',
+				handler:function(){
+					
+				}
+			}]
        });
       
     	
     	
     });
 
-function createContent(url) {
-    var strHtml = '<iframe src="' + url + '" scrolling="no" frameborder="0" width="100%" height="100%"></iframe>';
-    return strHtml;
-}
 
 
 //编辑标识
 var editRowIndex = 'undefined';
+
+
+function createContent(name,url) {
+    var strHtml = '<iframe name="'+name+'" src="' + url + '" scrolling="no" frameborder="0" width="100%" height="100%"></iframe>';
+    return strHtml;
+}
+
+
 
 //获取id
 function getdeptIds(node,ids) {
@@ -333,6 +348,18 @@ function updateUserDept(){
 	
 }
 
+function saveUserRoles(){
+//	var com =parent.window.frames['roles'].$("#datagrid").datagrid('getSelections');
+	var roleGridCom =parent.frames['roles'].$("#datagrid");
+	var rolenodes =roleGridCom.datagrid("getSelections");
+	var usernode= $("#datagrid").datagrid("getSelections");
+	
+	console.log(rolenodes);
+	console.log(usernode);
+	
+	
+}
+
 
 
 var cloumns=[[  
@@ -414,35 +441,38 @@ var cloumns=[[
 
 var toolbars = [{text : "检索：<input type='text' id='ss' />"}, 
 	{iconCls : 'icon-add',text : '添加用户',	handler : function() {insert();}}
-, '-',
-{iconCls : 'icon-edit',text : '更换部门',	handler : function() {
-	var rows =$('#datagrid').datagrid('getSelections');
-	if(rows.length<1){
-           parent.$.messager.alert('提示',"请至少选中一个用户，更换部门");
-            return;
-		}
-	   $("#dept_dialog").dialog('open');
-	  var node= $("#dept_tree").tree('find',rows[0].deptId);
-	  $("#dept_tree").tree('check',node.target);
-	   
-	   
-}}
-, '-',
-{iconCls : 'icon-edit',text : '授予角色',	handler : function() {
+	, '-',
+	{iconCls : 'icon-edit',text : '更换部门',	handler : function() {
+		var rows =$('#datagrid').datagrid('getSelections');
+		if(rows.length<1){
+	           parent.$.messager.alert('提示',"请至少选中一个用户，更换部门");
+	            return;
+			}
+		   $("#dept_dialog").dialog('open');
+		  var node= $("#dept_tree").tree('find',rows[0].deptId);
+		  $("#dept_tree").tree('check',node.target);
+		   
+		   
+	}}
+	, '-',
+	{iconCls : 'icon-edit',text : '授予角色',	handler : function() {
+		
+		var rows =$('#datagrid').datagrid('getSelections');
+		if(rows.length<1){
+	           parent.$.messager.alert('提示',"请至少选中一个用户，授予角色");
+	            return;
+			}
+		parent.$("#dialog").window('open');
+	        
+	        
+	}}
+	, '-',
+	{iconCls : 'icon-remove',text : '批量删除',	handler : function() {	
+	         removeAccountBath();
 	
-	var rows =$('#datagrid').datagrid('getSelections');
-	if(rows.length<1){
-           parent.$.messager.alert('提示',"请至少选中一个用户，授予角色");
-            return;
-		}
-	parent.$("#dialog").window('open');
-        
-        
-}}
-, '-',
-{iconCls : 'icon-remove',text : '批量删除',	handler : function() {	
-         removeAccountBath();
-
-   } } , '-',
-{iconCls : 'icon-save',text : '保存',	handler : function() {	} }];
+	   } }
+	, '-',
+	{iconCls : 'icon-save',text : '保存',	handler : function() {	
+		
+	} }];
 
