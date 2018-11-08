@@ -84,12 +84,23 @@ overflow: hidden;
 
 	}
 
+	function addTab(title, url) {
+		if ($('#tabs').tabs('exists', title)) {
+			$('#tabs').tabs('select', title);
+		} else {
+			var content = '<iframe title="' + title
+					+ '" frameborder="0"  src="' + url
+					+ '" style="width:100%;height:100%;"></iframe>';
+			$('#tabs').tabs('add', {
+				title : title,
+				content : content,
+				closable : true
+			});
+		}
 
+	}
 	
 	$(function(){
-		
-		
-		initMenu();
 		
 		$('#tabs').tabs({
 			onSelect : function(title, index) {
@@ -106,6 +117,12 @@ overflow: hidden;
 			}
 
 		});
+		
+		
+		initMenu();
+		
+		
+		
 		
 		
 		
@@ -134,54 +151,35 @@ overflow: hidden;
 			
 			contentType : 'application/json;charset=UTF-8',
 			success : function(data) {
-				
+				console.log(data.rows);
 				createMenus(data.rows);
-			}
-		});
-		
-	}
-   
-/* 	创建系统菜单，根据用户的ID 来创建用户菜单的	 */
-	function createMenus(rows){
-		/* 完成一级目录 */
-		rows.forEach(function(item,index){
-			
-			if(item.parentId!=null && item.type==0){
-			/* 	console.log(item); */
-				$("#nav-accordion").append('<div id="menu'+item.menuId+'" alt="'+item.name+'"  title="'+item.name+'"  style="overflow:auto;"><ul></ul></div>');	  
-			}
-		});
-		
-		/* 二级目录循环 */
-		rows.forEach(function(item,index){
-			if(item.parentId!==1 && item.type==1){
-				console.log(item); 
-			   var addtab ="addTab('"+item.name+"','"+item.url+"');";
-	       	   $("#menu"+item.parentId+" ul").append('<li title="'+item.name+'" pid="'+item.parentId+'"><a href="#" onclick="'+addtab+'">'+item.name+'</a></li>');
+				
+				
 			}
 		});
 		
 		$("#nav-accordion").accordion({
 	         fit:true
         });
+		
 	}
+   
 	
-	
-	function addTab(title, url) {
-		if ($('#tabs').tabs('exists', title)) {
-			$('#tabs').tabs('select', title);
-		} else {
-			var content = '<iframe title="' + title
-					+ '" frameborder="0"  src="' + url
-					+ '" style="width:100%;height:100%;"></iframe>';
-			$('#tabs').tabs('add', {
-				title : title,
-				content : content,
-				closable : true
-			});
-		}
-
+	function createMenus(rows){
+		/* 完成一级目录 */
+		rows.forEach(function(item,index){
+			console.log(item);
+			if(item.parentId!=null&& item.type==0){
+				$("#nav-accordion").append('<div title="'+item.name+'"><ul></ul></div>')
+			}
+			
+			
+		});
+		
+		
+		
 	}
+ 
  
  </script>
 </head>
@@ -199,9 +197,38 @@ overflow: hidden;
 	</div>
        
     <div data-options="region:'west',title:'导航'" style="width:210px;">
-	   <div id="nav-accordion" >   
-		   
-	   </div>
+	   <div id="nav-accordion" class="easyui-accordion" data-options="fit:true">   
+		   <!--  <div title="个人中心" data-options="iconCls:'icon-man'" style="overflow:auto;">   
+		        <ul>
+		        <li title="用户管理"><a href="javascript:addTab('用户管理', '/sys/user/tousers')">用户管理</a></li>
+		        <li title="部门管理"><a href="javascript:addTab('部门管理', '/sys/dept/todepts')">部门管理</a></li>
+		        <li title="角色管理"><a href="javascript:addTab('角色管理', '/sys/role/toroles')">角色管理</a></li>
+		        <li title="资源管理"><a href="javascript:addTab('资源管理', '/sys/menu/tomenus')">资源管理</a></li>
+		        <li title="权限管理"><a href="javascript:addTab('权限管理', 'sys/grant/togrant')">权限管理</a></li>
+		       
+	          </ul>
+		    </div>   
+		    <div title="办公中心" data-options="iconCls:'icon-man'" style="overflow:auto;">   
+		         <ul>
+		        <li title="资料管理"><a href="javascript:addTab('用户管理', '/sys/user/tousers')">用户管理</a></li>
+		        <li title="部门管理"><a href="javascript:addTab('部门管理', '/sys/dept/todepts')">部门管理</a></li>
+		        <li title="角色管理"><a href="javascript:addTab('角色管理', '/sys/role/toroles')">角色管理</a></li>
+		        <li title="资源管理"><a href="javascript:addTab('资源管理', '/sys/menu/tomenus')">资源管理</a></li>
+		        <li title="权限管理"><a href="javascript:addTab('权限管理', 'sys/grant/togrant')">权限管理</a></li>
+		       
+	          </ul> 
+		    </div>   
+		    <div title="系统管理" data-options="iconCls:'icon-man',selected:true"> 
+		      <ul>
+		        <li title="用户管理"><a href="javascript:addTab('用户管理', '/sys/user/tousers')">用户管理</a></li>
+		        <li title="部门管理"><a href="javascript:addTab('部门管理', '/sys/dept/todepts')">部门管理</a></li>
+		        <li title="角色管理"><a href="javascript:addTab('角色管理', '/sys/role/toroles')">角色管理</a></li>
+		        <li title="资源管理"><a href="javascript:addTab('资源管理', '/sys/menu/tomenus')">资源管理</a></li>
+		        <li title="权限管理"><a href="javascript:addTab('权限管理', 'sys/grant/togrant')">权限管理</a></li>
+		       
+	          </ul>
+		    </div>    -->
+	    </div>
 	    
     </div>   
     <div data-options="region:'center'" style="padding:5px;background:#eee;overflow:hidden;"  >

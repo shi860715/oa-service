@@ -72,6 +72,10 @@ public class MenuController {
 	}
 	
 	
+	
+	
+	
+	
 	@RequestMapping("/menus")
 	@ResponseBody
    public Map<String, Object> menus(){
@@ -92,6 +96,26 @@ public class MenuController {
 	return result;
    }
 	
+	
+	@RequestMapping("/menusByUserId")
+	@ResponseBody
+   public Map<String, Object> menusByUserId(){
+	   
+		Map<String, Object> result= new HashMap<>();
+	   
+		List<Menu> menus = new ArrayList<>();
+		try {
+			menus=menuService.findAll();
+			log.info("菜单列表{}",JacksonUtil.printJson(menus));
+			result.put("total", menus.size());
+			result.put("rows", menus);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	   
+	return result;
+   }
 	
 	
 	

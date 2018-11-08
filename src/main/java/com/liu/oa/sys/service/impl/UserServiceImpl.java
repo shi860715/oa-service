@@ -14,10 +14,12 @@ import com.github.pagehelper.PageInfo;
 import com.liu.oa.framwork.utils.Encrypt;
 import com.liu.oa.sys.exception.UserException;
 import com.liu.oa.sys.form.UserForm;
+import com.liu.oa.sys.form.UserRoles;
 import com.liu.oa.sys.mapper.DeptMapper;
 import com.liu.oa.sys.mapper.UserMapper;
 import com.liu.oa.sys.model.Dept;
 import com.liu.oa.sys.model.User;
+import com.liu.oa.sys.model.UserRole;
 import com.liu.oa.sys.service.UserService;
 
 @Service("userService")
@@ -99,6 +101,25 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	
 	    
 		return result;
+	}
+
+	@Override
+	public void updateUserRoles(UserRoles userRoles) throws Exception {
+		
+		
+		  userMapper.deleteUserRolesByUserId(userRoles.getUserId());
+		
+		for (Integer id : userRoles.getRoles()) {
+			UserRole userRole = new UserRole();
+			userRole.setUserId(userRoles.getUserId());
+			userRole.setRoleId(id);
+			userMapper.updateUserRoles(userRole);
+		}
+		
+		
+		
+		
+		
 	}
 
 	

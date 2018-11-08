@@ -320,6 +320,9 @@ function checkInfoByRoleId(roleId){
 
 
 
+
+
+
 var columns = [[
 	{field:'roleId',title:'角色编号',checkbox:true,width:180},    
     {field:'name',title:'名称',width:60,align:'center',editor:{
@@ -359,17 +362,6 @@ var columns = [[
 	
 
 var toolbars =[{text : '检索：<input type="text" id="role_search" />'},
-	          {iconCls : 'icon-add',text : '添加角色',handler : function() {insert();}},
-	          
-	          {
-					text:'保存',
-					iconCls:'icon-save',
-					handler:function(){
-						saveUserRoles();
-					}
-				}
-	        	  
-	        	  
-	          ]
+	          {iconCls : 'icon-add',text : '添加角色',handler : function() {insert();}}]
 
 

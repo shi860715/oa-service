@@ -146,6 +146,13 @@ $(function(){
 		    cache: false,
 		    content:createContent('roles','/roleComm'),
 		    modal: true,
+		    toolbar:[{
+				text:'保存',
+				iconCls:'icon-save',
+				handler:function(){
+					saveUserRoles();
+				}
+			}]
 		   
        });
       
@@ -344,13 +351,45 @@ function saveUserRoles(){
 	var rolenodes =roleGridCom.datagrid("getSelections");
 	var usernode= $("#datagrid").datagrid("getSelections");
 	
-	console.log(rolenodes);
-	console.log(usernode);
 	
+	var obj ={};
+	obj.userId=usernode[0].userId;
+	obj.roles=getRoleIds(rolenodes);
+	
+	console.log(obj);
+	
+
+	$.ajax({
+		type : 'post',
+		url : '/sys/user/updateUserRoles',
+		data : JSON.stringify(obj),
+		contentType : 'application/json;charset=UTF-8',
+		success : function(data) {
+			$.messager.show({
+				title : '提示消息',
+				msg : data.msg,
+				timeout : 5000,
+				showType : 'slide'
+			});
+			roleGridCom.datagrid("clearSelections");
+			 parent.$("#dialog").dialog('close');
+			
+		}
+		
+	
+	
+});
+}
+function getRoleIds(nodes){
+	
+	var roles= new Array();
+	nodes.forEach(function(item,index){
+		roles.push(item.roleId);
+	});
+	
+	return roles;
 	
 }
-
-
 
 var cloumns=[[  
    	{field : 'xyz',checkbox : true,width : 100,align : 'center'},

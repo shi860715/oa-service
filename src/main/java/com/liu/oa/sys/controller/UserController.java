@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.pagehelper.PageInfo;
 import com.liu.oa.common.utils.ResultUtils;
 import com.liu.oa.framwork.utils.JacksonUtil;
 import com.liu.oa.framwork.vo.ResultVO;
 import com.liu.oa.sys.form.UserForm;
+import com.liu.oa.sys.form.UserRoles;
 import com.liu.oa.sys.model.User;
 import com.liu.oa.sys.service.DeptService;
 import com.liu.oa.sys.service.UserService;
@@ -121,5 +121,28 @@ public class UserController {
 		
 		return result;
 	}
+	
+	@RequestMapping("/updateUserRoles")
+	@ResponseBody
+	public Map<String, Object> updateUserRoles(@RequestBody UserRoles userRoles){
+		 Map<String, Object> result = new HashMap<>();
+		 
+		 try {
+			userService.updateUserRoles(userRoles);
+			result.put("msg", "用户授予角色成功");
+		} catch (Exception e) {
+			result.put("msg", "用户授予角色失败");
+		}
+		
+		return result;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
