@@ -140,23 +140,13 @@ $(function(){
        
        parent.$("#dialog").dialog({
     	    title: '授予角色',    
-		    width: 1000,    
+		    width: 1500,    
 		    height: 800,    
 		    closed: true,    
 		    cache: false,
 		    content:createContent('roles','/roleComm'),
 		    modal: true,
-		    buttons:[{
-				text:'保存',
-				handler:function(){
-					saveUserRoles();
-				}
-			},{
-				text:'关闭',
-				handler:function(){
-					
-				}
-			}]
+		   
        });
       
     	

@@ -8,6 +8,10 @@
  #tabs .tabs-panels>.panel>.panel-body {
 	overflow: hidden;
 }
+
+.panel-body{
+overflow: hidden;
+}
   .top{
     background:#438eb9;
    
@@ -45,10 +49,13 @@
 	background-color: "#66ccff";
 	color: red;
 }
+
+
+
  </style>
  
  <script type="text/javascript">
-	function showTime() {
+	function showTime() { 
 		var today = new Date();
 		//分别取出年、月、日、时、分、秒
 		var year = today.getFullYear();
@@ -147,10 +154,24 @@
     <div data-options="region:'west',title:'导航'" style="width:210px;">
 	   <div id="nav-accordion" class="easyui-accordion" data-options="fit:true">   
 		    <div title="个人中心" data-options="iconCls:'icon-man'" style="overflow:auto;padding:10px;">   
+		        <ul>
+		        <li title="用户管理"><a href="javascript:addTab('用户管理', '/sys/user/tousers')">用户管理</a></li>
+		        <li title="部门管理"><a href="javascript:addTab('部门管理', '/sys/dept/todepts')">部门管理</a></li>
+		        <li title="角色管理"><a href="javascript:addTab('角色管理', '/sys/role/toroles')">角色管理</a></li>
+		        <li title="资源管理"><a href="javascript:addTab('资源管理', '/sys/menu/tomenus')">资源管理</a></li>
+		        <li title="权限管理"><a href="javascript:addTab('权限管理', 'sys/grant/togrant')">权限管理</a></li>
 		       
+	          </ul>
 		    </div>   
 		    <div title="办公中心" data-options="iconCls:'icon-man'" style="padding:10px;">   
-		         
+		         <ul>
+		        <li title="资料管理"><a href="javascript:addTab('用户管理', '/sys/user/tousers')">用户管理</a></li>
+		        <li title="部门管理"><a href="javascript:addTab('部门管理', '/sys/dept/todepts')">部门管理</a></li>
+		        <li title="角色管理"><a href="javascript:addTab('角色管理', '/sys/role/toroles')">角色管理</a></li>
+		        <li title="资源管理"><a href="javascript:addTab('资源管理', '/sys/menu/tomenus')">资源管理</a></li>
+		        <li title="权限管理"><a href="javascript:addTab('权限管理', 'sys/grant/togrant')">权限管理</a></li>
+		       
+	          </ul> 
 		    </div>   
 		    <div title="系统管理" data-options="iconCls:'icon-man',selected:true"> 
 		      <ul>

@@ -49,17 +49,21 @@ $(function(){
    		     
    		});  
     	   
-    	/*查询框  start */  
-	   $("#role_search").searchbox({
-			searcher : function(value, name) {
-				
-			
-				$('#datagrid').datagrid('load', {query : value});
-			},
-			prompt : '查询关键字'
-		});   
-	   /*查询框  end */  
+       $("#role_search").searchbox({
+    	   
+    	   prompt:'请输入值' ,
+    	   width:180,
+    	   height:35,
+    	   searcher:function(value,name){
+    		   
+    	   }
+
+    	   
+       });
 	   
+    	   
+    	   
+    	   
 	   
 	   $("#menu_dialog").dialog({
 		   
@@ -354,9 +358,16 @@ var columns = [[
     ]]
 	
 
-var toolbars =[{text : "检索：<input type='text' id='role_search' />"}, 
-	          {iconCls : 'icon-add',text : '添加角色',handler : function() {insert();}}
+var toolbars =[{text : '检索：<input type="text" id="role_search" />'},
+	          {iconCls : 'icon-add',text : '添加角色',handler : function() {insert();}},
 	          
+	          {
+					text:'保存',
+					iconCls:'icon-save',
+					handler:function(){
+						saveUserRoles();
+					}
+				}
 	        	  
 	        	  
 	          ]
