@@ -26,5 +26,12 @@ public class CommonController {
 		return "/commons/roleCom";
 		
 	}
+	
+	@RequestMapping("/menuTreeComm")
+	public String menuTreeComm() {
+		
+		return "/commons/menuTreeCom";
+		
+	}
 
 }

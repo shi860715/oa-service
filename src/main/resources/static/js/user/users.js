@@ -146,11 +146,7 @@ $(function(){
 		    cache: false,
 		    content:createContent('roles','/roleComm'),
 		    modal: true,
-		    onBeforeOpen:function(){
-		    	
-		    	
-		    	
-		    },
+		   
 		    toolbar:[{
 				text:'保存',
 				iconCls:'icon-save',

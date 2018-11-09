@@ -16,8 +16,7 @@ $(function(){
    		   
    		    
    		    columns:columns,
-   		    toolbar:toolbars,
-   		    
+   		   toolbar:toolbars,
    		    onDblClickRow : function(index, row) {
 				$(this).datagrid('beginEdit', index);
 			},
@@ -65,33 +64,42 @@ $(function(){
 	   /*查询框  end */  
 	   
 	   
-	   parent.$("#dialog").dialog({
+	   $("#menu_dialog").dialog({
 		   
 		   title: '分配资源',    
-		    width: 1200,    
-		    height: 800,    
+		    width: 400,    
+		    height: 400,    
 		    closed: true,    
 		    cache: false,    
 		    modal: true,
-		    content:createContent('menuTree','menuTreeComm'),
+		    buttons:[{
+				text:'保存',
+				handler:function(){
+			       updateRoleMenu();
+					
+				}
+			},{
+				text:'关闭',
+				handler:function(){
+					 $("#menu_dialog").dialog('close');	
+				}
+			}]
 		   
-		    toolbar:function(){
-		    	[{
-					text:'保存',
-					iconCls:'icon-save',
-					handler:function(){
-						updateRoleMenu();
-					}
-				}]
-		    	
-		    	
-		    	
-		    }
 		   
 	   });
 	   
 
-	
+	   $("#menu_tree").tree({
+		    url:'/sys/menu/getMenuTree',
+		       cascadeCheck: true,
+			idFiled : 'id',
+			textFiled : 'text',
+			parentField : 'parentId',
+			checkbox:true,
+			onlyLeafCheck:true,
+			animate:true
+		   	   
+		}); 
 	   
 	   
 	   
@@ -101,10 +109,6 @@ $(function(){
 //编辑标识
 var editRowIndex = 'undefined';
 
-function createContent(name,url) {
-    var strHtml = '<iframe name="'+name+'" src="' + url + '" scrolling="no" frameborder="0" width="100%" height="100%"></iframe>';
-    return strHtml;
-}
 
 
 
@@ -233,16 +237,18 @@ function deleteObject(editId) {
 /*保存角色和资源之间的关系*/
 function updateRoleMenu(){
 	
-	var nodes = parent.iframes['menuTree'].$("#menu_tree").tree('getChecked');
-
+	var nodes = $("#menu_tree").tree('getChecked');
+//	获取菜单的id
 	var ids = getMenuIds(nodes);
 	var rows = $('#datagrid').datagrid('getSelections');
-
+	
+//	console.log(rows[0]);
+//	console.log(ids);
 	
 	var obj={};
 	obj.roleId=rows[0].roleId;
 	obj.ids=ids;
-
+//	console.log(obj);
 	
 	$.ajax({
 		type : 'post',
@@ -256,7 +262,7 @@ function updateRoleMenu(){
 				timeout : 5000,
 				showType : 'slide'
 			});
-			parent.$("#dialog").dialog('close');
+			 $("#menu_dialog").dialog('close');
 			$("#datagrid").datagrid('clearSelections');
 			$('#datagrid').datagrid('reload');
 		}
@@ -355,8 +361,11 @@ var toolbars =[{text : "检索：<input type='text' id='ss' />"},
 	          {iconCls : 'icon-add',text : '添加角色',handler : function() {insert();}},
 	          {iconCls : 'icon-edit',text : '授予资源',handler : function() {
 	        	  
+	        	  var rows = $('#datagrid').datagrid('getSelections');
 	        	  
-	        	  parent.$("#dialog").dialog('open');
+	        	  
+	        	  checkInfoByRoleId(rows[0].roleId);
+	        	  $("#menu_dialog").dialog('open');
 	        	  
 	        	  
 	        	  
