@@ -66,4 +66,10 @@
 	</delete>
 	
 	
+	<select id="findRoleByUserId" parameterType="int" resultType="role">
+	
+	select r.* from sys_role r left join sys_user_role u on r.role_id = u.role_id where u.user_id=#{userId}
+	</select>
+	
+	
 </mapper>

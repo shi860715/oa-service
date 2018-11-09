@@ -29,6 +29,13 @@ public interface RoleMapper extends BaseMapper<Role> {
      * @param roleId
      */
 	void deleteRoleMenuByRoleId(Integer roleId);
+	
+	
+	/**
+	 * 
+	 * @param userId
+	 */
+	List<Role> findRoleByUserId(Integer userId);
 
 
 

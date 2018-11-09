@@ -3,6 +3,7 @@ $(function(){
     		    fit:true,
     		    url:'/sys/role/roles',    
     		    loadMsg : '正在准备数据，请稍后。。。。。。',
+    			idField:'roleId',
     		    singleSelect:false,
 			    striped : true,//斑马线效果
 			    fitColumns : true,
@@ -13,7 +14,7 @@ $(function(){
    		   
    		    
    		    columns:columns,
-   		   toolbar:toolbars,
+   		    toolbar:toolbars,
    		    onDblClickRow : function(index, row) {
 				$(this).datagrid('beginEdit', index);
 			},
@@ -44,7 +45,8 @@ $(function(){
 					field : 'flag'
 				});
 				editRowIndex = index;
-			}
+			},
+			
    		
    		     
    		});  
@@ -243,13 +245,11 @@ function updateRoleMenu(){
 	var ids = getMenuIds(nodes);
 	var rows = $('#datagrid').datagrid('getSelections');
 	
-//	console.log(rows[0]);
-//	console.log(ids);
+
 	
 	var obj={};
 	obj.roleId=rows[0].roleId;
 	obj.ids=ids;
-//	console.log(obj);
 	
 	$.ajax({
 		type : 'post',
@@ -297,7 +297,6 @@ function checkInfoByRoleId(roleId){
 		data : JSON.stringify(obj),
 		contentType : 'application/json;charset=UTF-8',
 		success : function(data) {
-			console.log(data);
 			var nodes = $("#menu_tree").tree('getChecked');
 			nodes.forEach(function(item){
 				
@@ -336,7 +335,7 @@ var columns = [[
     		return "禁用";
     	}
     	
-    	
+    
     },editor:{
 		type:'text'
 			

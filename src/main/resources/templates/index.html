@@ -147,7 +147,7 @@ overflow: hidden;
 		rows.forEach(function(item,index){
 			
 			if(item.parentId!=null && item.type==0){
-			/* 	console.log(item); */
+			
 				$("#nav-accordion").append('<div id="menu'+item.menuId+'" alt="'+item.name+'"  title="'+item.name+'"  style="overflow:auto;"><ul></ul></div>');	  
 			}
 		});
@@ -155,7 +155,7 @@ overflow: hidden;
 		/* 二级目录循环 */
 		rows.forEach(function(item,index){
 			if(item.parentId!==1 && item.type==1){
-				console.log(item); 
+			
 			   var addtab ="addTab('"+item.name+"','"+item.url+"');";
 	       	   $("#menu"+item.parentId+" ul").append('<li title="'+item.name+'" pid="'+item.parentId+'"><a href="#" onclick="'+addtab+'">'+item.name+'</a></li>');
 			}

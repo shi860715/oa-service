@@ -77,7 +77,7 @@ $(function(){
 	   $("#ss").searchbox({
 			searcher : function(value, name) {
 				var node =$("#tree").tree('getSelected');
-				console.log("==="+node);
+				
 			
 				$('#datagrid').datagrid('load', {query : value,id:node.id});
 			},
@@ -146,6 +146,11 @@ $(function(){
 		    cache: false,
 		    content:createContent('roles','/roleComm'),
 		    modal: true,
+		    onBeforeOpen:function(){
+		    	
+		    	
+		    	
+		    },
 		    toolbar:[{
 				text:'保存',
 				iconCls:'icon-save',
@@ -268,7 +273,7 @@ function saveOrUpdateObject(row){
 	if(row.userId==null){
 		var node =$("#tree").tree('getSelected');
 		row.deptId=node.id;
-		console.log(row);
+		
 	}
 
 	
@@ -288,7 +293,7 @@ function saveOrUpdateObject(row){
 			$('#datagrid').datagrid('reload');
 			$('#dept_dialog').dialog('close');
 			var node = $('#dept_tree').tree('find', row.deptId);
-              console.log(node);
+            
 			$('#dept_tree').tree('uncheck',node.target);
 			
 		}
@@ -337,16 +342,16 @@ function chekTreeSingle(node){
 
 function updateUserDept(){
 	 var cknodes=$("#dept_tree").tree('getChecked');
-//	 console.log(cknodes);
+
 	 var rows =$('#datagrid').datagrid('getSelections');
-//	 console.log(rows[0]);
+
 	 rows[0].deptId=cknodes[0].id;
 	 saveOrUpdateObject(rows[0]);
 	
 }
 
 function saveUserRoles(){
-//	var com =parent.window.frames['roles'].$("#datagrid").datagrid('getSelections');
+
 	var roleGridCom =parent.frames['roles'].$("#datagrid");
 	var rolenodes =roleGridCom.datagrid("getSelections");
 	var usernode= $("#datagrid").datagrid("getSelections");
@@ -355,9 +360,6 @@ function saveUserRoles(){
 	var obj ={};
 	obj.userId=usernode[0].userId;
 	obj.roles=getRoleIds(rolenodes);
-	
-	console.log(obj);
-	
 
 	$.ajax({
 		type : 'post',
@@ -371,8 +373,9 @@ function saveUserRoles(){
 				timeout : 5000,
 				showType : 'slide'
 			});
-			roleGridCom.datagrid("clearSelections");
-			 parent.$("#dialog").dialog('close');
+		
+			parent.$("#dialog").dialog('close');
+			
 			
 		}
 		
@@ -390,6 +393,29 @@ function getRoleIds(nodes){
 	return roles;
 	
 }
+
+function grantUserRolesOpen(rows){
+	parent.$("#dialog").window('open');
+	
+    parent.frames['roles'].$("#datagrid").datagrid('unselectAll');
+    var roles=rows[0].roles;
+    if(roles!=null){
+    	
+    	roles.forEach(function(item,index){
+			
+    		var rolerows =parent.frames['roles'].$("#datagrid").datagrid('getRows');
+    			for(var i =0;i<rolerows.length;i++){
+    					if(item.roleId==rolerows[i].roleId){
+    						parent.frames['roles'].$("#datagrid").datagrid('selectRow',i);
+    					}
+    				}
+    		});
+    	
+    	
+    }
+    	
+}
+
 
 var cloumns=[[  
    	{field : 'xyz',checkbox : true,width : 100,align : 'center'},
@@ -491,7 +517,8 @@ var toolbars = [{text : "检索：<input type='text' id='ss' />"},
 	           parent.$.messager.alert('提示',"请至少选中一个用户，授予角色");
 	            return;
 			}
-		parent.$("#dialog").window('open');
+		grantUserRolesOpen(rows);
+	
 	        
 	        
 	}}

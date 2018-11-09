@@ -1,6 +1,7 @@
 package com.liu.oa.sys.model;
 
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -52,6 +53,8 @@ public class User {
 	
 	
 	private Integer deptId;
+	
+	private List<Role> roles;
 
 
 	public User() {
@@ -61,7 +64,7 @@ public class User {
 
 	public User(Integer userId, String userNo, Integer sex, String userName, String loginName, String email,
 			Integer status, String phone, String password, Integer age, Date brith, String remark, Integer flag,
-			Date createTime, Date updateTime, Integer deptId) {
+			Date createTime, Date updateTime, Integer deptId, List<Role> roles) {
 		super();
 		this.userId = userId;
 		this.userNo = userNo;
@@ -79,8 +82,11 @@ public class User {
 		this.createTime = createTime;
 		this.updateTime = updateTime;
 		this.deptId = deptId;
+		this.roles = roles;
 	}
 
+
+	
 
 	
 

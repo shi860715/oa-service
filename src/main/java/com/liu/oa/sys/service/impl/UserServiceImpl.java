@@ -16,8 +16,10 @@ import com.liu.oa.sys.exception.UserException;
 import com.liu.oa.sys.form.UserForm;
 import com.liu.oa.sys.form.UserRoles;
 import com.liu.oa.sys.mapper.DeptMapper;
+import com.liu.oa.sys.mapper.RoleMapper;
 import com.liu.oa.sys.mapper.UserMapper;
 import com.liu.oa.sys.model.Dept;
+import com.liu.oa.sys.model.Role;
 import com.liu.oa.sys.model.User;
 import com.liu.oa.sys.model.UserRole;
 import com.liu.oa.sys.service.UserService;
@@ -36,6 +38,9 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	
 	@Autowired
 	DeptMapper deptMapper;
+	
+	@Autowired
+	RoleMapper roleMapper;
 	
 
 	
@@ -73,6 +78,11 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		 PageHelper.startPage(page, rows);
 		
 		 List<User> users =userMapper.findAll();
+		 for(User u :users) {
+			List<Role> roles = roleMapper.findRoleByUserId(u.getUserId());
+			u.setRoles(roles);
+		 }
+		
 		 PageInfo<User>   usersInfo = new PageInfo<>(users); 
 		 result.put("total", usersInfo.getTotal());
 		 result.put("rows", usersInfo.getList());
@@ -94,6 +104,11 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	    	 users =  userMapper.findUserByDeptId(id, query);
 	      }
 	      
+	      for(User u :users) {
+				List<Role> roles = roleMapper.findRoleByUserId(u.getUserId());
+				u.setRoles(roles);
+			 }
+	      
 	      PageInfo<User>   usersInfo = new PageInfo<>(users); 
 	         result.put("total", usersInfo.getTotal());
 			 result.put("rows", usersInfo.getList()); 
@@ -106,7 +121,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	@Override
 	public void updateUserRoles(UserRoles userRoles) throws Exception {
 		
-		
+		 // 删除用户和角色之间的关系
 		  userMapper.deleteUserRolesByUserId(userRoles.getUserId());
 		
 		for (Integer id : userRoles.getRoles()) {
@@ -115,11 +130,6 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 			userRole.setRoleId(id);
 			userMapper.updateUserRoles(userRole);
 		}
-		
-		
-		
-		
-		
 	}
 
 	
