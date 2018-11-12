@@ -103,6 +103,12 @@ overflow: hidden;
 				var pid = $('#nav-accordion ul li[title=' + title + ']').attr("pid");
 				var selectAccordon = $("#menu" + pid).attr("alt");
 				$('#nav-accordion').accordion('select', selectAccordon);
+				
+		
+				document.getElementById(title).contentWindow.location.reload(true);
+				
+				
+				
 			}
 
 		});
@@ -171,7 +177,7 @@ overflow: hidden;
 		if ($('#tabs').tabs('exists', title)) {
 			$('#tabs').tabs('select', title);
 		} else {
-			var content = '<iframe title="' + title
+			var content = '<iframe id="'+title+'" name="'+title+'" title="' + title
 					+ '" frameborder="0"  src="' + url
 					+ '" style="width:100%;height:100%;"></iframe>';
 			$('#tabs').tabs('add', {
@@ -212,6 +218,10 @@ overflow: hidden;
 		</div>
     </div>   
     
-    <div id="dialog"></div>
+    <div id="role_dialog"></div>
+    <div id="menu_dialog"></div>
+    <div id="dept_tree"></div>
+    
+    
 </body>
 </html>

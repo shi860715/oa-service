@@ -22,9 +22,14 @@ public class Leave {
 	
 	private Integer status;
 	
-	private Date leaveDay;
 	
-	private Double leaveTime;
+	
+	private Double days;
+	
+	private Date startTime;
+	
+	private Date endTime;
+	
 	
 	
 	private Date createTime;

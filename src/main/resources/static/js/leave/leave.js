@@ -3,7 +3,7 @@ $(function(){
 	
 	  $('#datagrid').datagrid({  
 		    fit:true,
-		    url:'/sys/leave/leaves',    
+		    url:'/sys/leave/leavesByUserId',    
 		    loadMsg : '正在准备数据，请稍后。。。。。。',
 		    singleSelect:true,
 		    striped : true,//斑马线效果
@@ -11,12 +11,8 @@ $(function(){
 		    pagination : true,
 		    pageNumber : 1,
 			pageSize :20,
-			queryParams:{
-
-				},
 			pageList : [ 20, 30, 50 ],
-		   
-		    
+			queryParams:{query:""},
 		    columns:columns,
 		    toolbar:toolbars,
 		    
@@ -66,32 +62,7 @@ $(function(){
 	});   
  /*查询框  end */  
  
- 
- parent.$("#dialog").dialog({
-	   
-	   title: '分配资源',    
-	    width: 1200,    
-	    height: 800,    
-	    closed: true,    
-	    cache: false,    
-	    modal: true,
-	    content:createContent('menuTree','menuTreeComm'),
-	   
-	    toolbar:function(){
-	    	[{
-				text:'保存',
-				iconCls:'icon-save',
-				handler:function(){
-					updateRoleMenu();
-				}
-			}]
-	    	
-	    	
-	    	
-	    }
-	   
- });
- 
+
 
 
  
@@ -103,10 +74,6 @@ $(function(){
 //编辑标识
 var editRowIndex = 'undefined';
 
-function createContent(name,url) {
-var strHtml = '<iframe name="'+name+'" src="' + url + '" scrolling="no" frameborder="0" width="100%" height="100%"></iframe>';
-return strHtml;
-}
 
 
 
@@ -232,85 +199,11 @@ $.ajax({
 
 }
 
-/*保存角色和资源之间的关系*/
-function updateRoleMenu(){
-
-var nodes = parent.iframes['menuTree'].$("#menu_tree").tree('getChecked');
-
-var ids = getMenuIds(nodes);
-var rows = $('#datagrid').datagrid('getSelections');
 
 
-var obj={};
-obj.roleId=rows[0].roleId;
-obj.ids=ids;
 
 
-$.ajax({
-	type : 'post',
-	url : '/sys/role/updateRoleMenu',
-	data : JSON.stringify(obj),
-	contentType : 'application/json;charset=UTF-8',
-	success : function(data) {
-		$.messager.show({
-			title : '提示消息',
-			msg : data.message,
-			timeout : 5000,
-			showType : 'slide'
-		});
-		parent.$("#dialog").dialog('close');
-		$("#datagrid").datagrid('clearSelections');
-		$('#datagrid').datagrid('reload');
-	}
-});
 
-
-}
-
-
-/*获取菜单id*/
-function getMenuIds(nodes){
-var ids = new Array();
-nodes.forEach(function(item,index){
-	
-	ids.push(item.id);
-	
-});
-
-return ids;
-
-}
-
-//用于角色，菜单权限的返现
-function checkInfoByRoleId(roleId){
-var obj = {};
-obj.roleId=roleId;
-
-$.ajax({
-	type : 'post',
-	url : '/sys/role/checkInfoByRoleId',
-	data : JSON.stringify(obj),
-	contentType : 'application/json;charset=UTF-8',
-	success : function(data) {
-		console.log(data);
-		var nodes = $("#menu_tree").tree('getChecked');
-		nodes.forEach(function(item){
-			
-			$("#menu_tree").tree("uncheck",item.target);
-		});
-		
-		data.ids.forEach(function(item,index){
-			 var node =  $("#menu_tree").tree("find",item);
-			 $("#menu_tree").tree("check",node.target);
-		});
-		
-		
-		
-	}
-});
-
-
-}
 
 
 
@@ -332,45 +225,52 @@ var columns = [[
 	{field:'type',title:'请假类型',width:60,align:'center',editor:{
 		type:'text'
 		
-	}},  
-{field:'flag',title:'状态',width:60,align:'center',formatter:function(value){
-	if(value=='0'){
-		return "启用";
-	}else{
-		return "禁用";
-	}
-	
-	
-},editor:{
-	type:'text'
-		
-}},
-{field:'remark',title:'备注',width:60,align:'center',editor:{
+	}}, 
+	 
+	{field:'reson',title:'请假原因',width:60,align:'center',editor:{
 		type:'text'
 		
+	}}, 
+	{field:'days',title:'天数',width:60,align:'center',editor:{
+		type:'text'
+		
+	}}, 
+	{field:'status',title:'状态',width:60,align:'center',formatter:function(value){
+		if(value=='0'){
+			return "待审核";
+		}else{
+			return "已完结";
+		}
+	},editor:{
+		type:'text'
+			
 	}},
-{field : 'action',title : '操作',width : 100,align : 'center',
-	formatter : function(value, row, index) {
-		if (row.edit) {
-			var s = '<a href="#" onclick="saveRow('+ index + ')">保存</a>';
-			var c = '<a href="#" onclick="cancelRow('+ index + ')">取消</a>';
-			return s + '&nbsp&nbsp' + c;
-		} else {
-			var e = '<a href="#" onclick="editRow('+ index + ')">编辑</a>';
-			var d = '<a href="#" onclick="deleteRow('+ index + ')">删除</a>';
-			return e + '&nbsp&nbsp' + d;
+	{field:'remark',title:'备注',width:60,align:'center',editor:{
+			type:'text'
+			
+		}},
+	{field : 'action',title : '操作',width : 100,align : 'center',
+		formatter : function(value, row, index) {
+			if (row.edit) {
+				var s = '<a href="#" onclick="saveRow('+ index + ')">保存</a>';
+				var c = '<a href="#" onclick="cancelRow('+ index + ')">取消</a>';
+				return s + '&nbsp&nbsp' + c;
+			} else {
+				var e = '<a href="#" onclick="editRow('+ index + ')">编辑</a>';
+				var d = '<a href="#" onclick="deleteRow('+ index + ')">删除</a>';
+				return e + '&nbsp&nbsp' + d;
+			}
 		}
 	}
-}
-]]
+	]]
 
 
 var toolbars =[{text : "检索：<input type='text' id='ss' />"}, 
-        {iconCls : 'icon-add',text : '添加角色',handler : function() {insert();}},
+        {iconCls : 'icon-add',text : '请假申请',handler : function() {insert();}},
         {iconCls : 'icon-edit',text : '授予资源',handler : function() {
       	  
       	  
-      	  parent.$("#dialog").dialog('open');
+      	
       	  
       	  
       	  

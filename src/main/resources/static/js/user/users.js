@@ -138,7 +138,7 @@ $(function(){
        
        
        
-       parent.$("#dialog").dialog({
+       parent.$("#role_dialog").dialog({
     	    title: '授予角色',    
 		    width: 1500,    
 		    height: 800,    
@@ -370,7 +370,7 @@ function saveUserRoles(){
 				showType : 'slide'
 			});
 		
-			parent.$("#dialog").dialog('close');
+			parent.$("#role_dialog").dialog('close');
 			
 			
 		}
@@ -391,7 +391,7 @@ function getRoleIds(nodes){
 }
 
 function grantUserRolesOpen(rows){
-	parent.$("#dialog").window('open');
+	parent.$("#role_dialog").window('open');
 	
     parent.frames['roles'].$("#datagrid").datagrid('unselectAll');
     var roles=rows[0].roles;

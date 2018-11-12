@@ -65,7 +65,7 @@ $(function(){
 	   /*查询框  end */  
 	   
 	   
-	   parent.$("#dialog").dialog({
+	   parent.$("#menu_dialog").dialog({
 		   
 		   title: '分配资源',    
 		    width: 1200,    
@@ -74,19 +74,13 @@ $(function(){
 		    cache: false,    
 		    modal: true,
 		    content:createContent('menuTree','menuTreeComm'),
-		   
-		    toolbar:function(){
-		    	[{
+		    toolbar:[{
 					text:'保存',
 					iconCls:'icon-save',
 					handler:function(){
 						updateRoleMenu();
 					}
 				}]
-		    	
-		    	
-		    	
-		    }
 		   
 	   });
 	   
@@ -233,7 +227,8 @@ function deleteObject(editId) {
 /*保存角色和资源之间的关系*/
 function updateRoleMenu(){
 	
-	var nodes = parent.iframes['menuTree'].$("#menu_tree").tree('getChecked');
+	var nodes = parent.frames['menuTree'].$("#menu_tree").tree('getChecked');
+	
 
 	var ids = getMenuIds(nodes);
 	var rows = $('#datagrid').datagrid('getSelections');
@@ -250,15 +245,16 @@ function updateRoleMenu(){
 		data : JSON.stringify(obj),
 		contentType : 'application/json;charset=UTF-8',
 		success : function(data) {
+			
+			 parent.$("#menu_dialog").dialog('close');
+			 
 			$.messager.show({
 				title : '提示消息',
 				msg : data.message,
 				timeout : 5000,
 				showType : 'slide'
 			});
-			parent.$("#dialog").dialog('close');
-			$("#datagrid").datagrid('clearSelections');
-			$('#datagrid').datagrid('reload');
+		
 		}
 	});
 
@@ -280,32 +276,57 @@ function getMenuIds(nodes){
 }
 
 //  用于角色，菜单权限的返现
-function checkInfoByRoleId(roleId){
-	var obj = {};
-	obj.roleId=roleId;
+function checkInfoByRoleId(){
 	
-	$.ajax({
-		type : 'post',
-		url : '/sys/role/checkInfoByRoleId',
-		data : JSON.stringify(obj),
-		contentType : 'application/json;charset=UTF-8',
-		success : function(data) {
-			console.log(data);
-			var nodes = $("#menu_tree").tree('getChecked');
-			nodes.forEach(function(item){
+	var rows=$('#datagrid').datagrid('getSelections');
+	console.log(rows);
+	if(rows.length==1){
+		var obj = {};
+		var roleId = rows[0].roleId;
+		
+		
+		obj.roleId=roleId;
+		
+		$.ajax({
+			type : 'post',
+			url : '/sys/role/checkInfoByRoleId',
+			data : JSON.stringify(obj),
+			contentType : 'application/json;charset=UTF-8',
+			success : function(data) {
 				
-				$("#menu_tree").tree("uncheck",item.target);
+				
+			var checkdnodes= data.ids;
+			
+			
+			var nodes =parent.frames['menuTree'].$("#menu_tree").tree('getChecked');
+			nodes.forEach(function(item,index){
+				
+				parent.frames['menuTree'].$("#menu_tree").tree('uncheck',item.target);
+				
+				
 			});
 			
-			data.ids.forEach(function(item,index){
-				 var node =  $("#menu_tree").tree("find",item);
-				 $("#menu_tree").tree("check",node.target);
-			});
-			
-			
-			
-		}
-	});
+			checkdnodes.forEach(function(item,index){
+				
+	    	var node =parent.frames['menuTree'].$("#menu_tree").tree('find',item);
+	    	parent.frames['menuTree'].$("#menu_tree").tree('check',node.target);
+				
+				
+				
+			});	
+				
+			}
+		});
+		
+	}else{
+		
+		parent.$.messager.alert('警告','只能选中一条记录进行修改');  
+		return;
+		
+	}
+	
+	
+	
 	
 	
 }
@@ -354,9 +375,8 @@ var columns = [[
 var toolbars =[{text : "检索：<input type='text' id='ss' />"}, 
 	          {iconCls : 'icon-add',text : '添加角色',handler : function() {insert();}},
 	          {iconCls : 'icon-edit',text : '授予资源',handler : function() {
-	        	  
-	        	  
-	        	  parent.$("#dialog").dialog('open');
+	        	  checkInfoByRoleId();
+	        	  parent.$("#menu_dialog").dialog('open');
 	        	  
 	        	  
 	        	  

@@ -21,23 +21,7 @@ public class LeaveMapperTest extends BaseTest{
 	@Autowired
 	LeaveMapper leaveMapper;
 
-	@Test
-	public void insert() {
-		
-		Leave leave = new Leave();
-		
-		leave.setUserId(9);
-		leave.setUserName("小王");
-		leave.setReson("身体不舒服");
-		leave.setType(LeaveEmnu.LEAVE_S.getCode());
-		leave.setLeaveDay(new Date());
-		leave.setLeaveTime(0.2);
-		leave.setRemark("有特权");
-		
-		leaveMapper.insert(leave);
-		
-		
-	}
+	
 	
 	@Test
 	public void update() {
