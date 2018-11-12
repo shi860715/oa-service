@@ -24,7 +24,10 @@ import com.liu.oa.sys.model.User;
 import com.liu.oa.sys.model.UserRole;
 import com.liu.oa.sys.service.UserService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service("userService")
+@Slf4j
 public class UserServiceImpl extends BaseServiceImpl<User> implements UserService{
 	
 	public static final String salt ="456852a";
@@ -130,6 +133,37 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 			userRole.setRoleId(id);
 			userMapper.updateUserRoles(userRole);
 		}
+	}
+
+	@Override
+	public boolean loginUser(String userNo, String password) {
+		 
+		 User user =userMapper.findUserByUserNo(userNo);
+		 if(user!=null) {
+			if( user.getPassword().equals(Encrypt.md5AndSha(password))) {
+			
+				
+			return true;
+				
+			}else {
+				return false;
+			}
+			
+			 
+			 
+			 
+			 
+		 }else {
+			 
+			 return false;
+			 
+		 }
+		 
+		 
+		 
+		 
+		 
+		
 	}
 
 	

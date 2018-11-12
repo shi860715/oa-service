@@ -116,7 +116,10 @@
 	
 	
 	
+	<select id="findUserByUserNo" resultType="user" >
 	
+	 select * from sys_user where user_no=#{userNo} and flag =0;
+	</select>
 	
 	
 	

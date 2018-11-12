@@ -36,6 +36,8 @@ public interface UserMapper  extends BaseMapper<User> {
      * @param userRole
      */
 	void deleteUserRolesByUserId(Integer userId);
+
+	User findUserByUserNo(@Param("userNo") String userNo);
 	
 
 	

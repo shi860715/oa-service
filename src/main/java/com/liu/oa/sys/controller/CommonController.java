@@ -33,5 +33,20 @@ public class CommonController {
 		return "/commons/menuTreeCom";
 		
 	}
+	
+	@RequestMapping("/tologin")
+	public String login() {
+		
+		return "login";
+		
+	}
+	
+	@RequestMapping("/tologinerror")
+	public String loginerror() {
+		
+		return "/loginerror";
+		
+	}
+	
 
 }

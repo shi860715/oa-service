@@ -28,7 +28,12 @@ spring:
     suffix: .html
     cache: false
     mode: HTML5
-  
+  http:
+    encoding:
+      charset: UTF-8
+      force-response: true
+      enabled: true
+      
     
     # 用来建表
 #    schema:

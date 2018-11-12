@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>生兴OA办公管理系统</title>
+ <div th:include="commons/easyui::easyui"></div>
+ <style>
+#login {margin: 250px auto;
+       border:solid 1px red;
+       width: 400px;
+       height:330px;
+       padding:20px;
+
+     }
+     
+.from-input{
+      margin:20px;
+      
+
+
+}
+.easyui-validatebox{
+  width:250px;
+  height:25px;
+  font-size:20px;
+
+}
+.header{
+       width:200px;
+       margin:20px auto;
+
+}
+
+.content{
+       width:300px;
+       margin:20px auto;
+
+}
+.btns{
+       width:300px;
+       margin:20px auto;
+      
+      
+
+} 
+
+#btn{
+ 
+    width: 70px;
+    height: 65px;
+    /* border: solid 1px red; */
+    background: #0092dc;
+    margin-top: 20px;
+    margin-left: 200px;
+    border-radius: 5px;
+    line-height: 65px;
+    color: white;
+    text-align: center;
+  }
+.errorMsg{
+      margin:20px auto;
+      color: red;
+
+}
+ 
+
+ </style>
+ 
+ <script type="text/javascript">
+   $(function(){
+	   
+	   $("input").focus(function(){
+		   console.log($(".errorMsg span").text());
+		   
+		$(".errorMsg span").text("");
+		   
+		   
+	   });
+	   
+	   
+   });
+	
+ 
+ </script>
+</head>
+<body >
+	   <div id="login" >
+       <form action="/sys/user/login" method="post"> 
+        <div class="header"> <h3 >生兴OA办公管理系统</h3> </div>
+        
+        <div class="content">
+        <div class="from-input">   
+	        <label for="name">员工编号:</label>   
+	        <input class="easyui-validatebox" type="text" name="userNo"  />   
+	    </div>   
+	    <div class="from-input">   
+	        <label for="password">密&nbsp&nbsp码:</label>   
+	        <input class="easyui-validatebox" type="password" name="password" />   
+	    </div>  
+        </div>
+        
+	    <div class="btns">
+	     <input type="submit" id="btn"  value="登录"></input>  
+	    </div>
+	 
+
+	</form> 
+	 <div class="errorMsg"> <span th:text="${msg}">错误消息</span></div>
+	</div> 
+	
+</body>
+</html>
