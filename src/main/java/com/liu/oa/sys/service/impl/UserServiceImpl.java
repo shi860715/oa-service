@@ -53,6 +53,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		if(user!=null) {
 			User u = EncryptPassword(user);
 			
+			
 			userMapper.insert(u);
 			return u;
 		}
