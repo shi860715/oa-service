@@ -20,7 +20,7 @@ public interface UserService extends BaseService<User> {
 
 	void updateUserRoles(UserRoles userRoles) throws Exception;
 
-	boolean loginUser(String userNo, String password);
+	User loginUser(String userNo, String password)throws Exception;
 
 
 }

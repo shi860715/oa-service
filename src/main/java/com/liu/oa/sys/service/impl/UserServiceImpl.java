@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.liu.oa.common.ReslutEmnu;
 import com.liu.oa.framwork.utils.Encrypt;
 import com.liu.oa.sys.exception.UserException;
+import com.liu.oa.sys.exception.UserLoginException;
 import com.liu.oa.sys.form.UserForm;
 import com.liu.oa.sys.form.UserRoles;
 import com.liu.oa.sys.mapper.DeptMapper;
@@ -137,33 +139,26 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	}
 
 	@Override
-	public boolean loginUser(String userNo, String password) {
+	public User loginUser(String userNo, String password) throws Exception {
 		 
 		 User user =userMapper.findUserByUserNo(userNo);
 		 if(user!=null) {
-			if( user.getPassword().equals(Encrypt.md5AndSha(password))) {
-			
-				
-			return true;
-				
-			}else {
-				return false;
-			}
-			
-			 
-			 
-			 
-			 
+			 log.info("加密后的密码{}",Encrypt.md5AndSha(password));
+		     log.info("用户的密码{}",user.getPassword());
+				if( user.getPassword().equals(Encrypt.md5AndSha(password))) {
+				     
+					
+				return user;
+					
+				}else {
+					throw new UserLoginException(ReslutEmnu.USER_LOGIN_FAILED);
+					
+				}
 		 }else {
 			 
-			 return false;
+			throw new UserLoginException(ReslutEmnu.USER_NOT_EXSIT);
 			 
 		 }
-		 
-		 
-		 
-		 
-		 
 		
 	}
 

@@ -2,8 +2,14 @@ package com.liu.oa.sys.controller;
 
 
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
+
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +22,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.liu.oa.common.ReslutEmnu;
 import com.liu.oa.common.utils.ResultUtils;
 import com.liu.oa.framwork.utils.JacksonUtil;
+import com.liu.oa.framwork.utils.KeyUtil;
 import com.liu.oa.framwork.vo.ResultVO;
+import com.liu.oa.sys.exception.UserException;
+import com.liu.oa.sys.exception.UserLoginException;
 import com.liu.oa.sys.form.UserForm;
 import com.liu.oa.sys.form.UserRoles;
 import com.liu.oa.sys.model.User;
@@ -138,35 +148,32 @@ public class UserController {
 	}
 	
 	@RequestMapping("/login")
-	public String login(String userNo,String password,Model model){
+	public String login(String userNo,String password,Model model,HttpSession session,HttpServletResponse response){
 		 Map<String, Object> result = new HashMap<>();
 		 if(StringUtils.isNotEmpty(userNo) & StringUtils.isNotEmpty(password)) {
 			 
 			 
-			 boolean flag= userService.loginUser(userNo,password);
-			 if(flag) {
-				 
-				 
-				  return "redirect:/index";
-				 
-			 }else {
-				 
-				 model.addAttribute(result);
-				 return "forward:/tologin"; 
-			 }
-			 
-			 
-			 
+			User user =null;
+			try {
+				user = userService.loginUser(userNo, password);
+				session.setAttribute("user", user); 
+				Cookie cookie = new Cookie("user", KeyUtil.keyUnique());
+				cookie.setMaxAge(60*60);//代表一个小时
+				
+				
+				response.addCookie(cookie);
+				
+			} catch (Exception e) {
+				throw new UserLoginException(ReslutEmnu.USER_LOGIN_FAILED);
+			}
 			
+			 return "redirect:/index";
 			 
 		 }else {
-			
-			 model.addAttribute("msg", "用户编号或者密码错误,请确认后重试！！");
-			return "forward:/tologin";
-			
-		 }
-	
-	 
+			throw new UserLoginException(ReslutEmnu.USER_PARAM_ERROR);
+		}
+		 
+		
 	     
 	}
 	
