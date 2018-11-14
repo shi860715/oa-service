@@ -20,6 +20,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.liu.oa.framwork.utils.JacksonUtil;
 import com.liu.oa.sys.model.User;
 
 import lombok.extern.slf4j.Slf4j;
@@ -58,26 +59,24 @@ public class LoginFilter implements Filter {
 		log.info("请求地址{}结果{}", spath, flag);
 
 		if (flag) {
-			if (user != null) {
+			/*if (user != null) {
 				chain.doFilter(request, response);
 
 			} else {
 				response.sendRedirect("/tologin");
-			}
+			}*/
+			
+			
+			
+			log.info("cookies{}",JacksonUtil.printJson(cookies));
 
-			/*if (cookies != null) {
-				for (Cookie cookie : cookies) {
-					log.info("用户登录过{}",cookie.getName());
-					if (cookie.getName().equals("user")) {
-						log.info("用户登录过{}",cookie.getName());
-						chain.doFilter(request, response);
-					}else {
-						response.sendRedirect("/tologin");
-					} 
-				}
+			if (cookies.length > 1 ) {
+				
+				chain.doFilter(request, response);
+				
 			} else {
 				response.sendRedirect("/tologin");
-			}*/
+			}
 
 		} else {
 			chain.doFilter(request, response);
