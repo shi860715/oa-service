@@ -1,6 +1,6 @@
 package com.liu.oa.sys.exception;
 
-import com.liu.oa.common.ReslutEmnu;
+import com.liu.oa.common.enums.ReslutEmnu;
 
 
 public class DeptException extends RuntimeException {

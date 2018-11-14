@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.liu.oa.BaseTest;
-import com.liu.oa.common.LeaveEmnu;
+import com.liu.oa.common.enums.LeaveEmnu;
 import com.liu.oa.framwork.utils.JacksonUtil;
 import com.liu.oa.sys.model.Leave;
 

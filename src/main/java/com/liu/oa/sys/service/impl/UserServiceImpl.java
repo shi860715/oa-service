@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.liu.oa.common.ReslutEmnu;
+import com.liu.oa.common.enums.ReslutEmnu;
 import com.liu.oa.framwork.utils.Encrypt;
 import com.liu.oa.sys.exception.UserException;
 import com.liu.oa.sys.exception.UserLoginException;

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.liu.oa.common.ReslutEmnu;
+import com.liu.oa.common.enums.ReslutEmnu;
 import com.liu.oa.framwork.model.TreeNode;
 import com.liu.oa.framwork.utils.JacksonUtil;
 import com.liu.oa.framwork.utils.TreeUtils;

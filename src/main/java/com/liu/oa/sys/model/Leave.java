@@ -23,7 +23,6 @@ public class Leave {
 	private Integer status;
 	
 	
-	
 	private Double days;
 	
 	private Date startTime;
@@ -31,9 +30,7 @@ public class Leave {
 	private Date endTime;
 	
 	
-	
 	private Date createTime;
-	
 	
 	private Date updateTime;
 	

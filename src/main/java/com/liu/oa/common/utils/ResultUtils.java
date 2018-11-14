@@ -2,7 +2,7 @@ package com.liu.oa.common.utils;
 
 
 
-import com.liu.oa.common.Contant;
+import com.liu.oa.common.contants.Contant;
 import com.liu.oa.framwork.vo.ResultVO;
 
 import lombok.extern.slf4j.Slf4j;

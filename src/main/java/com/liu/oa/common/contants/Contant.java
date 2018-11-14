@@ -1,4 +1,6 @@
-package com.liu.oa.common;
+package com.liu.oa.common.contants;
+
+import com.liu.oa.common.enums.CodeEmnu;
 
 import lombok.Getter;
 
@@ -6,8 +8,6 @@ import lombok.Getter;
 public enum Contant implements CodeEmnu{
 	
     ZORO(0,"零"),
-    
-    
     ;
 
     private Integer code;

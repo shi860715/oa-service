@@ -1,4 +1,4 @@
-package com.liu.oa.common;
+package com.liu.oa.common.enums;
 
 public interface CodeEmnu {
 	

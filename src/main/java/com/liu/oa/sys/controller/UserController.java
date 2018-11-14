@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.liu.oa.common.ReslutEmnu;
+import com.liu.oa.common.enums.ReslutEmnu;
 import com.liu.oa.common.utils.ResultUtils;
 import com.liu.oa.framwork.utils.JacksonUtil;
 import com.liu.oa.framwork.utils.KeyUtil;
