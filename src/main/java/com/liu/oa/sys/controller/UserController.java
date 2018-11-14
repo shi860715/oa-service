@@ -2,8 +2,6 @@ package com.liu.oa.sys.controller;
 
 
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,19 +19,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.liu.oa.common.enums.ReslutEmnu;
 import com.liu.oa.framwork.utils.JacksonUtil;
 import com.liu.oa.framwork.utils.KeyUtil;
 import com.liu.oa.framwork.utils.ResultUtils;
 import com.liu.oa.framwork.vo.ResultVO;
-import com.liu.oa.sys.exception.UserException;
 import com.liu.oa.sys.exception.UserLoginException;
 import com.liu.oa.sys.form.UserForm;
 import com.liu.oa.sys.form.UserRoles;
 import com.liu.oa.sys.model.User;
 import com.liu.oa.sys.service.DeptService;
+import com.liu.oa.sys.service.RedisService;
 import com.liu.oa.sys.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -44,8 +42,15 @@ public class UserController {
 	
 	@Autowired
 	UserService userService;
+	
 	@Autowired
 	DeptService deptservice;
+	
+	@Autowired
+	RedisService redisService;
+	
+	@Autowired
+	StringRedisTemplate template;
 
 	@PostMapping("/create")
 	@ResponseBody
@@ -166,10 +171,14 @@ public class UserController {
 			User user =null;
 			try {
 				user = userService.loginUser(userNo, password);
+				String key=KeyUtil.keyUnique();
 				session.setAttribute("user", user); 
-				Cookie cookie = new Cookie("user", KeyUtil.keyUnique());
+				Cookie cookie = new Cookie("user", key);
 				cookie.setMaxAge(60*60);//代表一个小时
 				cookie.setPath("/");
+				template.opsForValue().set(key, JacksonUtil.toJSon(user));
+			
+				
 				
 				response.addCookie(cookie);
 				

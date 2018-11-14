@@ -33,7 +33,18 @@ spring:
       charset: UTF-8
       force-response: true
       enabled: true
-      
+  redis:
+    host: 127.0.0.1 
+    port: 6379
+    password: 
+    timeout: 30
+    database: 0
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+   
     
     # 用来建表
 #    schema:
