@@ -22,5 +22,7 @@ public interface UserService extends BaseService<User> {
 
 	User loginUser(String userNo, String password)throws Exception;
 
+	Map<String, Object> getUserPhone(int page, int rows, String query);
+
 
 }

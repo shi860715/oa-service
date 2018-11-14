@@ -34,6 +34,8 @@ public class User {
 	
 	private Integer status;
 	
+	private String tel;
+	
 	private String phone;
 	
 	private String password;
@@ -54,6 +56,8 @@ public class User {
 	
 	private Integer deptId;
 	
+	private String deptName;
+	
 	private List<Role> roles;
 
 
@@ -63,8 +67,8 @@ public class User {
 
 
 	public User(Integer userId, String userNo, Integer sex, String userName, String loginName, String email,
-			Integer status, String phone, String password, Integer age, Date brith, String remark, Integer flag,
-			Date createTime, Date updateTime, Integer deptId, List<Role> roles) {
+			Integer status, String tel, String phone, String password, Integer age, Date brith, String remark,
+			Integer flag, Date createTime, Date updateTime, Integer deptId, String deptName, List<Role> roles) {
 		super();
 		this.userId = userId;
 		this.userNo = userNo;
@@ -73,6 +77,7 @@ public class User {
 		this.loginName = loginName;
 		this.email = email;
 		this.status = status;
+		this.tel = tel;
 		this.phone = phone;
 		this.password = password;
 		this.age = age;
@@ -82,8 +87,15 @@ public class User {
 		this.createTime = createTime;
 		this.updateTime = updateTime;
 		this.deptId = deptId;
+		this.deptName = deptName;
 		this.roles = roles;
 	}
+
+
+	
+
+
+	
 
 
 	

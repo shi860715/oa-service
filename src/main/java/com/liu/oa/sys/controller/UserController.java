@@ -58,6 +58,8 @@ public class UserController {
 	}
 	
 	
+	
+	
 	@PostMapping("/users")
 	@ResponseBody
     public  Map<String, Object> users(int id,String query,int page,int rows){
@@ -83,6 +85,14 @@ public class UserController {
 		
 		
 		return "user/userList";
+	}
+	
+	@GetMapping("/toUserPhone")
+	public String toUserPhone() {
+		
+		
+		
+		return "user/userPhone";
 	}
 	
 	@RequestMapping("/saveORupdate")
@@ -149,7 +159,7 @@ public class UserController {
 	
 	@RequestMapping("/login")
 	public String login(String userNo,String password,Model model,HttpSession session,HttpServletResponse response){
-		 Map<String, Object> result = new HashMap<>();
+		
 		 if(StringUtils.isNotEmpty(userNo) & StringUtils.isNotEmpty(password)) {
 			 
 			 
@@ -159,7 +169,7 @@ public class UserController {
 				session.setAttribute("user", user); 
 				Cookie cookie = new Cookie("user", KeyUtil.keyUnique());
 				cookie.setMaxAge(60*60);//代表一个小时
-				
+				cookie.setPath("/");
 				
 				response.addCookie(cookie);
 				
@@ -167,15 +177,31 @@ public class UserController {
 				throw new UserLoginException(ReslutEmnu.USER_LOGIN_FAILED);
 			}
 			
-			 return "redirect:/index";
+			/* return "redirect:/index";*/
+			return "forward:/index";
 			 
 		 }else {
 			throw new UserLoginException(ReslutEmnu.USER_PARAM_ERROR);
 		}
-		 
-		
-	     
 	}
+	
+	@RequestMapping("/getUserPhone")
+	@ResponseBody
+	public Map<String,Object> getUserPhone(int page,int rows,String query){
+		 Map<String, Object> result = new HashMap<>();
+		 
+		 
+		 result= userService.getUserPhone(page,rows,query);
+		
+		
+		
+		return result;
+		
+	}
+	
+	
+	
+	
 	
 	
 }

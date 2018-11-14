@@ -162,6 +162,22 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		
 	}
 
+	@Override
+	public Map<String, Object> getUserPhone(int page, int rows, String query) {
+		 Map<String, Object> result = new HashMap<>();
+		 PageHelper.startPage(page, rows);
+		 List<User> users =userMapper.findAll(query);
+		 
+		 PageInfo<User> userInfo = new PageInfo<>(users);
+		 result.put("total", userInfo.getTotal());
+		 result.put("rows", userInfo.getList());
+		 
+		 
+		 
+		 
+		return result;
+	}
+
 	
 
 }

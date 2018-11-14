@@ -29,7 +29,15 @@
 	
 	<select id="findAll" resultType="user">
 	
-	 select * from sys_user where flag=0 
+	 select u.*,d.name as dept_name from sys_user u left join sys_dept d on u.dept_id=d.dept_id
+    <where>
+    u.flag = 0 
+    <if test="query!=null">
+     and (u.user_name like "%${query}%" or u.user_no like "%${query}%"  )
+    
+    </if>
+     
+    </where>
 	
 	</select>
 	
@@ -38,6 +46,9 @@
 	
 	 update sys_user 
 	 <set>
+	 <if test="userNo!=null">
+	  user_no = #{userNo} ,
+	 </if>
 	 <if test="userName!=null">
 	  user_name = #{userName} ,
 	 </if>
@@ -58,6 +69,9 @@
 	 </if>
 	  <if test="phone!=null">
 	  phone = #{phone} ,
+	 </if>
+	 <if test="tel!=null">
+	  tel = #{tel} ,
 	 </if>
 	  <if test="deptId!=null">
 	  dept_id = #{deptId} ,
@@ -112,7 +126,6 @@
 	
 	delete from sys_user_role where user_id=#{userId}
 	</delete>
-	
 	
 	
 	
