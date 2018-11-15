@@ -28,6 +28,8 @@ public class Leave {
 	
 	
 	private Double days;
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	private Date leaveTime;
 	
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
 	private Date startTime;
@@ -43,8 +45,16 @@ public class Leave {
 	
 	private Integer flag;
 
+
+
+	public Leave() {
+		super();
+	}
+
+
+
 	public Leave(Integer leaveId, Integer userId, String userName, String reson, Integer type, String remark,
-			Integer status, Double days, Date startTime, Date endTime, Date createTime, Date updateTime,
+			Integer status, Double days, Date leaveTime, Date startTime, Date endTime, Date createTime, Date updateTime,
 			String processId, Integer flag) {
 		super();
 		this.leaveId = leaveId;
@@ -55,16 +65,13 @@ public class Leave {
 		this.remark = remark;
 		this.status = status;
 		this.days = days;
+		this.leaveTime = leaveTime;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.createTime = createTime;
 		this.updateTime = updateTime;
 		this.processId = processId;
 		this.flag = flag;
-	}
-
-	public Leave() {
-		super();
 	}
 	
 	

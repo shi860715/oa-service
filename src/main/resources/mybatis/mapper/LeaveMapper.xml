@@ -11,8 +11,8 @@
  </select>
 	
   <insert id="insert" parameterType="leave"  useGeneratedKeys="true" keyProperty="leaveId">
-   insert into sys_leave (user_id,user_name,reson,type,leave_day,leave_time,remark) 
-      values (#{userId},#{userName},#{reson},#{type},#{leaveDay},#{leaveTime},#{remark}) 
+   insert into sys_leave (user_id,user_name,reson,type,status,leave_time,days,start_time,end_time,remark,flag) 
+      values (#{userId},#{userName},#{reson},#{type},#{status},#{leaveTime},#{days},#{startTime},#{endTime},0,#{remark}) 
   
   </insert>
   
@@ -48,17 +48,35 @@
 	
 	 update sys_leave
 	 <set>
+	  <if test="userName!=null">
+	  user_name = #{userName} ,
+	 </if>
+	 <if test="userId!=null">
+	  user_id = #{userId} ,
+	 </if>
 	 <if test="reson!=null">
 	  reson = #{reson} ,
 	 </if>
 	  <if test="type!=null">
 	   type = #{type} ,
 	 </if>
-	 <if test="leaveDay!=null">
-	   leave_day = #{leaveDay} ,
+	 <if test="status!=null">
+	   status = #{status} ,
 	 </if>
 	  <if test="leaveTime!=null">
 	   leave_time = #{leaveTime} ,
+	 </if>
+	 <if test="days!=null">
+	   days = #{days} ,
+	 </if>
+	 <if test="startTime!=null">
+	   start_time = #{startTime} ,
+	 </if>
+	 <if test="endTime!=null">
+	   end_time = #{endTime} ,
+	 </if>
+	 <if test="flag!=null">
+	   flag = #{flag} ,
 	 </if>
 	  <if test="processId!=null">
 	   process_id = #{processId} ,

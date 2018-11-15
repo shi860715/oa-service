@@ -126,6 +126,7 @@ parent.$.messager.confirm('Confirm', 'Are you sure?', function(r) {
 	if (r) {
 		var rows = $('#datagrid').datagrid('getRows');
 		var row = rows[index];
+		deleteObject(row.leaveId);
 		
 	}
 });
@@ -160,7 +161,7 @@ function saveOrUpdateObject(row){
 	
 $.ajax({
 	type : 'post',
-	url : '/sys/leave/saveORupdate',
+	url : '/sys/leave/saveOrUpdate',
 	data : JSON.stringify(row),
 	contentType : 'application/json;charset=UTF-8',
 	success : function(data) {
@@ -211,16 +212,29 @@ $.ajax({
 var columns = [[
   {field:'leaveId',title:'请假单编号',checkbox:true,width:180}, 
   
-  {field:'userName',title:'姓名',width:60,align:'center',editor:{
-		type:'text'
-		
-	}}, 
+  {field:'userName',title:'姓名',width:60,align:'center'}, 
 	{field:'startTime',title:'开始时间',width:60,align:'center',editor:{
-		type:'text'
+		type:'datetimebox',
+		options:{
+   			formatter:myformatterTime,
+   			parser:myparserTime
+   		}
 		
 	}},  
 	{field:'endTime',title:'结束时间',width:60,align:'center',editor:{
-		type:'text'
+		type:'datetimebox',
+		options:{
+   			formatter:myformatterTime,
+   			parser:myparserTime
+   		}
+		
+	}},  
+	{field:'leaveTime',title:'请假时间',width:60,align:'center',editor:{
+		type:'datetimebox',
+		options:{
+   			formatter:myformatterTime,
+   			parser:myparserTime
+   		}
 		
 	}},  
 	{field:'type',title:'请假类型',width:60,align:'center',editor:{

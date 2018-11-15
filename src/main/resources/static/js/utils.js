@@ -88,7 +88,55 @@ var myparser=function(s){
 	
 }
 
+var myformatterTime =function(date){
+	var y = date.getFullYear();
+	var m = date.getMonth()+1;
+	var d = date.getDate();
+	
+	var hh = date.getHours();
+	var mm = date.getMinutes();
+	var ss = date.getSeconds();
 
+	//如果是单个数，则前面补0
+	m = m < 10 ? "0" + m : m;
+	d = d < 10 ? "0" + d : d;
+	hh = hh < 10 ? "0" + hh : hh;
+	mm = mm < 10 ? "0" + mm : mm;
+	ss = ss < 10 ? "0" + ss : ss;
+	return y+'-'+m+'-'+d+' '+hh+':'+mm+':'+ss;
+
+}
+var myparserTime=function(s){
+	if(!s) return new Date();
+	console.log("==="+s);
+	var ss = (s.trim().split(" "));
+	
+	var sss =ss[0].split("-");
+	var hhh =ss[1].split(":");
+	
+	console.log(ss);
+	
+	
+	
+	
+    var y = parseInt(sss[0],10);
+    var m = parseInt(sss[1],10);
+    var d = parseInt(sss[2],10);
+    
+    var hh = parseInt(hhh[0],10);
+    var mm = parseInt(hhh[1],10);
+    var dd = parseInt(hhh[2],10);
+    
+	console.log(d);
+    if (!isNaN(y) && !isNaN(m) && !isNaN(d)&& !isNaN(hh)&& !isNaN(mm)&& !isNaN(dd)){
+        return new Date(y,m-1,d,hh,mm,dd);
+        
+    } else {
+        return new Date();
+    }
+
+	
+}
 	
 
 

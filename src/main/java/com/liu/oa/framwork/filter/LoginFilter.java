@@ -66,25 +66,31 @@ public class LoginFilter implements Filter {
 		log.info("请求地址{}结果{}", spath, flag);
 
 		if (flag) {
-			    
-			    if(cookies.length>1) {
-			    	for(Cookie c :cookies) {
-						if(c.getName().equals(CookiesConstant.COOKIES_NAME)){
-							String userInfo =redisService.get(c.getValue());
-							User user =JacksonUtil.readValue(userInfo, User.class);
-							RequestHolder.add(user);
-							RequestHolder.add(request);
-							
+			     if(cookies!=null) {
+			    	 if(cookies.length>1) {
+					    	for(Cookie c :cookies) {
+								if(c.getName().equals(CookiesConstant.COOKIES_NAME)){
+									String userInfo =redisService.get(c.getValue());
+									User user =JacksonUtil.readValue(userInfo, User.class);
+									RequestHolder.add(user);
+									RequestHolder.add(request);
+									
+								}
+								
+								
+							}
+					    	chain.doFilter(request, response);
+					    	
+					    }else {
+							response.sendRedirect("/tologin");
 						}
-						
-						
-					}
-			    	chain.doFilter(request, response);
-			    	
-			    }else {
-					response.sendRedirect("/tologin");
-				}
-			
+					
+			    	 
+			    	 
+			     }else {
+			    		response.sendRedirect("/tologin");
+			     }
+			   
 				
 			
 			
