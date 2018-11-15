@@ -38,7 +38,7 @@ spring:
     port: 6379
     password: 
     timeout: 30
-    database: 0
+    database: 1
     jedis:
       pool:
         max-active: 8

@@ -12,18 +12,7 @@
 .panel-body{
 overflow: hidden;
 }
-  .top{
-    background:#438eb9;
-   
-    
-  }
 
-  .top-header{
-  
-   padding:2px 5px 2px 20px;
-   font-size: 20px;
-  
-  }
   
   
   #nav-accordion  ul {
@@ -50,6 +39,34 @@ overflow: hidden;
 	color: red;
 }
 
+.top{
+    position:relative;
+    background:#438eb9;
+    height: 80px;
+   
+    
+  }
+.top-header{
+   position: absolute;
+   margin:auto 10px;
+   padding:20px 30px;
+   font-size: 20px;
+   line-height:20px;
+   width:300px;
+   height:30px;
+   border: 1px red solid;
+  
+  }
+.userInfo{
+     
+      padding:5px 15px;
+      line-height: 20px;
+      font-size: 15px;
+      border: 1px solid red;
+      position: absolute;
+      right: 20px;
+      bottom:1%;
+}
 
 
  </style>
@@ -194,9 +211,8 @@ overflow: hidden;
 <body class="easyui-layout">
 	<div data-options="region:'north'" style="overflow:hidden;" >
 	 <div class="top">
-	    <div class="top-header">
-	    	<p >企业OA 办公自动化管理系统</p>
-	    </div>   
+	    <div class="top-header">企业OA 办公自动化管理系统 </div>  
+	    <div class="userInfo">欢迎&nbsp;&nbsp;<span style="color:red;">[[${user.userName}]]</span>&nbsp;&nbsp;,<a href="/logout">退出</a></div> 
 	 </div>
 	</div>   
     <div data-options="region:'south'"  >

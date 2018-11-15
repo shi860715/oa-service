@@ -1,5 +1,6 @@
 package com.liu.oa.sys.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import lombok.Data;
 @Data
 @Builder
 @JsonInclude(Include.NON_NULL)
-public class User {
+public class User implements Serializable{
 	
 	
 	private Integer userId;

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.liu.oa.common.contants.CookiesConstant;
 import com.liu.oa.common.enums.ReslutEmnu;
+import com.liu.oa.framwork.utils.CookiesUtil;
 import com.liu.oa.framwork.utils.JacksonUtil;
 import com.liu.oa.framwork.utils.KeyUtil;
 import com.liu.oa.framwork.utils.ResultUtils;
@@ -49,8 +52,8 @@ public class UserController {
 	@Autowired
 	RedisService redisService;
 	
-	@Autowired
-	StringRedisTemplate template;
+	
+
 
 	@PostMapping("/create")
 	@ResponseBody
@@ -173,21 +176,22 @@ public class UserController {
 				user = userService.loginUser(userNo, password);
 				String key=KeyUtil.keyUnique();
 				session.setAttribute("user", user); 
-				Cookie cookie = new Cookie("user", key);
-				cookie.setMaxAge(60*60);//代表一个小时
-				cookie.setPath("/");
-				template.opsForValue().set(key, JacksonUtil.toJSon(user));
-			
+				CookiesUtil.setCookie(CookiesConstant.COOKIES_NAME, key, CookiesConstant.COOKIES_EXPIRE, response);
 				
 				
-				response.addCookie(cookie);
+				redisService.set(key, JacksonUtil.toJSon(user), CookiesConstant.COOKIES_EXPIRE.longValue());
+				
+				
+				
+				
+				
 				
 			} catch (Exception e) {
 				throw new UserLoginException(ReslutEmnu.USER_LOGIN_FAILED);
 			}
 			
-			/* return "redirect:/index";*/
-			return "forward:/index";
+			 return "redirect:/index";
+		
 			 
 		 }else {
 			throw new UserLoginException(ReslutEmnu.USER_PARAM_ERROR);
