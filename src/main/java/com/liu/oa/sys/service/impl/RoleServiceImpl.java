@@ -1,7 +1,5 @@
 package com.liu.oa.sys.service.impl;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,10 +12,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.liu.oa.sys.form.RoleMenus;
 import com.liu.oa.sys.mapper.RoleMapper;
-import com.liu.oa.sys.model.Menu;
 import com.liu.oa.sys.model.Role;
 import com.liu.oa.sys.model.RoleMenu;
-import com.liu.oa.sys.model.User;
 import com.liu.oa.sys.service.RoleService;
 
 @Service("roleService")
@@ -32,7 +28,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
 		Map<String, Object> result = new HashMap<>();
 		
 		 PageHelper.startPage(page, rows);
-		List<Role> roles= roleMapper.findAll();
+		 List<Role> roles= roleMapper.findAll(query);
 		 PageInfo<Role> roleInfo = new PageInfo<>(roles);
 		
 		 result.put("total", roleInfo.getTotal());

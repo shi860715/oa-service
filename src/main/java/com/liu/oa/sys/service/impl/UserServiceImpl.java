@@ -83,7 +83,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		Map<String, Object> result = new HashMap<>();
 		 PageHelper.startPage(page, rows);
 		
-		 List<User> users =userMapper.findAll();
+		 List<User> users =userMapper.findAll(query);
 		 for(User u :users) {
 			List<Role> roles = roleMapper.findRoleByUserId(u.getUserId());
 			u.setRoles(roles);
@@ -99,7 +99,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 
 	@Override
 	public Map<String, Object> findUserByDeptParentId(Integer id, String query, Integer page, Integer rows) {
-		Map<String, Object> result = new HashMap<>();
+		  Map<String, Object> result = new HashMap<>();
 		  Dept dept = deptMapper.selectById(id);
 		  List<User> users = new ArrayList<>();
 	      PageHelper.startPage(page, rows);

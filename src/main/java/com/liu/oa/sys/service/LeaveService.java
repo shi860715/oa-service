@@ -16,6 +16,6 @@ public interface LeaveService extends BaseService<Leave> {
 	 * @return
 	 * @throws Exception
 	 */
-	Map<String, Object> findAllByUserId(Integer userId,String query,int page, int rows)  throws Exception ;
+	Map<String, Object> findAllByUserId(String query,int page, int rows)  throws Exception ;
 
 }

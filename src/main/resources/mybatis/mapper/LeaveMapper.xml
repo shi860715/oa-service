@@ -26,7 +26,20 @@
 	
 	<select id="findAll" resultType="leave">
 	
-	 select * from sys_leave where flag=0
+	 select * from sys_leave where flag=0 
+	
+	</select>
+	
+	
+	<select id="findLeaveByUserId" resultType="leave">
+	
+	      
+	 select * from sys_leave where  flag=0 
+	<if test="query!=null">
+	 and (user_name like '%${query}%' or reson like '%${query}%' or remark  like '%${query}%' )
+	
+	</if>
+	and user_id =#{userId} 
 	
 	</select>
 	

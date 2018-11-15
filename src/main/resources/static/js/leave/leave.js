@@ -5,14 +5,14 @@ $(function(){
 		    fit:true,
 		    url:'/sys/leave/leavesByUserId',    
 		    loadMsg : '正在准备数据，请稍后。。。。。。',
-		    singleSelect:true,
+		    
 		    striped : true,//斑马线效果
 		    fitColumns : true,
 		    pagination : true,
 		    pageNumber : 1,
 			pageSize :20,
 			pageList : [ 20, 30, 50 ],
-			queryParams:{query:""},
+			
 		    columns:columns,
 		    toolbar:toolbars,
 		    
@@ -126,7 +126,7 @@ parent.$.messager.confirm('Confirm', 'Are you sure?', function(r) {
 	if (r) {
 		var rows = $('#datagrid').datagrid('getRows');
 		var row = rows[index];
-		deleteObject(row.roleId);
+		
 	}
 });
 }
@@ -160,7 +160,7 @@ function saveOrUpdateObject(row){
 	
 $.ajax({
 	type : 'post',
-	url : '/sys/role/saveORupdate',
+	url : '/sys/leave/saveORupdate',
 	data : JSON.stringify(row),
 	contentType : 'application/json;charset=UTF-8',
 	success : function(data) {
@@ -184,9 +184,9 @@ function deleteObject(editId) {
 
 $.ajax({
 	type : 'post',
-	url : '/sys/role/delete',
+	url : '/sys/leave/delete',
 	data : {
-		"roleId" : editId
+		"leaveId" : editId
 	},
 	success : function(data) {
 		
@@ -209,8 +209,9 @@ $.ajax({
 
 
 var columns = [[
-{field:'leaveId',title:'请假单编号',checkbox:true,width:180},    
-{field:'userName',title:'姓名',width:60,align:'center',editor:{
+  {field:'leaveId',title:'请假单编号',checkbox:true,width:180}, 
+  
+  {field:'userName',title:'姓名',width:60,align:'center',editor:{
 		type:'text'
 		
 	}}, 
@@ -266,14 +267,9 @@ var columns = [[
 
 
 var toolbars =[{text : "检索：<input type='text' id='ss' />"}, 
-        {iconCls : 'icon-add',text : '请假申请',handler : function() {insert();}},
-        {iconCls : 'icon-edit',text : '授予资源',handler : function() {
-      	  
-      	  
-      	
-      	  
-      	  
-      	  
-        }}]
+        {iconCls : 'icon-add',text : '请假申请', handler:function() {insert();
+        }
+
+        }]
 
 

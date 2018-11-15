@@ -26,7 +26,11 @@
 	
 	<select id="findAll" resultType="role">
 	
-	 select * from sys_role where flag=0
+	 select * from sys_role where flag=0 
+	 <if test="query!=null">
+	  and (name like '%${query}%' or remark like '%${query}%' )
+	 
+	 </if>
 	
 	</select>
 	

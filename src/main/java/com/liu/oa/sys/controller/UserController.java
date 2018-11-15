@@ -176,15 +176,10 @@ public class UserController {
 				user = userService.loginUser(userNo, password);
 				String key=KeyUtil.keyUnique();
 				session.setAttribute("user", user); 
+				// 客户端写cookies
 				CookiesUtil.setCookie(CookiesConstant.COOKIES_NAME, key, CookiesConstant.COOKIES_EXPIRE, response);
-				
-				
+				// redis数据缓存用户信息
 				redisService.set(key, JacksonUtil.toJSon(user), CookiesConstant.COOKIES_EXPIRE.longValue());
-				
-				
-				
-				
-				
 				
 			} catch (Exception e) {
 				throw new UserLoginException(ReslutEmnu.USER_LOGIN_FAILED);
