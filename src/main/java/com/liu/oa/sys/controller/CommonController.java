@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.liu.oa.common.RequestHolder;
@@ -71,6 +72,7 @@ public class CommonController {
 	@RequestMapping("/tologin")
 	public String login() {
 		
+	
 		return "login";
 		
 	}
@@ -82,5 +84,10 @@ public class CommonController {
 		
 	}
 	
-
+	@RequestMapping("/common/index")
+	public String commonindex() {
+		
+		return "/commons/index";
+		
+	}
 }

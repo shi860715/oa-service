@@ -5,96 +5,231 @@
 <title>生兴OA办公管理系统</title>
  <div th:include="commons/easyui::easyui"></div>
  <style>
-#login {margin: 250px auto;
-       border:solid 1px red;
-       width: 400px;
-       height:330px;
-       padding:20px;
+ 
+body{
+    background: #eee;
+    margin: 0;
+    padding: 0;
+    font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+  
+} 
+#login {
+   background: #fff;
+   margin:auto;
+    width: 652px;
+    height: 423px;
+    border-radius: 10px;
+    color: #000;
 
      }
+  
+.content{
+       
+     padding:20px 50px;
+
+}
+  
      
 .from-input{
+
+      width:500px;
       margin:20px;
       
 
 
 }
 .easyui-validatebox{
-  width:250px;
+  width:360px;
   height:25px;
   font-size:20px;
 
 }
 .header{
-       width:200px;
-       margin:20px auto;
-
+    border-bottom: 1px solid #0068b7;
+    color: #333333;
+    font-size: 18px;
+    font-family: 微软雅黑;
+    padding: 20px 20px 15px;
+    text-align: left;
 }
 
-.content{
-       width:300px;
-       margin:20px auto;
 
-}
 .btns{
-       width:300px;
-       margin:20px auto;
-      
-      
+  
+     width:370px;
+    margin:10px auto;
 
 } 
 
 #btn{
- 
-    width: 70px;
-    height: 65px;
-    /* border: solid 1px red; */
+    width: 360px;
+    height: 49px;
     background: #0092dc;
-    margin-top: 20px;
-    margin-left: 200px;
-    border-radius: 5px;
-    line-height: 65px;
+    border-radius: 10px;
+    line-height: 49px;
     color: white;
     text-align: center;
+    font-size: 20px;
+}
   }
+  
+  
 .errorMsg{
-      margin:20px auto;
-      color: red;
+     display: none;
 
 }
+#nav{
+    height: 90px;
+    background-color: #f5f5f5;
+}
  
+ #nav-all {
+    width: 980px;
+    margin: 0 auto;
+}
+#nav-all-left {
+    width: 600px;
+    float: left;
+}
+.home-title {
+    color: #0068b7;
+    font-family: 微软雅黑;
+    font-weight: bold;
+    font-size: 28px;
+    vertical-align: middle;
+}
 
+#logintext {
+    margin-left: 12px;
+    margin-top: 35px;
+}
+#nav-all-right {
+    width: 131px;
+    float: right;
+}
+#logintext a {
+    color: #0068b7;
+    font-size: 14px;
+}
+a:visited {
+    color: blue;
+    font-size: 13px;
+    text-decoration: none;
+}
+a:link {
+    color: blue;
+    font-size: 13px;
+    text-decoration: none;
+}
+ul {
+    list-style: none;
+}
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+
+#footbar {
+    /* height: 67px; */
+    background-color: #333333;
+}
+
+#logindiv{
+   height: 590px;
+   padding:67px;
+
+}
+
+#footbar-all {
+    width: 1000px;
+    margin: 0 auto;
+    width: 280px;
+    padding: 5px 0px;
+    min-height: 100px;
+}
+
+#footbar-all p {
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
+    line-height: 30px;
+}
  </style>
  
  <script type="text/javascript">
    $(function(){
 	   
-	   $("input").focus(function(){
+/* 	   $("input").focus(function(){
 		   console.log($(".errorMsg span").text());
 		   
 		$(".errorMsg span").text("");
 		   
 		   
-	   });
+	   }); */
+	   
+	   $(".errorMsg").hide();
+	   var errorMsg=$(".errorMsg span").text();
+	   console.log("==="+errorMsg);
+	   if(errorMsg!=""){
+		   $.messager.alert('错误消息',errorMsg);  
+		   $(".errorMsg span").text("");
+	   }
+	 
+	   var h =$(window).height();
+	   console.log(h);
 	   
 	   
+	  $("#logindiv").height(h-218-135); 
+	 
+	  /*  alert($(window).height()); //浏览器当前窗口可视区域高度
+	   alert($(document).height()); //浏览器当前窗口文档的高度
+	   alert($(document.body).height());//浏览器当前窗口文档body的高度
+	   alert($(document.body).outerHeight(true));//浏览器当前窗口文档body的总高度 包括border padding margin
+
+	   alert($(window).width()); //浏览器当前窗口可视区域宽度
+	   alert($(document).width());//浏览器当前窗口文档对象宽度
+	   alert($(document.body).width());//浏览器当前窗口文档body的宽度
+	   alert($(document.body).outerWidth(true));//浏览器当前窗口文档body的总宽度 包括border padding margin */
    });
 	
  
  </script>
 </head>
-<body >
+<body>
+
+       <div id="nav">
+        <div id="nav-all">
+				<div id="nav-all-left" style="width: auto;">
+					<span>
+					<img height="82" style="vertical-align: middle;"> 
+						</span> <span class="home-title" id="home-title">生兴科技信息公共服务平台（南京）</span>
+
+				</div>
+				<div id="nav-all-right">
+					<div id="logintext">
+						<ul style="float: right; display: inline-block; white-space: nowrap; *display: inline;">
+						<li><a target="_blank" href="/help/book.html">帮助中心</a>&nbsp;&nbsp;&nbsp;
+						<a target="_blank" href="/help/service.html">咨询电话：025-52333444 </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="logindiv">
 	   <div id="login" >
        <form action="/sys/user/login" method="post"> 
-        <div class="header"> <h3 >生兴OA办公管理系统</h3> </div>
-        
+        <div class="header"> 用户登录 </div>
+       
         <div class="content">
         <div class="from-input">   
 	        <label for="name">员工编号:</label>   
 	        <input class="easyui-validatebox" type="text" name="userNo"  />   
 	    </div>   
 	    <div class="from-input">   
-	        <label for="password">密&nbsp&nbsp码:</label>   
+	        <label for="password">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:</label>   
 	        <input class="easyui-validatebox" type="password" name="password" />   
 	    </div>  
         </div>
@@ -105,8 +240,30 @@
 	 
 
 	</form> 
-	 <div class="errorMsg"> <span th:text="${msg}">错误消息</span></div>
+	
+	 <div class="errorMsg" style="" > <span th:text="${msg}"></span></div>
 	</div> 
 	
+	</div>
+	<div id="footbar">
+	<div id="footbar-all" style="width: 600px">
+		<div style="float: left">
+		</div>
+		<div>
+			
+			<p style="line-height: 30px">
+				<a target="_blank" href="/help/book.html" style="color: white">操作手册</a>&nbsp;&nbsp; &nbsp;&nbsp;
+			    <a target="_blank" href="/help/question.html" style="color: white">常见问题</a> &nbsp;&nbsp; &nbsp;&nbsp; <a target="_blank" href="/help/service.do" style="color: white">在线客服</a> <br>
+
+				
+				系统业务问题咨询 :(010)82021084&nbsp;&nbsp;统一社会信用代码问题：4008076000&nbsp;&nbsp;
+				
+
+				<br> 版权所有：中国国家标准化管理委员会 &nbsp;&nbsp;京ICP备09001239号-5 &nbsp;&nbsp;
+			</p>
+
+		</div>
+	</div>
+</div>
 </body>
 </html>

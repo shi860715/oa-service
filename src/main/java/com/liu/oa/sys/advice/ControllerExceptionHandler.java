@@ -19,7 +19,7 @@ public class ControllerExceptionHandler {
 		
 		model.addAttribute("msg", exception.getMessage());
 		
-		return "forward:/tologin";
+		return "/login";
 	}
 	
 	

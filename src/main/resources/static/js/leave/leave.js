@@ -138,11 +138,11 @@ parent.$.messager.confirm('Confirm', 'Are you sure?', function(r) {
 * @returns
 */
 function saveRow(index) {
-$('#datagrid').datagrid('endEdit', index);
-refreshRowActions(index);
-var rows = $('#datagrid').datagrid('getRows');
-var row = rows[index];
-saveOrUpdateObject(row);
+	$('#datagrid').datagrid('endEdit', index);
+	refreshRowActions(index);
+	var rows = $('#datagrid').datagrid('getRows');
+	var row = rows[index];
+	saveOrUpdateObject(row);
 }
 
 /**
@@ -213,7 +213,15 @@ var columns = [[
   {field:'leaveId',title:'请假单编号',checkbox:true,width:180}, 
   
   {field:'userName',title:'姓名',width:60,align:'center'}, 
-	{field:'startTime',title:'开始时间',width:60,align:'center',editor:{
+  {field:'leaveTime',title:'请假时间',width:120,align:'center'/*,editor:{
+		type:'datetimebox',
+		options:{
+   			formatter:myformatterTime,
+   			parser:myparserTime
+   		}
+		
+	}*/},  
+	{field:'startTime',title:'开始时间',width:120,align:'center',editor:{
 		type:'datetimebox',
 		options:{
    			formatter:myformatterTime,
@@ -221,7 +229,7 @@ var columns = [[
    		}
 		
 	}},  
-	{field:'endTime',title:'结束时间',width:60,align:'center',editor:{
+	{field:'endTime',title:'结束时间',width:120,align:'center',editor:{
 		type:'datetimebox',
 		options:{
    			formatter:myformatterTime,
@@ -229,20 +237,72 @@ var columns = [[
    		}
 		
 	}},  
-	{field:'leaveTime',title:'请假时间',width:60,align:'center',editor:{
-		type:'datetimebox',
-		options:{
-   			formatter:myformatterTime,
-   			parser:myparserTime
-   		}
+	{field:'type',title:'请假类型',width:60,align:'center',formatter:function(value){
+		switch(value){
+		case 1:
+		  return "事假";
+		  break;
+		case 2:
+		  return "病假";
+		  break;
+		case 3:
+		  return "婚假";
+		  break;  
+		case 4:
+		  return "产检假";
+		  break;  
+		case 5:
+		  return "产假";
+		  break;  
+		case 6:
+		  return "陪产假";
+		  break;
+		case 7:
+		  return "哺乳假";
+		  break;
+		case 8:
+		  return "丧假";
+		  break;  
 		
-	}},  
-	{field:'type',title:'请假类型',width:60,align:'center',editor:{
-		type:'text'
+		}
+		
+	},editor:{
+		type:'combobox',
+	    options:{
+	    	 valueField:'id',    
+	    	 textField:'text',
+	    	 data:[{    
+	    		    "id":1,    
+	    		    "text":"事假",
+	    		    "selected":true 
+	    		},{    
+	    		    "id":2,    
+	    		    "text":"病假"   
+	    		},{    
+	    		    "id":3,    
+	    		    "text":"婚假"
+	    		      
+	    		},{    
+	    		    "id":4,    
+	    		    "text":"产检假"   
+	    		},{    
+	    		    "id":5,    
+	    		    "text":"产假"   
+	    		},{    
+	    		    "id":6,    
+	    		    "text":"陪产假"   
+	    		},{    
+	    		    "id":7,    
+	    		    "text":"哺乳假"   
+	    		},{    
+	    		    "id":8,    
+	    		    "text":"丧家"   
+	    		}]
+	    }	
 		
 	}}, 
 	 
-	{field:'reson',title:'请假原因',width:60,align:'center',editor:{
+	{field:'reson',title:'请假原因',width:200,align:'center',editor:{
 		type:'text'
 		
 	}}, 
@@ -251,14 +311,17 @@ var columns = [[
 		
 	}}, 
 	{field:'status',title:'状态',width:60,align:'center',formatter:function(value){
-		if(value=='0'){
-			return "待审核";
-		}else{
-			return "已完结";
-		}
-	},editor:{
-		type:'text'
-			
+		switch(value){
+		case 1:
+		  return "待提交";
+		  break;
+		case 2:
+		  return "审核中";
+		  break;
+		case 3:
+		  return "已完结";
+		  break;  
+		  }
 	}},
 	{field:'remark',title:'备注',width:60,align:'center',editor:{
 			type:'text'
@@ -281,9 +344,38 @@ var columns = [[
 
 
 var toolbars =[{text : "检索：<input type='text' id='ss' />"}, 
-        {iconCls : 'icon-add',text : '请假申请', handler:function() {insert();
-        }
+        {iconCls : 'icon-add',text : '请假申请',
+	       handler:function() {
+	        	insert();
+	            }
 
-        }]
+        }];
 
 
+var leaveType =[{    
+    "id":1,    
+    "text":"事假",
+    "selected":true 
+},{    
+    "id":2,    
+    "text":"病假"   
+},{    
+    "id":3,    
+    "text":"婚假",    
+      
+},{    
+    "id":4,    
+    "text":"产检假"   
+},{    
+    "id":5,    
+    "text":"产假"   
+},{    
+    "id":6,    
+    "text":"产假"   
+},{    
+    "id":7,    
+    "text":"陪产假"   
+},{    
+    "id":8,    
+    "text":"殇家"   
+}] ;

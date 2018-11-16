@@ -1,5 +1,6 @@
 package com.liu.oa.sys.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,11 +57,12 @@ public class LeavenController {
 		log.info("【请假单保存或者更新】参数{}",JacksonUtil.toJSon(leave));
 		
 	   User user =	RequestHolder.getCurrentUser();
-
+	     //初始化 请假单状态
+         leave.setStatus(1);
 		if (leave.getLeaveId() != null) {
 
 			try {
-				
+		         		
 				leaveService.update(leave);
 				result.put("message", "请假单更新成功");
 			} catch (Exception e) {
@@ -69,6 +71,8 @@ public class LeavenController {
 
 		} else {
 			try {
+				//初始化 请假单用户信息和请假时间
+				leave.setLeaveTime(new Date());
 				leave.setUserId(user.getUserId());
 				leave.setUserName(user.getUserName());
 				
