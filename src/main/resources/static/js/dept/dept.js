@@ -54,6 +54,31 @@ $(function(){
 			prompt : '查询关键字'
 		});   
 	   /*查询框  end */  
+	   
+	   
+	   parent.$("#user_dialog").dialog({
+		   
+		   title: '设置经理',    
+		    width: 1500,    
+		    height: 800,    
+		    closed: true,    
+		    cache: false,
+		    content:createContent('users','/userComm'),
+		    modal: true,
+		   
+		    toolbar:[{
+				text:'保存',
+				iconCls:'icon-save',
+				handler:function(){
+				
+				}
+			}]
+		   
+		   
+	   });
+	   
+	   
+	   
 	 
     });
 
@@ -230,7 +255,13 @@ var columns=[[
 ]]    
 
 var toolbars=[{text : "检索：<input type='text' id='ss' />"}, 
-    {iconCls : 'icon-add',text : '添加部门',handler : function() {insert();}}]
+    {iconCls : 'icon-add',text : '添加部门',handler : function() {insert();}},
+     {iconCls : 'icon-edit',text : '设置部门经理',handler : function() {
+    	 
+    	 parent.$("#user_dialog").dialog('open');
+    	 
+    	 
+     }}]
 
 
 

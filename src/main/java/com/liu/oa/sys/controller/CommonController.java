@@ -69,6 +69,16 @@ public class CommonController {
 		
 	}
 	
+	@RequestMapping("/userComm")
+	public String userComm() {
+		
+		return "/commons/userCom";
+		
+	}
+	
+	
+	
+	
 	@RequestMapping("/tologin")
 	public String login() {
 		
