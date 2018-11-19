@@ -1,10 +1,8 @@
 package com.liu.oa.sys.advice;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.liu.oa.sys.exception.UserLoginException;
 
@@ -13,13 +11,12 @@ public class ControllerExceptionHandler {
 	
 	
 	@ExceptionHandler(UserLoginException.class)
-	@ResponseStatus(value=HttpStatus.INTERNAL_SERVER_ERROR)
-	public String handlerUserLoginException(UserLoginException exception,Model model) {
+	public String handlerUserLoginException(UserLoginException exception,RedirectAttributes arrt) {
+		
+		arrt.addFlashAttribute("msg", exception.getMessage());
 		
 		
-		model.addAttribute("msg", exception.getMessage());
-		
-		return "/login";
+		return "redirect:/tologin";
 	}
 	
 	
