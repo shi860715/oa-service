@@ -1,13 +1,16 @@
 package com.liu.oa.sys.service.impl;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.zip.ZipInputStream;
 
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,6 +69,20 @@ public class WorkFlowServiceImpl implements WorkFlowService {
 		 return result;
 		
 	 }
+
+
+
+	@Override
+	public Deployment addDeploy(String fileName, InputStream inputStream) throws Exception {
+		 ZipInputStream zip = new ZipInputStream(inputStream);
+		 return repositoryService.createDeployment()
+		 .addZipInputStream(zip).name(fileName).deploy();
+		
+		
+		
+		
+		
+	}
 	
 	
 

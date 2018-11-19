@@ -1,7 +1,7 @@
 $(function(){
     	   $('#datagrid').datagrid({  
     		    fit:true,
-    		    url:'/sys/wrokFlow/roles',    
+    		    url:'/sys/wrokFlow/processDefinitions',    
     		    loadMsg : '正在准备数据，请稍后。。。。。。',
     		    singleSelect:true,
 			    striped : true,//斑马线效果
@@ -65,22 +65,14 @@ $(function(){
 	   /*查询框  end */  
 	   
 	   
-	   parent.$("#menu_dialog").dialog({
-		   
-		   title: '分配资源',    
-		    width: 1200,    
-		    height: 800,    
+	   parent.$("#definition_dialog").dialog({
+		    title: '流程部署',    
+		    width: 600,    
+		    height: 400,    
 		    closed: true,    
 		    cache: false,    
 		    modal: true,
-		    content:createContent('menuTree','menuTreeComm'),
-		    toolbar:[{
-					text:'保存',
-					iconCls:'icon-save',
-					handler:function(){
-						updateRoleMenu();
-					}
-				}]
+		    content:createContent('defintion','defintionComm')
 		   
 	   });
 	   
@@ -95,10 +87,6 @@ $(function(){
 //编辑标识
 var editRowIndex = 'undefined';
 
-function createContent(name,url) {
-    var strHtml = '<iframe name="'+name+'" src="' + url + '" scrolling="no" frameborder="0" width="100%" height="100%"></iframe>';
-    return strHtml;
-}
 
 
 
@@ -224,138 +212,42 @@ function deleteObject(editId) {
 
 }
 
-/*保存角色和资源之间的关系*/
-function updateRoleMenu(){
-	
-	var nodes = parent.frames['menuTree'].$("#menu_tree").tree('getChecked');
-	
-
-	var ids = getMenuIds(nodes);
-	var rows = $('#datagrid').datagrid('getSelections');
-
-	
-	var obj={};
-	obj.roleId=rows[0].roleId;
-	obj.ids=ids;
-
-	
-	$.ajax({
-		type : 'post',
-		url : '/sys/role/updateRoleMenu',
-		data : JSON.stringify(obj),
-		contentType : 'application/json;charset=UTF-8',
-		success : function(data) {
-			
-			 parent.$("#menu_dialog").dialog('close');
-			 
-			$.messager.show({
-				title : '提示消息',
-				msg : data.message,
-				timeout : 5000,
-				showType : 'slide'
-			});
-		
-		}
-	});
-
-	
-}
 
 
-/*获取菜单id*/
-function getMenuIds(nodes){
-	var ids = new Array();
-	nodes.forEach(function(item,index){
-		
-		ids.push(item.id);
-		
-	});
-	
-	return ids;
-	
-}
 
-//  用于角色，菜单权限的返现
-function checkInfoByRoleId(){
-	
-	var rows=$('#datagrid').datagrid('getSelections');
-	console.log(rows);
-	if(rows.length==1){
-		var obj = {};
-		var roleId = rows[0].roleId;
-		
-		
-		obj.roleId=roleId;
-		
-		$.ajax({
-			type : 'post',
-			url : '/sys/role/checkInfoByRoleId',
-			data : JSON.stringify(obj),
-			contentType : 'application/json;charset=UTF-8',
-			success : function(data) {
-				
-				
-			var checkdnodes= data.ids;
-			
-			
-			var nodes =parent.frames['menuTree'].$("#menu_tree").tree('getChecked');
-			nodes.forEach(function(item,index){
-				
-				parent.frames['menuTree'].$("#menu_tree").tree('uncheck',item.target);
-				
-				
-			});
-			
-			checkdnodes.forEach(function(item,index){
-				
-	    	var node =parent.frames['menuTree'].$("#menu_tree").tree('find',item);
-	    	parent.frames['menuTree'].$("#menu_tree").tree('check',node.target);
-				
-				
-				
-			});	
-				
-			}
-		});
-		
-	}else{
-		
-		parent.$.messager.alert('警告','只能选中一条记录进行修改');  
-		return;
-		
-	}
 	
 	
 	
-	
-	
-}
-
 
 
 
 var columns = [[
-	{field:'roleId',title:'角色编号',checkbox:true,width:180},    
+	{field:'id',title:'主键',checkbox:true,width:180},    
     {field:'name',title:'名称',width:60,align:'center',editor:{
 			type:'text'
 			
 		}},    
-    {field:'flag',title:'状态',width:60,align:'center',formatter:function(value){
-    	if(value=='0'){
-    		return "启用";
-    	}else{
-    		return "禁用";
-    	}
+    {field:'key',title:'key值',width:60,align:'center',formatter:function(value){
+    	
     	
     	
     },editor:{
 		type:'text'
 			
 	}},
-    {field:'remark',title:'备注',width:60,align:'center',editor:{
+    {field:'version',title:'版本',width:60,align:'center',editor:{
 			type:'text'
 			
-		}},
+	}},
+	{field:'resourceName',title:'资源名',width:60,align:'center',editor:{
+		type:'text'
+		
+	}},
+	{field:'diagramResourceName',title:'资源图片',width:60,align:'center',editor:{
+		type:'text'
+		
+	}},
+		
     {field : 'action',title : '操作',width : 100,align : 'center',
 		formatter : function(value, row, index) {
 			if (row.edit) {
@@ -373,10 +265,13 @@ var columns = [[
 	
 
 var toolbars =[{text : "检索：<input type='text' id='ss' />"}, 
-	          {iconCls : 'icon-add',text : '添加角色',handler : function() {insert();}},
+	          {iconCls : 'icon-add',text : '部署资源',handler : function() {
+	        	  parent.$("#definition_dialog").dialog('open');
+	        	  
+	        	  
+	          }},
 	          {iconCls : 'icon-edit',text : '授予资源',handler : function() {
-	        	  checkInfoByRoleId();
-	        	  parent.$("#menu_dialog").dialog('open');
+	        	
 	        	  
 	        	  
 	        	  
