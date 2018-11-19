@@ -12,9 +12,7 @@ public class ControllerExceptionHandler {
 	
 	@ExceptionHandler(UserLoginException.class)
 	public String handlerUserLoginException(UserLoginException exception,RedirectAttributes arrt) {
-		
 		arrt.addFlashAttribute("msg", exception.getMessage());
-		
 		return "redirect:/tologin";
 	}
 	
