@@ -15,7 +15,6 @@ public class ControllerExceptionHandler {
 		
 		arrt.addFlashAttribute("msg", exception.getMessage());
 		
-		
 		return "redirect:/tologin";
 	}
 	
