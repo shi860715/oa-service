@@ -2,11 +2,13 @@ package com.liu.oa.sys.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.activiti.engine.repository.Deployment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +40,15 @@ public class WrokFlowController {
 		return "/wrokFlow/processDefinition";
 	}
 	
-	@RequestMapping("/processDefinitions")
+	
+	/**
+	 * 分页查找流程定义，模糊查找query
+	 * @param page
+	 * @param rows
+	 * @param query
+	 * @return
+	 */
+	@RequestMapping("/definitions")
 	@ResponseBody
 	public Map<String,Object> processDefinitions(int page,int rows,String query){
 		Map<String,Object> result = new HashMap<>();
@@ -58,22 +68,23 @@ public class WrokFlowController {
 		return result;
 	}
 	
-	
+	/**
+	 * 部署流程
+	 * @param request
+	 * @param file
+	 * @return
+	 */
 	@RequestMapping("/addDeployment")
 	@ResponseBody
 	 public Map<String,Object> addDeployment(HttpServletRequest request ,MultipartFile file) {
 		Map<String,Object> result = new HashMap<>();
 		String fileName=request.getParameter("fileName");
-	
 		  try {
 			  InputStream inputStream = file.getInputStream();
 			  Deployment d= wrokFlowService.addDeploy(fileName,inputStream);
 			  log.info("xxxx{}",JacksonUtil.printJson(d));
-			  
-			  
 			  result.put("code", 1);
 			  result.put("message", "流程部署成功");
-			  
 			  
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -82,14 +93,82 @@ public class WrokFlowController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
-		
 		return result;
-		 
-		 
 	 }
 	
-
+	
+	/**
+	 * 删除流程定义
+	 * @param deploymentId
+	 * @return
+	 */
+	@RequestMapping("/delete")
+	@ResponseBody
+	public Map<String,Object> delete(String deploymentId){
+		Map<String,Object> result = new HashMap<>();
+		
+		try {
+			result =wrokFlowService.deleteDefinitionByDeployMentId(deploymentId);
+			log.info("【删除流程】{}",result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+		
+	}
+	
+	@RequestMapping("/showDefinitionImage")
+	public void showDefinitionImage(String deploymentId,HttpServletResponse response) {
+		
+		
+		try {
+			InputStream in =wrokFlowService.getPicByDeploymentId(deploymentId);
+			int i =in.available();
+			byte data []= new byte[i];
+			in.read(data);
+			
+			response.setHeader("Content-Type","image/png");
+			OutputStream out = response.getOutputStream();
+			out.write(data);
+			out.flush();
+			out.close();
+			in.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	@RequestMapping("/showDefinitionFile")
+	public void showDefinitionFile(String deploymentId,HttpServletResponse response) {
+		
+		try {
+			InputStream in =wrokFlowService.getFileByDeploymentId(deploymentId);
+			int i =in.available();
+			byte data []= new byte[i];
+			in.read(data);
+			
+			response.setHeader("Content-Type","text/xml");
+			OutputStream out = response.getOutputStream();
+			out.write(data);
+			out.flush();
+			out.close();
+			in.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
 }

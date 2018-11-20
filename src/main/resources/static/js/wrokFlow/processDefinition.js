@@ -1,7 +1,7 @@
 $(function(){
     	   $('#datagrid').datagrid({  
     		    fit:true,
-    		    url:'/sys/wrokFlow/processDefinitions',    
+    		    url:'/sys/workFlow/definitions',    
     		    loadMsg : '正在准备数据，请稍后。。。。。。',
     		    singleSelect:true,
 			    striped : true,//斑马线效果
@@ -10,7 +10,7 @@ $(function(){
 			    pageNumber : 1,
 				pageSize :20,
 				queryParams:{
-
+                      query:""
 					},
 				pageList : [ 20, 30, 50 ],
    		   
@@ -135,11 +135,11 @@ function editRow(target) {
  * @returns
  */
 function deleteRow(index) {
-	parent.$.messager.confirm('Confirm', 'Are you sure?', function(r) {
+	parent.$.messager.confirm('删除提示', '您确定要删除现在的流程吗?', function(r) {
 		if (r) {
 			var rows = $('#datagrid').datagrid('getRows');
 			var row = rows[index];
-			deleteObject(row.roleId);
+			deleteObject(row.deploymentId);
 		}
 	});
 }
@@ -197,9 +197,9 @@ function deleteObject(editId) {
 
 	$.ajax({
 		type : 'post',
-		url : '/sys/role/delete',
+		url : '/sys/workFlow/delete',
 		data : {
-			"roleId" : editId
+			"deploymentId" : editId
 		},
 		success : function(data) {
 			
@@ -227,11 +227,7 @@ var columns = [[
 			type:'text'
 			
 		}},    
-    {field:'key',title:'key值',width:60,align:'center',formatter:function(value){
-    	
-    	
-    	
-    },editor:{
+    {field:'key',title:'key值',width:60,align:'center',editor:{
 		type:'text'
 			
 	}},
@@ -239,15 +235,17 @@ var columns = [[
 			type:'text'
 			
 	}},
-	{field:'resourceName',title:'资源名',width:60,align:'center',editor:{
-		type:'text'
+	{field:'resourceName',title:'资源名',width:60,align:'center',formatter:function(value,row,index){
+     var html ="<a href='/sys/workFlow/showDefinitionFile?deploymentId="+row.deploymentId+"' target='_blank' >查看流程文件</a>";
+		
+		return html;
+	}},
+	{field:'diagramResourceName',title:'资源图片',width:60,align:'center',formatter:function(value,row,index){
+		var html ="<a href='/sys/workFlow/showDefinitionImage?deploymentId="+row.deploymentId+"' target='_blank' >查看流程图</a>";
+		
+		return html;
 		
 	}},
-	{field:'diagramResourceName',title:'资源图片',width:60,align:'center',editor:{
-		type:'text'
-		
-	}},
-		
     {field : 'action',title : '操作',width : 100,align : 'center',
 		formatter : function(value, row, index) {
 			if (row.edit) {

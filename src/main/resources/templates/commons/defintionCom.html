@@ -5,8 +5,7 @@
 <title>部署流程</title>
 <div th:replace="commons/easyui::easyui"></div>
 <script src="/js/utils.js" th:src="@{/js/utils.js}"></script>
-<script src="/js/wrokFlow/processDef.js"
-	th:src="@{/js/wrokFlow/processDef.js}"></script>
+<script src="/js/wrokFlow/processDef.js" th:src="@{/js/wrokFlow/processDef.js}"></script>
 <style type="text/css">
 #wrap {
 	padding: 20px 50px;
@@ -53,7 +52,7 @@ input {
 
 	<div id="wrap">
 		<div id="form">
-			<form action="/sys/workFlow/addDeployment" method="post" enctype="multipart/form-data" >
+			<form id="deployment" action="/sys/workFlow/addDeployment" method="post" enctype="multipart/form-data" >
 				<div class="header">
 					<h1>添加流程</h1>
 				</div>
@@ -71,7 +70,7 @@ input {
 					</div>
 				</div>
 				<div class="btns">
-					<input id="btn" type="submit" value="保存">
+					<input id="btn" type="button" value="保存">
 				</div>
 			</form>
 		</div>

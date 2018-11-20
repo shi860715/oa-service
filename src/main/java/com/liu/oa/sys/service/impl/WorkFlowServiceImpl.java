@@ -15,6 +15,8 @@ import org.activiti.engine.repository.ProcessDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.druid.sql.visitor.functions.Concat;
+import com.liu.oa.common.contants.Contant;
 import com.liu.oa.sys.model.MyProcessDefinition;
 import com.liu.oa.sys.service.WorkFlowService;
 
@@ -34,16 +36,21 @@ public class WorkFlowServiceImpl implements WorkFlowService {
 
 	
 	 public Map<String,Object> getProcessDefinitions(int page ,int rows,String query) {
+		 String processDefinitionName ="%"+query+"%";
 		 
 	    Map<String, Object> result = new HashMap<>(); 
 		 
 	   List<ProcessDefinition> definitions= repositoryService
-				           .createProcessDefinitionQuery().processDefinitionNameLike(query)
+				           .createProcessDefinitionQuery()
+				           .processDefinitionNameLike(processDefinitionName)
+				           .processDefinitionKeyLike(processDefinitionName)
 				           .listPage((page*rows)*(page-1), rows);
 		
 		
 	   int total= repositoryService
-		           .createProcessDefinitionQuery().processDefinitionNameLike(query)
+		           .createProcessDefinitionQuery()
+		           .processDefinitionNameLike(processDefinitionName)
+		           .processDefinitionKeyLike(processDefinitionName)
 		            .list().size();
 		
 	
@@ -83,7 +90,77 @@ public class WorkFlowServiceImpl implements WorkFlowService {
 		
 		
 	}
+
+
+
+	@Override
+	public Map<String, Object> deleteDefinitionByDeployMentId(String deploymentId) throws Exception {
+		Map<String,Object> result = new HashMap<>();
+		
+		try {
+			repositoryService.deleteDeployment(deploymentId);
+			result.put("code", Contant.SUCCESS.getCode());
+			result.put("message","流程删除成功");
+		}catch (Exception e) {
+			result.put("code", Contant.FAILED.getCode());
+			result.put("message","删除失败，有相关的流程正在运行！如果需要强制删除，请联系管理员");
+		}
+		return result;
+	}
+
+
+
+	@Override
+	public InputStream getPicByDeploymentId(String deploymentId) throws Exception {
+		
 	
+		String resourceName=getPicNameByDeploynmentId(deploymentId);
+		
+		InputStream in =   repositoryService.getResourceAsStream(deploymentId, resourceName);
+		
+		return in;
+	}
+
+
+
+	@Override
+	public String getPicNameByDeploynmentId(String deploymentId) throws Exception {
+		List<String> list =repositoryService.getDeploymentResourceNames(deploymentId);
+	    String resourceName="";
+   
+	    if(list!=null&&list.size()>0) {
+	    	for(String name : list) {
+	    		if(name.indexOf(".png")>0) {
+	    			resourceName=name;
+	    		}
+	    	}
+	    }
+		return resourceName;
+	}
+
+
+
+	@Override
+	public InputStream getFileByDeploymentId(String deploymentId) throws Exception {
+		String resourceName=getFileNameByDeploynmentId(deploymentId);
+		
+		InputStream in =   repositoryService.getResourceAsStream(deploymentId, resourceName);
+		return in;
+	}
 	
+	@Override
+	public String getFileNameByDeploynmentId(String deploymentId) throws Exception {
+		List<String> list =repositoryService.getDeploymentResourceNames(deploymentId);
+	    String resourceName="";
+   
+	    if(list!=null&&list.size()>0) {
+	    	for(String name : list) {
+	    		if(name.indexOf(".bpmn")>0) {
+	    			resourceName=name;
+	    		}
+	    	}
+	    }
+		return resourceName;
+	}
 
 }
