@@ -12,10 +12,11 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.druid.sql.visitor.functions.Concat;
 import com.liu.oa.common.contants.Contant;
 import com.liu.oa.sys.model.MyProcessDefinition;
 import com.liu.oa.sys.service.WorkFlowService;
@@ -163,4 +164,70 @@ public class WorkFlowServiceImpl implements WorkFlowService {
 		return resourceName;
 	}
 
+
+
+	@Override
+	public ProcessInstance startProcessByDefinitionKey(String processDefinitionkey, Map<String, Object> variables)
+			throws Exception {
+		return runtimeService.startProcessInstanceByKey(processDefinitionkey, variables);
+	}
+
+
+
+	@Override
+	public ProcessInstance startProcessByDefinitionId(String processDefinitionId, Map<String, Object> variables)
+			throws Exception {
+		return runtimeService.startProcessInstanceById(processDefinitionId, variables);
+	}
+
+
+
+	@Override
+	public ProcessInstance startProcessBybusinessKey(String processDefinitionKey,String businessKey, Map<String, Object> variables) throws Exception {
+		
+		return runtimeService.startProcessInstanceByKey(processDefinitionKey, businessKey, variables);
+	}
+
+
+
+	@Override
+	public void deleteProcessInstance(String processInstanceId, String message) throws Exception {
+		
+		
+		   runtimeService.deleteProcessInstance(processInstanceId, message);
+		
+	}
+
+
+
+	@Override
+	public List<Task> getTaskList(String userId,int page,int rows) throws Exception {
+		
+		
+		List<Task> tasks =taskService.createTaskQuery().taskAssignee(userId).listPage((page-1)*rows, rows);
+		
+		
+		return tasks;
+	}
+
+
+
+	@Override
+	public Task getTaskById(String taskId) throws Exception {
+		
+	return taskService.createTaskQuery().taskId(taskId).singleResult();  
+		
+		
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

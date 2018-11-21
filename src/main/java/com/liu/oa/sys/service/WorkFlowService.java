@@ -1,9 +1,12 @@
 package com.liu.oa.sys.service;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 
 import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 
 public interface WorkFlowService {
 	
@@ -25,6 +28,11 @@ public interface WorkFlowService {
 	 * @throws Exception 异常
 	 */
 	public Deployment addDeploy(String fileName, InputStream inputStream)throws Exception;
+	
+	
+	
+	
+	
 
 	/**
 	 *  通过部署的ID 来删除流程定义，这里要注意，如果为强制删除，则会删除启动流程相关的信息，以及历史信息
@@ -66,4 +74,61 @@ public interface WorkFlowService {
 	 * @throws Exception
 	 */
 	public String getFileNameByDeploynmentId(String deploymentId) throws Exception;
+	
+	
+	/**
+	 * 通过流程定义的可以 启动
+	 * @param processDefinitionkey
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public ProcessInstance startProcessByDefinitionKey(String processDefinitionkey,Map<String,Object> variables)throws Exception;
+	
+	/**
+	 * 通过流程定义的key，启动，以最新的版本启动
+	 * @param processDefinitionkey
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public ProcessInstance startProcessByDefinitionId(String processDefinitionId,Map<String,Object> variables)throws Exception;
+	
+	/**
+	   * 通过 businessKey 和流程定义的key 参数启动
+	 * @param processDefinitionKey
+	 * @param businessKey
+	 * @param variables
+	 * @return
+	 * @throws Exception
+	 */
+	public ProcessInstance startProcessBybusinessKey(String processDefinitionKey,String businessKey, Map<String, Object> variables) throws Exception;
+	
+	 
+	
+	/**
+	 *  通过流程实例id 来删除流程
+	 * @param processInstanceId
+	 * @param message
+	 * @throws Exception
+	 */
+	public void deleteProcessInstance(String processInstanceId,String message)throws Exception;
+	
+
+	/**
+	 * 通过用户 ID 来获取用户任务列表,分页查询
+	 * @param userId
+	 */
+	public List<Task> getTaskList(String userId,int page,int rows) throws Exception;
+
+	/**
+	 * 根据 任务ID 来获取任务
+	 * @param taskId
+	 * @throws Exception
+	 */
+	public Task getTaskById(String taskId) throws Exception;
+	
+	
+	
+	
 }
