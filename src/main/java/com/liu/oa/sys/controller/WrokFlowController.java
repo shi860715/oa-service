@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import com.liu.oa.framwork.utils.IOUtil;
 import com.liu.oa.framwork.utils.JacksonUtil;
 import com.liu.oa.sys.service.WorkFlowService;
 
@@ -120,25 +121,15 @@ public class WrokFlowController {
 	
 	@RequestMapping("/showDefinitionImage")
 	public void showDefinitionImage(String deploymentId,HttpServletResponse response) {
-		
-		
-		try {
-			InputStream in =wrokFlowService.getPicByDeploymentId(deploymentId);
-			int i =in.available();
-			byte data []= new byte[i];
-			in.read(data);
+			try {
+				InputStream in =wrokFlowService.getPicByDeploymentId(deploymentId);
+				IOUtil.outPutStream(in, response, "image/png");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
-			response.setHeader("Content-Type","image/png");
-			OutputStream out = response.getOutputStream();
-			out.write(data);
-			out.flush();
-			out.close();
-			in.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+	
 	}
 	
 	
@@ -147,23 +138,12 @@ public class WrokFlowController {
 		
 		try {
 			InputStream in =wrokFlowService.getFileByDeploymentId(deploymentId);
-			int i =in.available();
-			byte data []= new byte[i];
-			in.read(data);
+			IOUtil.outPutStream(in, response, "text/xml");
 			
-			response.setHeader("Content-Type","text/xml");
-			OutputStream out = response.getOutputStream();
-			out.write(data);
-			out.flush();
-			out.close();
-			in.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
 	}
 	
 	
