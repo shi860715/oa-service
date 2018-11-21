@@ -120,6 +120,11 @@ public class WrokFlowController {
 		
 	}
 	
+	/**
+	 * 通过部署的流程来获取流程定义图
+	 * @param deploymentId
+	 * @param response
+	 */
 	@RequestMapping("/showDefinitionImage")
 	public void showDefinitionImage(String deploymentId,HttpServletResponse response) {
 			try {
@@ -133,7 +138,11 @@ public class WrokFlowController {
 	
 	}
 	
-	
+	/**
+	 * 通过部署的流程来获取流程定义文件
+	 * @param deploymentId
+	 * @param response
+	 */
 	@RequestMapping("/showDefinitionFile")
 	public void showDefinitionFile(String deploymentId,HttpServletResponse response) {
 		
