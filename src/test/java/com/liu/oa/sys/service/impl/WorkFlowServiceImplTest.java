@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
 import org.activiti.engine.impl.RepositoryServiceImpl;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
@@ -74,7 +75,7 @@ public class WorkFlowServiceImplTest extends BaseTest {
 		String userId ="16";
 		int page =1;
 		int rows=10;
-		List<Task> tasks =workFlowService.getTaskList(userId,page,rows);
+		List<Task> tasks =(List<Task>) workFlowService.getTaskList(userId,page,rows,null).get("rows");
 		
 		System.out.println("任务列表长度"+tasks.size());
 		for(Task t: tasks) {
@@ -102,7 +103,10 @@ public class WorkFlowServiceImplTest extends BaseTest {
 	
 	@Test
 	public void testActivitiImpl() throws Exception {
-		String taskId="30005";
+//		String taskId="30005";
+		String taskId="32502";
+		
+		
 		/*ProcessDefinitionEntity def =*/ 
 		Task t =workFlowService.getTaskById(taskId);
 		ProcessDefinitionEntity def = (ProcessDefinitionEntity) ((RepositoryServiceImpl)repositoryService)
@@ -136,33 +140,66 @@ public class WorkFlowServiceImplTest extends BaseTest {
 				
 				List<PvmTransition> outTransitions = act.getOutgoingTransitions();//获取从某个节点出来的线路
 				List<PvmTransition> incomTransitions = act.getIncomingTransitions();
-				
+				System.out.println("====================输出线================="); //输出节点
 				for(PvmTransition pvm:outTransitions) {
-					PvmActivity ac =pvm.getDestination();
+					 PvmActivity ac =pvm.getDestination();
 					 String button_name =(String)pvm.getProperty("name");
 					 String button_id=pvm.getId();
 				 
 					 System.out.println("按钮名称："+button_name);
 					 System.out.println("按钮Id："+button_id);
-					System.out.println("下一步任务任务："+ac.getProperty("name"));
+				     System.out.println("连接线的目标："+ac.getProperty("name"));
 					
 				}
-				
+				System.out.println("====================输入线================="); //输出节点
 				for(PvmTransition pvm:incomTransitions) {
-					PvmActivity ac =pvm.getDestination();
-				
-					System.out.println("上一步任务任务："+ac.getProperty("name"));
+					 PvmActivity ac =pvm.getDestination();
+					 String button_name =(String)pvm.getProperty("name");
+					 String button_id=pvm.getId();
+				 
+					 System.out.println("按钮名称："+button_name);
+					 System.out.println("按钮Id："+button_id);
+					
+					System.out.println("连接线的目标："+ac.getProperty("name"));
 					
 				}
 				
 			}
 			
 		}
+	}
+	
+	@Test
+	public void testCompl() throws Exception {
+	//	String taskId="20005";
+ 	   String taskId="32502";
+		
+		Map<String,Object> variables= new HashMap<>();
+		variables.put("comout", "1");
+		
+		workFlowService.completeTask(taskId,variables);
+	}
+	
+	
+	@Test
+	public void teststartProcessBybusinessKey() throws Exception {
+		String processDefinitionKey="leave";
+		String businessKey="leave:3";
+		String userId="16";
+		Map<String,Object> variables = new HashMap<>();
+		variables.put("userId",userId );
+		
+		workFlowService.startProcessBybusinessKey(processDefinitionKey, businessKey, variables);
 		
 		
 		
 		
 	}
+	
+	
+	
+	
+	
 	
 	
 	

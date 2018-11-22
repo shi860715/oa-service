@@ -4,7 +4,9 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
+import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 
@@ -104,8 +106,6 @@ public interface WorkFlowService {
 	 */
 	public ProcessInstance startProcessBybusinessKey(String processDefinitionKey,String businessKey, Map<String, Object> variables) throws Exception;
 	
-	 
-	
 	/**
 	 *  通过流程实例id 来删除流程
 	 * @param processInstanceId
@@ -119,7 +119,7 @@ public interface WorkFlowService {
 	 * 通过用户 ID 来获取用户任务列表,分页查询
 	 * @param userId
 	 */
-	public List<Task> getTaskList(String userId,int page,int rows) throws Exception;
+	public Map<String,Object> getTaskList(String userId,int page,int rows,String query) throws Exception;
 
 	/**
 	 * 根据 任务ID 来获取任务
@@ -128,7 +128,35 @@ public interface WorkFlowService {
 	 */
 	public Task getTaskById(String taskId) throws Exception;
 	
+    /**
+     * 完成任务 ，设置流程变量
+     * @param taskId
+     * @param variables
+     * @throws Exception
+     */
+	public void completeTask(String taskId, Map<String, Object> variables)throws Exception;
+
 	
-	
+	/**
+	 * 通过流程定义ID 获取流程定义
+	 * @param processDefinitionId
+	 * @return
+	 * @throws Exception
+	 */
+	public ProcessDefinition getProcessDefinitionByID(String processDefinitionId)throws Exception;
+    
+	/**
+	 * 通过流程实例ID 获得流程实例
+	 * @param processInstanceId
+	 * @return
+	 */
+	public ProcessInstance getProcessInstanceByID(String processInstanceId);
+    
+	/**
+	 * 通过执行实例id 来获取执行实例
+	 * @param executionId
+	 * @return
+	 */
+	public ExecutionEntity getExecutionByID(String executionId);
 	
 }

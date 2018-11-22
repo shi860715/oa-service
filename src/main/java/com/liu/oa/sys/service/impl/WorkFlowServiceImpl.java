@@ -1,6 +1,7 @@
 package com.liu.oa.sys.service.impl;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,8 @@ import java.util.zip.ZipInputStream;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
+import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import com.liu.oa.common.contants.Contant;
 import com.liu.oa.sys.model.MyProcessDefinition;
+import com.liu.oa.sys.model.MyTask;
 import com.liu.oa.sys.service.WorkFlowService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -66,6 +70,7 @@ public class WorkFlowServiceImpl implements WorkFlowService {
                     def.setDeploymentId(d.getDeploymentId());
                     def.setResourceName(d.getResourceName());
 			        def.setDiagramResourceName(d.getDiagramResourceName());
+			        
 			return def;
 			
 		}).collect(Collectors.toList());
@@ -201,13 +206,50 @@ public class WorkFlowServiceImpl implements WorkFlowService {
 
 
 	@Override
-	public List<Task> getTaskList(String userId,int page,int rows) throws Exception {
+	public Map<String,Object> getTaskList(String userId,int page,int rows,String query) throws Exception {
+		 Map<String, Object> result = new HashMap<>();
+		 List<Task> tasks = new ArrayList<Task>();
+		
+		String queryName="%"+query+"%";
+		tasks =taskService.createTaskQuery()
+				              .processDefinitionKeyLike(queryName)
+				              .processDefinitionNameLike(queryName)
+				              .taskNameLike(queryName)
+				              .taskAssignee(userId)
+				              .listPage((page-1)*rows, rows);
+		
+		Integer total =taskService.createTaskQuery()
+	              .processDefinitionKeyLike(queryName)
+	              .processDefinitionNameLike(queryName)
+	              .taskNameLike(queryName)
+	              .taskAssignee(userId).list().size();
+		
+		List<MyTask> myTasks=tasks.stream().map(t ->{
+			
+			MyTask mytask = new MyTask();
+			mytask.setTaskId(t.getId());
+			mytask.setName(t.getName());
+			mytask.setProcessDefId(t.getProcessDefinitionId());
+			mytask.setExecutionId(t.getExecutionId());
+            mytask.setProcessId(t.getProcessInstanceId());
+            mytask.setAssignee(t.getAssignee());
+            mytask.setTask_def_key(t.getTaskDefinitionKey());
+            mytask.setCreateTime(t.getCreateTime());
+            
+           ProcessDefinition definition= getProcessDefinitionByID(t.getProcessDefinitionId());
+           mytask.setDefinitionName(definition.getName()); 
+			
+			
+			return mytask;
+			
+			
+		}).collect(Collectors.toList());
 		
 		
-		List<Task> tasks =taskService.createTaskQuery().taskAssignee(userId).listPage((page-1)*rows, rows);
 		
-		
-		return tasks;
+		result.put("total", total);
+		result.put("rows", myTasks);
+		return result;
 	}
 
 
@@ -220,9 +262,36 @@ public class WorkFlowServiceImpl implements WorkFlowService {
 		
 	}
 
+
+
+	@Override
+	public void completeTask(String taskId, Map<String, Object> variables) throws Exception {
+		
+		
+		taskService.complete(taskId, variables);
+		
+		
+	}
+
 	
 	
-	
+	public ProcessDefinition getProcessDefinitionByID(String processDefinitionId) {
+		return repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
+	}
+
+
+
+	@Override
+	public ProcessInstance getProcessInstanceByID(String processInstanceId) {
+		return runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+	}
+
+
+
+	@Override
+	public ExecutionEntity getExecutionByID(String executionId) {
+		return (ExecutionEntity) runtimeService.createExecutionQuery().executionId(executionId).singleResult();
+	}
 	
 	
 	

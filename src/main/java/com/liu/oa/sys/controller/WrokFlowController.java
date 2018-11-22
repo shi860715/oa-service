@@ -2,24 +2,34 @@ package com.liu.oa.sys.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
+import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.Execution;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.liu.oa.common.RequestHolder;
 import com.liu.oa.framwork.utils.IOUtil;
 import com.liu.oa.framwork.utils.JacksonUtil;
+import com.liu.oa.sys.model.User;
 import com.liu.oa.sys.service.WorkFlowService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +50,17 @@ public class WrokFlowController {
 		
 		return "/wrokFlow/processDefinition";
 	}
+	
+	
+	@RequestMapping("/totasks")
+	public String totasks() {
+		
+		return "/wrokFlow/tasks";
+	}
+	
+	
+	
+	
 	
 	
 	/**
@@ -158,7 +179,54 @@ public class WrokFlowController {
 	
 	
 	
+	@RequestMapping("/tasks")
+	@ResponseBody
+	public Map<String,Object> taskByUserId(int page,int rows,String query){
+		
+		Map<String,Object> result = new HashMap<>();
+		User user =RequestHolder.getCurrentUser();
+		try {
+			result=wrokFlowService.getTaskList(user.getUserId().toString(), page, rows,query);
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+		
+	}
 	
+	
+	
+	@RequestMapping("/detailTask")
+	public String taskInfo(String taskId,@ModelAttribute("fromId") String fromId ,Model model) {
+	String key ="";	
+	  try {
+		Task task=	wrokFlowService.getTaskById(taskId);
+		
+	   
+		ExecutionEntity ex =wrokFlowService.getExecutionByID(task.getExecutionId());
+		String businessKey = ex.getBusinessKey();
+		String params[] =businessKey.split(":");
+		log.info("【任务跳转中心】业务值",businessKey);
+	     key=params[0];
+	    
+	    
+	     model.addAttribute("fromId",params[1]);
+	    
+		
+		
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+		
+		
+		
+		return "redirect:/sys/"+key+"/detail";
+	}
 	
 	
 }

@@ -106,5 +106,29 @@ public class LeavenController {
 		return result;
 	}
 
+	
+	@RequestMapping("/detail")
+	public String detail(String fromId) {
+		
+		
+		return "/leave/leaveDetail";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
