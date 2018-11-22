@@ -222,9 +222,6 @@ public class WrokFlowController {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-		
-		
-		
 		return "redirect:/sys/"+key+"/detail";
 	}
 	

@@ -39,11 +39,11 @@ public class WorkFlowServiceImplTest extends BaseTest {
 	@Test
 	public void  testAdddeployment() {
 		
-		File file = new File("E:\\git\\oa-service\\src\\main\\resources\\bpm\\leave.zip");
+		File file = new File("E:\\git\\oa-service\\src\\main\\resources\\bpm\\costpay.zip");
 		FileInputStream fi =null;
 		try {
 			fi = new FileInputStream(file);
-			workFlowService.addDeploy("请假申请", fi);
+			workFlowService.addDeploy("报销申请", fi);
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -183,8 +183,8 @@ public class WorkFlowServiceImplTest extends BaseTest {
 	
 	@Test
 	public void teststartProcessBybusinessKey() throws Exception {
-		String processDefinitionKey="leave";
-		String businessKey="leave:3";
+		String processDefinitionKey="costpay";
+		String businessKey="costpay:3";
 		String userId="16";
 		Map<String,Object> variables = new HashMap<>();
 		variables.put("userId",userId );
