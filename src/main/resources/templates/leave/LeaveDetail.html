@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>请假单申请</title>
 <div th:replace="commons/easyui::bootstrap"></div>
-<script src="/js/utils.js" th:src="@{/js/utils.js}"></script>
+
 <style type="text/css">
 
 .mydiv{
@@ -20,16 +20,44 @@ form div{
   }
 </style>
 
+<script type="text/javascript">
+
+function compeleTask(dom){
+	alert(dom);
+	var button =$(dom).text();
+	var taskId = $("#taskId").val();
+	console.log(button);
+	alert("============"+button+"======="+taskId);
+	$.ajax({
+		type : 'post',
+		url : '/sys/leave/completeTaskByTaskId',
+		data : {taskId:taskId,button:button},
+		/* contentType : 'application/json;charset=UTF-8', */
+		success : function(data) {
+		           console.log(data);
+		
+		}
+		
+		
+	});
+	
+	
+	
+}
+
+
+</script>
+
 </head>
 <body>
 	<div class="container-fluid">
 		<div class="row-fluid">
 
 			<div class="col-lg-4 col-lg-offset-3">
-				<form>
+				
 					<fieldset>
 						<legend>请假申请单</legend>
-					
+					       <input id ="taskId" name="taskId" th:value="${taskId}">
 						<div>
 							<label>申请时间：</label><input th:value="${#dates.format(leave.leaveTime,'yyyy-MM-dd HH:mm')}" type="text"/>
 						</div>
@@ -69,12 +97,11 @@ form div{
 						</div>
                          <div class="mydiv" >
                             
-                         	<button th:each="button:${buttons}" class="btn btn-primary" type="submit" th:text="${button}"  >提交</button>
+                         	<button th:each="button:${buttons}" class="btn btn-primary" type="button" th:text="${button}"  onclick="compeleTask(this)" >提交</button>
                          
                          </div>
 					
 					</fieldset>
-				</form>
 			</div>
 
 

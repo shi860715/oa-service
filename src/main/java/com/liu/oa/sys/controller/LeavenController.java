@@ -1,13 +1,12 @@
 package com.liu.oa.sys.controller;
 
-import java.text.Collator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.activiti.engine.impl.pvm.PvmTransition;
-import org.activiti.engine.impl.pvm.process.ActivityImpl;
+import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -130,30 +129,21 @@ public class LeavenController {
 			Leave leave =leaveService.selectById(Integer.parseInt(fromId));
 			User user = userService.selectById(leave.getUserId());
 			List<PvmTransition> outcoms=workFlowService.getPvmTransitionByBusinessKey("leave:"+leave.getLeaveId());
+			Task task =workFlowService.getTaskByProcessId("leave:"+leave.getLeaveId());
+			String taskId=task.getId();
 			
 			
-			for (PvmTransition pvmTransition : outcoms) {
-				pvmTransition.getId();
-				System.out.println(pvmTransition.getId());
-				System.out.println(pvmTransition.getProcessDefinition().getName());
-			}
+			List<String> buttons=outcoms.stream().map(x -> {
 			
-			/*List<String> buttons=outcoms.stream().map(x -> {
-				log.info("outcom:{}",x);
-				log.info("outcom:{}",x.getDestination());
 				return (String)x.getProperty("name");
-			}).collect(Collectors.toList());*/
+			}).collect(Collectors.toList());
 			
 			log.info("leaveINfo{}",leave);
+			
+			model.addAttribute("taskId",taskId);
 			model.addAttribute("leave",leave);
 			model.addAttribute("user",user);
-			model.addAttribute("buttons",outcoms);
-			
-			
-			
-			
-			
-			
+			model.addAttribute("buttons",buttons);
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -171,6 +161,7 @@ public class LeavenController {
 	@RequestMapping("/completeTask")
 	public @ResponseBody Map<String, Object> completeTask(int leaveId) {
 		Map<String, Object> result = new HashMap<>();
+		
 		try {
 			result=leaveService.completeTask(leaveId);
 		} catch (Exception e) {
@@ -183,7 +174,31 @@ public class LeavenController {
 	
 	
 	
-	
+	@RequestMapping("/completeTaskByTaskId")
+	public @ResponseBody Map<String,Object> completeTask(String taskId,String button){
+		
+		log.info("taskId:{}",taskId);
+		log.info("button:{}",button);
+		
+		Map<String,Object> variables = new HashMap<>();
+		Map<String,Object> result = new HashMap<>();
+		
+		
+		
+		variables.put("button", button);
+		variables.put("days", 1);
+		
+		
+		result.put("message", "任务提交完成");
+		try {
+			workFlowService.completeTask(taskId, variables);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 	
 	
 	

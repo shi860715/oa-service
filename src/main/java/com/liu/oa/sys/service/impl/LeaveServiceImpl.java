@@ -95,12 +95,12 @@ public class LeaveServiceImpl extends BaseServiceImpl<Leave> implements LeaveSer
 	@Transactional
 	public Map<String, Object> completeTask(int leaveId) throws Exception {
 		Map<String,Object>  result = new HashMap<>();
+		Map<String,Object>  variables = new HashMap<>();
 		Leave leave =leaveMapper.selectById(leaveId);
 		String processInstanceBusinessKey="leave:"+leave.getLeaveId();
 		Task task =workFlowService.getTaskByProcessId(processInstanceBusinessKey);
-		log.info("业务主键{}",processInstanceBusinessKey);
-		log.info("任务ID{}",task.getId());
-		workFlowService.completeTask(task.getId());
+		variables.put("button", "提交");
+		workFlowService.completeTask(task.getId(),variables);
 		//更新请假单状态
 		leave.setStatus(LeaveEmnu.LEAVE_STATUS_WATING.getCode());
 		leaveMapper.update(leave);
