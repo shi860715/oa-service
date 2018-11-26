@@ -201,7 +201,7 @@ public class WrokFlowController {
 	
 	
 	@RequestMapping("/detailTask")
-	public String taskInfo(String taskId,@ModelAttribute("fromId") String fromId ,Model model) {
+	public String taskInfo(String taskId,@ModelAttribute("fromId") String fromId ,RedirectAttributes model) {
 	String key ="";	
 	  try {
 		Task task=	wrokFlowService.getTaskById(taskId);

@@ -1,19 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>用户管理</title>
- <div th:replace="commons/easyui::easyui"></div>
- <script  src="/js/utils.js" th:src="@{/js/utils.js}"></script>
+<title>请假单申请</title>
+<div th:replace="commons/easyui::bootstrap"></div>
+<script src="/js/utils.js" th:src="@{/js/utils.js}"></script>
+<style type="text/css">
 
- 
+.mydiv{
+      margin-top: 20px;
+
+
+}
+form div{
+   margin: 10px 20px;
+  }
+  legend{
+     margin: 10px 20px;
+  }
+</style>
+
 </head>
 <body>
-    <div>
-        <div>请假申请</div>
-         
-    
-    </div>
-    
+	<div class="container-fluid">
+		<div class="row-fluid">
+
+			<div class="col-lg-4 col-lg-offset-3">
+				<form>
+					<fieldset>
+						<legend>请假申请单</legend>
+					
+						<div>
+							<label>申请时间：</label><input th:value="${#dates.format(leave.leaveTime,'yyyy-MM-dd HH:mm')}" type="text"/>
+						</div>
+						<div>
+							<label>开始时间：</label><input th:value="${#dates.format(leave.startTime,'yyyy-MM-dd HH:mm')}" type="text" />
+						</div>
+						<div>
+							<label>结束时间：</label><input th:value="${#dates.format(leave.endTime,'yyyy-MM-dd HH:mm')}" type="text" />
+						</div>
+						<div>
+							<label>请假天数：</label><input th:value="${leave.days}" type="text" />
+						</div>
+						<div>
+							<label>请假类型：</label><input th:value="${leave.type}" type="text" />
+						</div>
+						
+						<div>
+							<label>请假原因：</label><input  th:value="${leave.reson}" type="text" />
+						</div>
+						<legend>人员信息</legend>
+						
+						<div>
+							<label>申请人员：</label><input th:value="${user.userName}" type="text" />
+						</div>
+						<div>
+							<label>联系方式：</label><input th:value="${user.phone}" type="text" />
+						</div>
+						<div>
+							<label>工作年限：</label><input th:value="${user.age}" type="text" />
+						</div>
+						<div>
+							<label>所在部门：</label><input th:value="${user.deptName}" type="text" />
+						</div>
+                        <legend>审批</legend>
+                        <div>
+							<label>审批意见：</label><input  type="text" />
+						</div>
+                         <div class="mydiv" >
+                            
+                         	<button th:each="button:${buttons}" class="btn btn-primary" type="submit" th:text="${button}"  >提交</button>
+                         
+                         </div>
+					
+					</fieldset>
+				</form>
+			</div>
+
+
+		</div>
+	</div>
+
 </body>
 </html>

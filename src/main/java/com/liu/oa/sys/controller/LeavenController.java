@@ -1,8 +1,13 @@
 package com.liu.oa.sys.controller;
 
+import java.text.Collator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import org.activiti.engine.impl.pvm.PvmTransition;
+import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +22,7 @@ import com.liu.oa.sys.model.Leave;
 import com.liu.oa.sys.model.User;
 import com.liu.oa.sys.service.LeaveService;
 import com.liu.oa.sys.service.UserService;
+import com.liu.oa.sys.service.WorkFlowService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,6 +36,9 @@ public class LeavenController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired 
+	private WorkFlowService workFlowService;
 	
 
 
@@ -115,11 +124,34 @@ public class LeavenController {
 	@RequestMapping("/detail")
 	public String detail(String fromId,Model model) {
 		
+		log.info("fromId{}",fromId);
+		
 		try {
 			Leave leave =leaveService.selectById(Integer.parseInt(fromId));
 			User user = userService.selectById(leave.getUserId());
+			List<PvmTransition> outcoms=workFlowService.getPvmTransitionByBusinessKey("leave:"+leave.getLeaveId());
+			
+			
+			for (PvmTransition pvmTransition : outcoms) {
+				pvmTransition.getId();
+				System.out.println(pvmTransition.getId());
+				System.out.println(pvmTransition.getProcessDefinition().getName());
+			}
+			
+			/*List<String> buttons=outcoms.stream().map(x -> {
+				log.info("outcom:{}",x);
+				log.info("outcom:{}",x.getDestination());
+				return (String)x.getProperty("name");
+			}).collect(Collectors.toList());*/
+			
+			log.info("leaveINfo{}",leave);
 			model.addAttribute("leave",leave);
 			model.addAttribute("user",user);
+			model.addAttribute("buttons",outcoms);
+			
+			
+			
+			
 			
 			
 			

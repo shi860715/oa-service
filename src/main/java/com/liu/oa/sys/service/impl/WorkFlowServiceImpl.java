@@ -11,8 +11,12 @@ import java.util.zip.ZipInputStream;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.impl.RepositoryServiceImpl;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
+import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
+import org.activiti.engine.impl.pvm.PvmTransition;
+import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -312,6 +316,32 @@ public class WorkFlowServiceImpl implements WorkFlowService {
 	public void completeTask(String taskId) throws Exception {
 		  taskService.complete(taskId);
 		
+	}
+
+
+
+	@Override
+	public List<PvmTransition> getPvmTransitionByBusinessKey(String processInstanceBusinessKey) {
+		
+		// 业务主键获取任务
+		Task task = taskService.createTaskQuery().processInstanceBusinessKey(processInstanceBusinessKey).singleResult();
+		//任务 获得 流程定义
+		ProcessDefinitionEntity def = (ProcessDefinitionEntity) ((RepositoryServiceImpl)repositoryService)
+                .getDeployedProcessDefinition(task.getProcessDefinitionId());
+       // 通过任务获得执行实例		
+		ExecutionEntity execution = (ExecutionEntity)runtimeService.createExecutionQuery().executionId(task.getExecutionId()).singleResult();
+       // 通过执行实例获得活动任务节点	
+		String activitiId =execution.getActivityId();
+		//通过流程定义 获得所有的节点
+	   List<ActivityImpl> activityImpls =def.getActivities();
+	   for (ActivityImpl activityImpl : activityImpls) {
+		   if(activitiId.equals(activityImpl.getId())){
+			  return activityImpl.getOutgoingTransitions();
+		   }
+	}
+		
+		
+		return null;
 	}
 	
 	

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
+import org.activiti.engine.impl.pvm.PvmTransition;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -173,5 +174,12 @@ public interface WorkFlowService {
      * @return
      */
 	public Task getTaskByProcessId(String processInstanceBusinessKey);
+	
+	/**
+	 * 通过业务主键获得连出线
+	 * @param processInstanceBusinessKey
+	 * @return
+	 */
+	public List<PvmTransition> getPvmTransitionByBusinessKey(String processInstanceBusinessKey);
 	
 }

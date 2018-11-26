@@ -16,7 +16,7 @@
 	
 	<select id="selectById" resultType="user" parameterType="int">
 
-		select * from sys_user where flag= 0 and user_id=#{userId}
+		 select u.*,d.name as dept_name from sys_user u left join sys_dept d on u.dept_id=d.dept_id  where u.flag= 0 and u.user_id=#{userId}
 
 	</select>
 	

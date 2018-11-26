@@ -147,7 +147,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		     log.info("用户的密码{}",user.getPassword());
 				if( user.getPassword().equals(Encrypt.md5AndSha(password))) {
 				     
-					
+					log.info("用户登录成功{}",user);
 				return user;
 					
 				}else {
