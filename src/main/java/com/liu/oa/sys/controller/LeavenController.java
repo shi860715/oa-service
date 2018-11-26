@@ -14,7 +14,9 @@ import com.liu.oa.common.RequestHolder;
 import com.liu.oa.common.enums.LeaveEmnu;
 import com.liu.oa.framwork.utils.JacksonUtil;
 import com.liu.oa.sys.model.Leave;
+import com.liu.oa.sys.model.User;
 import com.liu.oa.sys.service.LeaveService;
+import com.liu.oa.sys.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,6 +27,9 @@ public class LeavenController {
 
 	@Autowired
 	private LeaveService leaveService;
+	
+	@Autowired
+	private UserService userService;
 	
 
 
@@ -108,7 +113,20 @@ public class LeavenController {
 	
 	
 	@RequestMapping("/detail")
-	public String detail(String fromId) {
+	public String detail(String fromId,Model model) {
+		
+		try {
+			Leave leave =leaveService.selectById(Integer.parseInt(fromId));
+			User user = userService.selectById(leave.getUserId());
+			model.addAttribute("leave",leave);
+			model.addAttribute("user",user);
+			
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 		return "/leave/leaveDetail";
@@ -128,13 +146,7 @@ public class LeavenController {
 			e.printStackTrace();
 		}
 		
-		
-		
 		return result;
-		
-		
-		
-		
 	}
 	
 	

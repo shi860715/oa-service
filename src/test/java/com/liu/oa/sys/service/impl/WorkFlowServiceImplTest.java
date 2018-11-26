@@ -223,7 +223,13 @@ public class WorkFlowServiceImplTest extends BaseTest {
 		repositoryService.deleteDeployment(deployMentId, true);
 	}
 	
-	
+	@Test
+	public void testdeleteProcess() {
+		String processInstanceId="70016";
+		runtimeService.deleteProcessInstance(processInstanceId, "测试");
+		
+		
+	}
 	
 
 }
