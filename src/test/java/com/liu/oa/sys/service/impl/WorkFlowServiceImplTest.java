@@ -36,6 +36,9 @@ public class WorkFlowServiceImplTest extends BaseTest {
 	@Autowired
 	private RuntimeService runtimeService;
 	
+	@Autowired
+	private TaskService taskService;
+	
 	@Test
 	public void  testAdddeployment() {
 		
@@ -184,7 +187,7 @@ public class WorkFlowServiceImplTest extends BaseTest {
 	@Test
 	public void teststartProcessBybusinessKey() throws Exception {
 		String processDefinitionKey="costpay";
-		String businessKey="costpay:3";
+		String businessKey="costpay:16";
 		String userId="16";
 		Map<String,Object> variables = new HashMap<>();
 		variables.put("userId",userId );
@@ -196,10 +199,29 @@ public class WorkFlowServiceImplTest extends BaseTest {
 		
 	}
 	
+	@Test
+	public void testfindTaskByProcessInstanceId() {
+		/*String processInstanceBusinessKey ="costpay:16";*/
+		/*String processInstanceId="52501";*/
+		String processInstanceId="52501";
+		
+		ProcessInstance instance=runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+	    String	processInstanceBusinessKey=instance.getBusinessKey();
+		
+		Task task= taskService.createTaskQuery().processInstanceBusinessKey(processInstanceBusinessKey).singleResult();
+		System.out.println("任务id"+task.getId());
+		System.out.println("人员"+task.getAssignee());
+		System.out.println("任务节点"+task.getName());
 	
 	
+		
+	}
 	
-	
+	@Test
+	public void testdeletedeleteDeploytId() {
+		String deployMentId="27501";
+		repositoryService.deleteDeployment(deployMentId, true);
+	}
 	
 	
 	

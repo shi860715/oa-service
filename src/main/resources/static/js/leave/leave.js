@@ -200,7 +200,22 @@ $.ajax({
 
 }
 
-
+function startProcess(leaveId){
+	var flag=false;
+	
+	$.ajax({
+		type : 'post',
+		url : '/sys/leave/startProcess',
+		data : {
+			"leaveId" : leaveId
+		},
+		success : function(data) {
+				parent.$.messager.alert('提示消息', data.message);
+				$('#datagrid').datagrid('reload');
+			
+		}
+	});
+}
 
 
 
@@ -329,14 +344,16 @@ var columns = [[
 		}},
 	{field : 'action',title : '操作',width : 100,align : 'center',
 		formatter : function(value, row, index) {
+			var leaveId = row.leaveId;
 			if (row.edit) {
 				var s = '<a href="#" onclick="saveRow('+ index + ')">保存</a>';
 				var c = '<a href="#" onclick="cancelRow('+ index + ')">取消</a>';
 				return s + '&nbsp&nbsp' + c;
 			} else {
+				var f = '<a id ="startProcess" href="#" onclick="startProcess('+ leaveId + ')">启动流程</a>';
 				var e = '<a href="#" onclick="editRow('+ index + ')">编辑</a>';
 				var d = '<a href="#" onclick="deleteRow('+ index + ')">删除</a>';
-				return e + '&nbsp&nbsp' + d;
+				return f+'&nbsp&nbsp'+e + '&nbsp&nbsp' + d;
 			}
 		}
 	}

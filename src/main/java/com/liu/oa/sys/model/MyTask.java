@@ -28,7 +28,7 @@ public class MyTask {
 	
 	private String definitionName;
 	
-	@JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+	@JsonFormat(pattern="yyyy-MM-dd hh:mm:ss",timezone="GMT+8")
 	private Date createTime;
 	
 	

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.activiti.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import com.liu.oa.framwork.utils.JacksonUtil;
 import com.liu.oa.sys.model.Leave;
 import com.liu.oa.sys.model.User;
 import com.liu.oa.sys.service.LeaveService;
+import com.liu.oa.sys.service.WorkFlowService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,6 +28,9 @@ public class LeavenController {
 
 	@Autowired
 	private LeaveService leaveService;
+	
+	@Autowired
+	private WorkFlowService workFlowService;
 
 	@RequestMapping("/toleaves")
 	public String toLeaves(Model model) {
@@ -106,6 +111,25 @@ public class LeavenController {
 		return result;
 	}
 
+	@RequestMapping("/startProcess")
+	@ResponseBody
+	public Map<String,Object> startprocess(int leaveId){
+		Map<String,Object> result = new HashMap<>();
+
+		try {
+			result =leaveService.startProcess(leaveId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			 result.put("message", "请假申请流程启动失败");
+		}
+		
+		return result;
+	}
+	
+	
+	
+	
+	
 	
 	@RequestMapping("/detail")
 	public String detail(String fromId) {
