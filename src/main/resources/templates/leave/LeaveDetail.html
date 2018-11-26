@@ -23,18 +23,18 @@ form div{
 <script type="text/javascript">
 
 function compeleTask(dom){
-	alert(dom);
+
 	var button =$(dom).text();
 	var taskId = $("#taskId").val();
-	console.log(button);
-	alert("============"+button+"======="+taskId);
+
 	$.ajax({
 		type : 'post',
 		url : '/sys/leave/completeTaskByTaskId',
 		data : {taskId:taskId,button:button},
 		/* contentType : 'application/json;charset=UTF-8', */
 		success : function(data) {
-		           console.log(data);
+		        alert(data.message);
+		        window.location.href="/index"
 		
 		}
 		

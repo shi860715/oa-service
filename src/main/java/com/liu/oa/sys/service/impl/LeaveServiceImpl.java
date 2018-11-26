@@ -70,11 +70,13 @@ public class LeaveServiceImpl extends BaseServiceImpl<Leave> implements LeaveSer
 			  leave.setProcessId(instance.getProcessInstanceId());
 			  leaveMapper.update(leave);
 		  }else {
+			  
 		  }
 		
 	}
 
-	@Override
+	
+	@Transactional
 	public Map<String, Object> saveAndStartProcess(Leave leave) throws Exception {
 		Map<String,Object>  result = new HashMap<>();
 		User user =RequestHolder.getCurrentUser();
@@ -86,6 +88,8 @@ public class LeaveServiceImpl extends BaseServiceImpl<Leave> implements LeaveSer
 		leaveMapper.insert(leave);
 		log.info("请假单ID{}",leave.getLeaveId());
 		startProcess(leave.getLeaveId());
+		
+	    
 	
 		result.put("message", "请假单保存成功");
 		return result;

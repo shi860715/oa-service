@@ -186,7 +186,7 @@ public class LeavenController {
 		
 		
 		variables.put("button", button);
-		variables.put("days", 1);
+		variables.put("days", 5);
 		
 		
 		result.put("message", "任务提交完成");

@@ -219,7 +219,7 @@ public class WorkFlowServiceImplTest extends BaseTest {
 	
 	@Test
 	public void testdeletedeleteDeploytId() {
-		String deployMentId="55001";
+		String deployMentId="82504";
 		repositoryService.deleteDeployment(deployMentId, true);
 	}
 	
