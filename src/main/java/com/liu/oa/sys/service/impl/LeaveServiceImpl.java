@@ -1,17 +1,21 @@
 package com.liu.oa.sys.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.liu.oa.common.RequestHolder;
+import com.liu.oa.common.enums.LeaveEmnu;
 import com.liu.oa.framwork.utils.JacksonUtil;
 import com.liu.oa.sys.mapper.LeaveMapper;
 import com.liu.oa.sys.model.Leave;
@@ -52,10 +56,11 @@ public class LeaveServiceImpl extends BaseServiceImpl<Leave> implements LeaveSer
 	}
 
 	@Override
-	public Map<String, Object> startProcess(int leaveId) throws Exception {
-		Map<String,Object> result = new HashMap<>();
+	public void startProcess(int leaveId) throws Exception {
 		String processDefinitionKey = "leave";
 		String businessKey="leave:"+leaveId;
+		
+		log.info("【启动流程】businessKey={}",businessKey);
 		Map<String,Object>  variables = new HashMap<>();
 		
 		 variables.put("userId", RequestHolder.getCurrentUser().getUserId().toString());
@@ -64,10 +69,44 @@ public class LeaveServiceImpl extends BaseServiceImpl<Leave> implements LeaveSer
 			  Leave leave =leaveMapper.selectById(leaveId);
 			  leave.setProcessId(instance.getProcessInstanceId());
 			  leaveMapper.update(leave);
-			  result.put("message", "请假申请流程启动成功");
 		  }else {
-			  result.put("message", "请假申请流程启动失败");
 		  }
+		
+	}
+
+	@Override
+	public Map<String, Object> saveAndStartProcess(Leave leave) throws Exception {
+		Map<String,Object>  result = new HashMap<>();
+		User user =RequestHolder.getCurrentUser();
+		//初始化 请假单用户信息和请假时间
+		leave.setLeaveTime(new Date());
+		leave.setUserId(user.getUserId());
+		leave.setUserName(user.getUserName());
+		
+		leaveMapper.insert(leave);
+		log.info("请假单ID{}",leave.getLeaveId());
+		startProcess(leave.getLeaveId());
+	
+		result.put("message", "请假单保存成功");
+		return result;
+	}
+
+	@Override
+	@Transactional
+	public Map<String, Object> completeTask(int leaveId) throws Exception {
+		Map<String,Object>  result = new HashMap<>();
+		Leave leave =leaveMapper.selectById(leaveId);
+		String processInstanceBusinessKey="leave:"+leave.getLeaveId();
+		Task task =workFlowService.getTaskByProcessId(processInstanceBusinessKey);
+		log.info("业务主键{}",processInstanceBusinessKey);
+		log.info("任务ID{}",task.getId());
+		workFlowService.completeTask(task.getId());
+		//更新请假单状态
+		leave.setStatus(LeaveEmnu.LEAVE_STATUS_WATING.getCode());
+		leaveMapper.update(leave);
+		result.put("message", "任务提交成功");
+		
+		
 		return result;
 	}
 	

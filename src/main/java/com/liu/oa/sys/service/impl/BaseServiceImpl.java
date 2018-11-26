@@ -19,8 +19,9 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 
 	@Override
 	public T save(T t) {
-		baseMapper.insert(t);
-		return t;
+	  int id=	baseMapper.insert(t);
+		
+		return baseMapper.selectById(id);
 	}
 
 	@Override

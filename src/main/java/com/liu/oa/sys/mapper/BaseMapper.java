@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 public interface BaseMapper<T> {
 	
-	void insert (T t);
+	int insert (T t);
 	
 	T selectById (Serializable id);
 	

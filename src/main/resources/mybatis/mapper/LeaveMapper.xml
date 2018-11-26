@@ -11,6 +11,7 @@
  </select>
 	
   <insert id="insert" parameterType="leave"  useGeneratedKeys="true" keyProperty="leaveId">
+  
    insert into sys_leave (user_id,user_name,reson,type,status,leave_time,days,start_time,end_time,flag,remark) 
       values (#{userId},#{userName},#{reson},#{type},#{status},#{leaveTime},#{days},#{startTime},#{endTime},0,#{remark}) 
   

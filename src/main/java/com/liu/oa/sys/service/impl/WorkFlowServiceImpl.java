@@ -292,6 +292,27 @@ public class WorkFlowServiceImpl implements WorkFlowService {
 	public ExecutionEntity getExecutionByID(String executionId) {
 		return (ExecutionEntity) runtimeService.createExecutionQuery().executionId(executionId).singleResult();
 	}
+
+
+
+	@Override
+	public Task getTaskByProcessId(String processInstanceBusinessKey) {
+		
+		return taskService.createTaskQuery().processInstanceBusinessKey(processInstanceBusinessKey).singleResult();
+		
+		
+		
+		
+		
+	}
+
+
+
+	@Override
+	public void completeTask(String taskId) throws Exception {
+		  taskService.complete(taskId);
+		
+	}
 	
 	
 	

@@ -1,10 +1,8 @@
 package com.liu.oa.sys.controller;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.activiti.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,11 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.liu.oa.common.RequestHolder;
+import com.liu.oa.common.enums.LeaveEmnu;
 import com.liu.oa.framwork.utils.JacksonUtil;
 import com.liu.oa.sys.model.Leave;
-import com.liu.oa.sys.model.User;
 import com.liu.oa.sys.service.LeaveService;
-import com.liu.oa.sys.service.WorkFlowService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,8 +26,7 @@ public class LeavenController {
 	@Autowired
 	private LeaveService leaveService;
 	
-	@Autowired
-	private WorkFlowService workFlowService;
+
 
 	@RequestMapping("/toleaves")
 	public String toLeaves(Model model) {
@@ -61,9 +57,9 @@ public class LeavenController {
 		Map<String, Object> result = new HashMap<>();
 		log.info("【请假单保存或者更新】参数{}",JacksonUtil.toJSon(leave));
 		
-	   User user =	RequestHolder.getCurrentUser();
-	     //初始化 请假单状态
-         leave.setStatus(1);
+	
+	     //初始化 请假单状态,请假单状态为未提交
+         leave.setStatus(LeaveEmnu.LEAVE_STATUS_UNPOST.getCode());
 		if (leave.getLeaveId() != null) {
 
 			try {
@@ -76,13 +72,7 @@ public class LeavenController {
 
 		} else {
 			try {
-				//初始化 请假单用户信息和请假时间
-				leave.setLeaveTime(new Date());
-				leave.setUserId(user.getUserId());
-				leave.setUserName(user.getUserName());
-				
-				
-				leaveService.save(leave);
+				leaveService.saveAndStartProcess(leave);
 				result.put("message", "请假单保存成功");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -111,20 +101,6 @@ public class LeavenController {
 		return result;
 	}
 
-	@RequestMapping("/startProcess")
-	@ResponseBody
-	public Map<String,Object> startprocess(int leaveId){
-		Map<String,Object> result = new HashMap<>();
-
-		try {
-			result =leaveService.startProcess(leaveId);
-		} catch (Exception e) {
-			e.printStackTrace();
-			 result.put("message", "请假申请流程启动失败");
-		}
-		
-		return result;
-	}
 	
 	
 	
@@ -141,7 +117,25 @@ public class LeavenController {
 	
 	
 	
-	
+
+	@RequestMapping("/completeTask")
+	public @ResponseBody Map<String, Object> completeTask(int leaveId) {
+		Map<String, Object> result = new HashMap<>();
+		try {
+			result=leaveService.completeTask(leaveId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		return result;
+		
+		
+		
+		
+	}
 	
 	
 	

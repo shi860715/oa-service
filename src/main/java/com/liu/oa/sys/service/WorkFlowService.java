@@ -135,6 +135,14 @@ public interface WorkFlowService {
      * @throws Exception
      */
 	public void completeTask(String taskId, Map<String, Object> variables)throws Exception;
+	
+	   /**
+     * 完成任务 
+     * @param taskId
+     * @param variables
+     * @throws Exception
+     */
+	public void completeTask(String taskId)throws Exception;
 
 	
 	/**
@@ -158,5 +166,12 @@ public interface WorkFlowService {
 	 * @return
 	 */
 	public ExecutionEntity getExecutionByID(String executionId);
+	
+    /**
+     * 通过业务主键获取任务 获取任务
+     * @param processId
+     * @return
+     */
+	public Task getTaskByProcessId(String processInstanceBusinessKey);
 	
 }

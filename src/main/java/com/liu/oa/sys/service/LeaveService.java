@@ -2,6 +2,8 @@ package com.liu.oa.sys.service;
 
 import java.util.Map;
 
+import org.activiti.engine.runtime.ProcessInstance;
+
 import com.liu.oa.sys.model.Leave;
 
 public interface LeaveService extends BaseService<Leave> {
@@ -26,6 +28,28 @@ public interface LeaveService extends BaseService<Leave> {
 	 * @return
 	 * @throws Exception
 	 */
-	Map<String, Object> startProcess(int leaveId)throws Exception;
+	void startProcess(int leaveId)throws Exception;
+	
+	
+	/**
+	 * 保存请假单，并启动流程
+	 * @param leave
+	 * @return
+	 * @throws Exception
+	 */
+	Map<String, Object> saveAndStartProcess(Leave leave)throws Exception;
+	
+     /**
+      * 通过请假单ID 提交 任务
+      * @param leaveId
+      * @return
+      * @throws Exception
+      */
+	Map<String, Object> completeTask(int leaveId)throws Exception;
+	
+	
+	
+	
+	
 
 }

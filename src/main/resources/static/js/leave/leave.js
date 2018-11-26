@@ -200,12 +200,12 @@ $.ajax({
 
 }
 
-function startProcess(leaveId){
+function completeTask(leaveId){
 	var flag=false;
 	
 	$.ajax({
 		type : 'post',
-		url : '/sys/leave/startProcess',
+		url : '/sys/leave/completeTask',
 		data : {
 			"leaveId" : leaveId
 		},
@@ -327,13 +327,13 @@ var columns = [[
 	}}, 
 	{field:'status',title:'状态',width:60,align:'center',formatter:function(value){
 		switch(value){
-		case 1:
+		case 11:
 		  return "待提交";
 		  break;
-		case 2:
+		case 12:
 		  return "审核中";
 		  break;
-		case 3:
+		case 13:
 		  return "已完结";
 		  break;  
 		  }
@@ -350,7 +350,7 @@ var columns = [[
 				var c = '<a href="#" onclick="cancelRow('+ index + ')">取消</a>';
 				return s + '&nbsp&nbsp' + c;
 			} else {
-				var f = '<a id ="startProcess" href="#" onclick="startProcess('+ leaveId + ')">启动流程</a>';
+				var f = '<a id ="startProcess" href="#" onclick="completeTask('+ leaveId + ')">提交审核</a>';
 				var e = '<a href="#" onclick="editRow('+ index + ')">编辑</a>';
 				var d = '<a href="#" onclick="deleteRow('+ index + ')">删除</a>';
 				return f+'&nbsp&nbsp'+e + '&nbsp&nbsp' + d;
