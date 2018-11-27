@@ -345,6 +345,52 @@ public class WorkFlowServiceImpl implements WorkFlowService {
 		
 		return null;
 	}
+
+
+
+	@Override
+	public String getDeployMentIdByProcessIntanceId(String processInstanceId) {
+	return runtimeService.createProcessInstanceQuery()
+			.processInstanceId(processInstanceId)
+			.singleResult()
+			.getDeploymentId();
+	
+		
+	}
+
+
+
+	@Override
+	public ActivityImpl getActivityImpl(String processInstanceId) {
+		
+		 ProcessInstance process= runtimeService.createProcessInstanceQuery()
+			.processInstanceId(processInstanceId)
+			.singleResult();
+		
+		 String processInstanceBusinessKey =process.getBusinessKey();
+		Task task= getTaskByProcessId(processInstanceBusinessKey);
+		 
+		 // 通过任务获得执行实例		
+			ExecutionEntity execution = (ExecutionEntity)runtimeService.createExecutionQuery().executionId(task.getExecutionId()).singleResult();
+	       // 通过执行实例获得活动任务节点	
+			String activitiId =execution.getActivityId();
+		 
+		String prodefId= process.getProcessDefinitionId();
+		ProcessDefinitionEntity def = (ProcessDefinitionEntity) ((RepositoryServiceImpl)repositoryService)
+                .getDeployedProcessDefinition(prodefId);
+		
+		//通过流程定义 获得所有的节点
+		   List<ActivityImpl> activityImpls =def.getActivities();
+		   for (ActivityImpl activityImpl : activityImpls) {
+			   if(activitiId.equals(activityImpl.getId())){
+				  return activityImpl;
+			   }
+		}
+		   
+		   
+		   
+		return null;
+	}
 	
 	
 	

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.impl.pvm.PvmTransition;
+import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -181,5 +182,18 @@ public interface WorkFlowService {
 	 * @return
 	 */
 	public List<PvmTransition> getPvmTransitionByBusinessKey(String processInstanceBusinessKey);
+
+	/**
+	 * 通过流程实例id 获取部署ID
+	 * @param processInstanceId
+	 */
+	public String getDeployMentIdByProcessIntanceId(String processInstanceId);
+   
+	/**
+	 * 获取流程当前节点
+	 * @param processInstanceId
+	 * @return
+	 */
+	public ActivityImpl getActivityImpl(String processInstanceId);
 	
 }

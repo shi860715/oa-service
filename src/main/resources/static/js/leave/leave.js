@@ -64,7 +64,7 @@ $(function(){
  
 
 
-
+  
  
  
  
@@ -218,7 +218,13 @@ function completeTask(leaveId){
 }
 
 
-
+function showImageTask(){
+	
+	var row =$("#datagrid").datagrid('getSelections')[0];
+	alert("查看流程图");
+	window.open("/sys/workFlow/showImage?processInstanceId="+row.processId);
+	
+}
 
 
 
@@ -366,7 +372,13 @@ var toolbars =[{text : "检索：<input type='text' id='ss' />"},
 	        	insert();
 	            }
 
-        }];
+        },
+        {iconCls : 'icon-search',text : '查询流程',
+ 	       handler:function() {
+ 	        	 showImageTask();
+ 	            }
+
+         }];
 
 
 var leaveType =[{    

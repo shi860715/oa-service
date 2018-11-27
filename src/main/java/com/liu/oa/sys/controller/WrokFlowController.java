@@ -4,18 +4,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
-import org.activiti.engine.impl.persistence.entity.TaskEntity;
+import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.repository.Deployment;
-import org.activiti.engine.repository.ProcessDefinition;
-import org.activiti.engine.runtime.Execution;
-import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -226,8 +222,29 @@ public class WrokFlowController {
 	}
 	
 	
+	@RequestMapping("/showImage")
+	public String showImage(String processInstanceId ,Model model) {
+		
+		String deploymentId =wrokFlowService.getDeployMentIdByProcessIntanceId(processInstanceId);
+		
+		String path ="/sys/workFlow/showDefinitionImage?deploymentId="+deploymentId;
+		model.addAttribute("path", path);
+		
+		ActivityImpl act =wrokFlowService.getActivityImpl(processInstanceId);
+		Map<String,Object> actInfo =new HashMap<>();
+		
+		actInfo.put("height", act.getHeight());
+		actInfo.put("width", act.getWidth());
+		actInfo.put("x", act.getY());
+		actInfo.put("y", act.getX());
+		
+		model.addAttribute("actInfo", actInfo);
 	
-	
+		
+		
+		
+		return "/wrokFlow/showImage";
+	}
 	
 	
 }

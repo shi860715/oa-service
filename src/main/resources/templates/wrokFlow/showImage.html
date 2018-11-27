@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>任务管理</title>
+<div th:replace="commons/easyui::easyui"></div>
+<style type="text/css">
+* {
+	padding: 0;
+	margin: 0;
+}
+
+#image {
+	border: 1px solid red;
+	width: 1056px;
+	height: 908px;
+	margin: 0 auto;
+	position: relative;
+}
+
+#current {
+	border : 1px solid red;
+	position: absolute;
+    z-index: 10;
+}
+</style>
+<script type="text/javascript">
+	$(function() {
+
+		var top = $("#current").attr("x");
+		
+		
+		var left = $("#current").attr("y")*1+430;
+		var w = $("#current").attr("width");
+		var h = $("#current").attr("height");
+
+		$("#current").height(h);
+		$("#current").width(w);
+		$("#current").offset({
+			top : top,
+			left : left
+		});
+
+		
+
+	});
+</script>
+
+</head>
+<body>
+
+
+	<div id="image">
+		<img alt="" src="" th:src="@{${path}}">
+   
+	</div>
+	 <div id="current" th:x="${actInfo.x}" th:y="${actInfo.y}"
+		th:width="${actInfo.width}" th:height="${actInfo.height}"></div>
+
+
+
+</body>
+</html>
