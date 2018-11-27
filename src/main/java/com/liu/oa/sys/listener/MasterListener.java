@@ -9,8 +9,8 @@ public class MasterListener implements TaskListener {
 	public void notify(DelegateTask delegateTask) {
 		
 		
-//		董事长，副总赵振 34
-		delegateTask.setAssignee("34");
+//		董事长，裁忠心 88
+		delegateTask.setAssignee("88");
 		
 	}
 

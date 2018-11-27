@@ -1,5 +1,6 @@
 package com.liu.oa.sys.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import lombok.Builder;
@@ -7,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Dept {
+public class Dept implements Serializable{
 	
 	private Integer deptId;
 	

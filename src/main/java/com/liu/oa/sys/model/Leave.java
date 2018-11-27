@@ -1,5 +1,6 @@
 package com.liu.oa.sys.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -10,7 +11,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Leave {
+public class Leave implements Serializable{
 	
 	private Integer leaveId;
 	

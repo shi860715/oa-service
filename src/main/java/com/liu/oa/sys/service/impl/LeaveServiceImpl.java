@@ -17,7 +17,9 @@ import com.github.pagehelper.PageInfo;
 import com.liu.oa.common.RequestHolder;
 import com.liu.oa.common.enums.LeaveEmnu;
 import com.liu.oa.framwork.utils.JacksonUtil;
+import com.liu.oa.sys.mapper.DeptMapper;
 import com.liu.oa.sys.mapper.LeaveMapper;
+import com.liu.oa.sys.model.Dept;
 import com.liu.oa.sys.model.Leave;
 import com.liu.oa.sys.model.User;
 import com.liu.oa.sys.service.LeaveService;
@@ -31,6 +33,9 @@ public class LeaveServiceImpl extends BaseServiceImpl<Leave> implements LeaveSer
 	
 	@Autowired
 	private LeaveMapper leaveMapper;
+	
+	@Autowired
+	private DeptMapper deptMapper;
 	
 	@Autowired
 	private WorkFlowService workFlowService;
@@ -59,18 +64,28 @@ public class LeaveServiceImpl extends BaseServiceImpl<Leave> implements LeaveSer
 	public void startProcess(int leaveId) throws Exception {
 		String processDefinitionKey = "leave";
 		String businessKey="leave:"+leaveId;
-		
+		Leave leave =leaveMapper.selectById(leaveId);
 		log.info("【启动流程】businessKey={}",businessKey);
 		Map<String,Object>  variables = new HashMap<>();
+		User user =RequestHolder.getCurrentUser();
+		Dept dept = deptMapper.selectById(user.getDeptId());
 		
-		 variables.put("userId", RequestHolder.getCurrentUser().getUserId().toString());
+		 variables.put("userId", user.getUserId().toString());
+		 variables.put("days",leave.getDays());
+		 variables.put("reson",leave.getReson());
+		 variables.put("user",user);
+		 variables.put("dept",dept);
+		 
+		
+		 
+		 
+		 
+		 
 		  ProcessInstance instance =workFlowService.startProcessBybusinessKey(processDefinitionKey, businessKey, variables);
 		  if(instance!=null) {
-			  Leave leave =leaveMapper.selectById(leaveId);
+			 
 			  leave.setProcessId(instance.getProcessInstanceId());
 			  leaveMapper.update(leave);
-		  }else {
-			  
 		  }
 		
 	}
