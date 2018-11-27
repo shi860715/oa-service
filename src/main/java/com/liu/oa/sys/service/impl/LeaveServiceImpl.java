@@ -46,7 +46,7 @@ public class LeaveServiceImpl extends BaseServiceImpl<Leave> implements LeaveSer
 		Map<String, Object> result = new HashMap<>();
 		List<Leave> leaves = new ArrayList<>();
 		    User user =RequestHolder.getCurrentUser();
-		    log.info("请假单用户id{}",JacksonUtil.printJson(user));
+		    log.debug("请假单用户id{}",JacksonUtil.printJson(user));
 		
 		    PageHelper.startPage(page, rows);
 			leaves =leaveMapper.findLeaveByUserId(user.getUserId(),query);
