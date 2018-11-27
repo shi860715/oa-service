@@ -53,7 +53,9 @@ $(function(){
 			
 				$('#datagrid').datagrid('load', {query : value});
 			},
-			prompt : '查询关键字'
+			prompt : '查询关键字',
+			 width:180,
+	    	 height:35
 		});   
 	   /*查询框  end */  
 	   
@@ -199,7 +201,8 @@ var cloumns=[[
         		return '女'; 
         	  }
         }},
-       {field:'deptName',title:'部门',width:100}, 
+       {field:'deptName',title:'部门名称',width:100}, 
+    
        {field:'phone',title:'手机',width:100,editor:{
           	type:'validatebox'
           }}, 

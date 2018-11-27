@@ -8,7 +8,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +16,7 @@ import com.liu.oa.common.enums.ReslutEmnu;
 import com.liu.oa.framwork.model.TreeNode;
 import com.liu.oa.framwork.utils.JacksonUtil;
 import com.liu.oa.framwork.utils.TreeUtils;
+import com.liu.oa.framwork.vo.DeptManager;
 import com.liu.oa.sys.exception.DeptException;
 import com.liu.oa.sys.model.Dept;
 import com.liu.oa.sys.service.DeptService;
@@ -184,7 +184,24 @@ public class DeptController {
 	
 	
 	
-	
+	@RequestMapping("/updateDeptManager")
+	@ResponseBody
+	public Map<String,Object> updateDeptManager(@RequestBody DeptManager deptManager){
+		log.info("前台传来的参数{}",deptManager);
+		  Map<String, Object> resultMap = new HashMap<String, Object>();
+		  
+		  try {
+			deptService.updateDeptManager(deptManager);
+			resultMap.put("code", 1);
+			resultMap.put("message", "部门经理设置成功");
+		} catch (Exception e) {
+			resultMap.put("code", 0);
+			resultMap.put("message", "部门经理设置失败");
+		}
+		
+		return resultMap;
+		
+	}
 	
 	
 	

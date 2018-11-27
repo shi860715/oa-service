@@ -39,7 +39,7 @@ public class ManagerListener implements TaskListener {
 		
 		switch (dept.getParentId()) {
 		case 4:
-			assignee="23";
+			assignee="23";//76 老连
 			
 			break;
 		case 5:

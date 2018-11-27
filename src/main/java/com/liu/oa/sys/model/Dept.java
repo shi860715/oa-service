@@ -22,6 +22,8 @@ public class Dept implements Serializable{
 	
 	private Integer manager;
 	
+	private String userName;
+	
 	private String remark;
 	
 	private Date createTime;
@@ -43,8 +45,21 @@ public class Dept implements Serializable{
 
 
 
+	
+
+	public Integer get_parentId() {
+		
+		return this.getParentId();
+		
+	}
+
+
+
+
+
+
 	public Dept(Integer deptId, String name, Integer level, Integer parentId, Integer sort, Integer manager,
-			String remark, Date createTime, Date updateTime, Integer flag, Integer _parentId) {
+			String userName, String remark, Date createTime, Date updateTime, Integer flag, Integer _parentId) {
 		super();
 		this.deptId = deptId;
 		this.name = name;
@@ -52,18 +67,12 @@ public class Dept implements Serializable{
 		this.parentId = parentId;
 		this.sort = sort;
 		this.manager = manager;
+		this.userName = userName;
 		this.remark = remark;
 		this.createTime = createTime;
 		this.updateTime = updateTime;
 		this.flag = flag;
 		this._parentId = _parentId;
-	}
-	
-
-	public Integer get_parentId() {
-		
-		return this.getParentId();
-		
 	}
 	
 	

@@ -19,7 +19,7 @@ public class DeptListener implements TaskListener {
 		Dept dept = (Dept) variables.get("dept");
 		
 		
-		delegateTask.setAssignee("23");
+		delegateTask.setAssignee(dept.getManager().toString());
 		
 	}
 

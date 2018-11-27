@@ -57,10 +57,9 @@ $(function(){
 	   
 	   
 	   parent.$("#user_dialog").dialog({
-		   
 		   title: '设置经理',    
-		    width: 1500,    
-		    height: 800,    
+		    width: 1000,    
+		    height: 600,    
 		    closed: true,    
 		    cache: false,
 		    content:createContent('users','/userComm'),
@@ -70,6 +69,10 @@ $(function(){
 				text:'保存',
 				iconCls:'icon-save',
 				handler:function(){
+					
+					updateManager();
+					
+					
 				
 				}
 			}]
@@ -84,6 +87,46 @@ $(function(){
 
 //编辑标识
 var editRowIndex = 'undefined';
+
+function updateManager(){
+	
+	
+	var dept= $('#datagrid').treegrid('getSelections')[0];
+	
+	var user =parent.frames['users'].$("#datagrid").datagrid('getSelections')[0];
+	
+	var obj ={};
+	
+	obj.userId=user.userId;
+	obj.deptId=dept.deptId;
+	console.log(obj);
+	
+	$.ajax({
+		type : 'post',
+		url : '/sys/dept/updateDeptManager',
+		data : JSON.stringify(obj),
+		contentType : 'application/json;charset=UTF-8',
+		success : function(data) {
+			
+			$.messager.show({
+				title:'部门消息',
+				msg:data.message,
+				timeout:5000,
+				showType:'slide'
+			});
+			parent.$("#user_dialog").dialog('close');
+			parent.frames['users'].$("#datagrid").datagrid('clearSelections');
+
+			 $('#datagrid').treegrid('reload');
+			
+		}
+	});
+	
+	
+	
+	
+	
+}
 
 
 function insert() {
@@ -218,7 +261,8 @@ var columns=[[
     {field:'name',title:'部门名称',width:100,align:'left',editor : {
 		type : 'validatebox',
 		required : true
-	}},    
+	}},
+	{field:'userName',title:'部门经理',width:100}, 
     {field:'level',title:'类型',width:80,formatter:function(value,row,index){
     	if(value=='0'){
     		return '集团';

@@ -15,7 +15,7 @@
 
 	 <select id="selectById" resultType="dept" parameterType="int">
 	 
-	 select * from  sys_dept where  flag= 0 and dept_id=#{deptId}
+	select  d.*,u.user_name  from sys_dept d LEFT JOIN  sys_user u  on d.manager=u.user_id where  d.flag= 0 and d.dept_id=#{deptId} 
 	 
 	 </select>
 	
@@ -27,7 +27,7 @@
 	
 	<select id="findAll" resultType="dept">
 	
-	 select * from sys_dept where flag=0
+	select  d.*,u.user_name  from sys_dept d LEFT JOIN  sys_user u  on d.manager=u.user_id where d.flag=0 
 	
 	</select>
 	
