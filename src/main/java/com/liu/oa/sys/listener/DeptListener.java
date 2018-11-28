@@ -28,12 +28,10 @@ public class DeptListener implements TaskListener {
 			leaveService=ApplicationContextHandler.getBean("leaveService");
 		}
 		String businessKey=(String) delegateTask.getVariable("businessKey");
-//		 设置部门经理审批，我的经理是23号
-		Map<String,Object> variables =delegateTask.getVariables();
-		
-		Dept dept = (Dept) variables.get("dept");
 		String eventName =delegateTask.getEventName();
-		System.out.println("事件名称"+eventName);
+		Dept dept = (Dept) delegateTask.getVariable("dept");
+		String button =(String) delegateTask.getVariable("button");
+		
 		if("create".equals(eventName)) {
 			System.out.println("create.................");
 			delegateTask.setAssignee(dept.getManager().toString());
@@ -41,13 +39,10 @@ public class DeptListener implements TaskListener {
 		}
 		if("complete".equals(eventName)) {
 			System.out.println("complete.................");
-			String button =(String) delegateTask.getVariable("button");
+			
 			if(button.equals("驳回")) {
-				
 				leaveService.updateLeaveStatus(businessKey,LeaveEmnu.LEAVE_STATUS_UNPOST.getCode());
 			}
-			
-			
 		}
 		
 		

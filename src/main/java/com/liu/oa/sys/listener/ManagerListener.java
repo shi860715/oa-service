@@ -4,9 +4,13 @@ import java.util.Map;
 
 import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.TaskListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.liu.oa.common.ApplicationContextHandler;
+import com.liu.oa.common.enums.LeaveEmnu;
 import com.liu.oa.sys.model.Dept;
+import com.liu.oa.sys.service.LeaveService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,41 +18,47 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class ManagerListener implements TaskListener {
 	
-	
+	@Autowired
+	private LeaveService leaveService;
 
-	
 
 	@Override
 	public void notify(DelegateTask delegateTask) {
-		
-		
-//		 副总审批，副总徐一方 30
-//		赵振、王胜、连赵生
-		
-		String assignee="";
-		
-	
-		Map<String,Object> variables =delegateTask.getVariables();
-		
-		
-		
-		Dept dept =(Dept) variables.get("dept");
-		
-		
-	
-		
-		switch (dept.getParentId()) {
-		case 4:
-			assignee="23";//76 老连
-			
-			break;
-		case 5:
-			assignee="34";
-			break;
-		
+		if(leaveService==null) {
+			leaveService=ApplicationContextHandler.getBean("leaveService");
 		}
 		
-		delegateTask.setAssignee(assignee);
+		String assignee="";
+		Dept dept =(Dept) delegateTask.getVariable("dept");
+		String businessKey=(String) delegateTask.getVariable("businessKey");
+		String eventName =delegateTask.getEventName();
+		String button =(String) delegateTask.getVariable("button");
+		if("create".equals(eventName)) {
+			System.out.println("create.................");
+			switch (dept.getParentId()) {
+			case 4:
+				assignee="23";//76 老连
+				break;
+			case 5:
+				assignee="34";
+				break;
+			}
+			delegateTask.setAssignee(assignee);
+		}
+		if("complete".equals(eventName)) {
+			System.out.println("complete.................");
+			
+			if(button.equals("驳回")) {
+				
+				leaveService.updateLeaveStatus(businessKey,LeaveEmnu.LEAVE_STATUS_UNPOST.getCode());
+			}
+		}
+		
+		
+		
+		
+		
+	
 		
 		
 		

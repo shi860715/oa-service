@@ -35,6 +35,11 @@ $(function(){
 			updateActions(index);
 		},
 		onDblClickRow : function(index, row) {
+			if(row.status==12 || row.status==14){
+			return;
+			}
+			
+			
 			if (editRowIndex == 'undefined') {
 				$(this).datagrid('beginEdit', index);
 			} else {
@@ -317,7 +322,11 @@ var columns = [[
 		
 	}}, 
 	{field:'days',title:'天数',width:60,align:'center',editor:{
-		type:'text'
+		type:'numberbox',
+		options:{
+			   min:0,    
+			   precision:2   
+		}
 		
 	}}, 
 	{field:'status',title:'状态',width:60,align:'center',formatter:function(value){
@@ -339,6 +348,9 @@ var columns = [[
 		}},
 	{field : 'action',title : '操作',width : 100,align : 'center',
 		formatter : function(value, row, index) {
+			if(row.status==12 || row.status==14){
+				row.edit=false;
+			}
 			var leaveId = row.leaveId;
 			if (row.edit) {
 				var s = '<a href="#" onclick="saveRow('+ index + ')">保存</a>';
@@ -353,9 +365,13 @@ var columns = [[
 				
 				if(row.status==11){
 					return f+'&nbsp&nbsp'+e + '&nbsp&nbsp' + d;
+				}else if(row.status==12 || row.status==14){
+					return "";
 				}else{
 					return e + '&nbsp&nbsp' + d;
 				}
+				
+				
 				
 			}
 		}
