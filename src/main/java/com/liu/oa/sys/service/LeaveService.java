@@ -46,6 +46,9 @@ public interface LeaveService extends BaseService<Leave> {
       * @throws Exception
       */
 	Map<String, Object> completeTask(int leaveId)throws Exception;
+    
+	
+	void updateLeaveGameover(String businessKey);
 	
 	
 	

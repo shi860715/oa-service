@@ -9,6 +9,7 @@ import java.util.Map;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,7 @@ import com.liu.oa.sys.service.WorkFlowService;
 import lombok.extern.slf4j.Slf4j;
 
 @Service("leaveService")
+@Lazy(false)
 @Slf4j
 public class LeaveServiceImpl extends BaseServiceImpl<Leave> implements LeaveService{
 	
@@ -75,6 +77,7 @@ public class LeaveServiceImpl extends BaseServiceImpl<Leave> implements LeaveSer
 		 variables.put("reson",leave.getReson());
 		 variables.put("user",user);
 		 variables.put("dept",dept);
+		 variables.put("businessKey",businessKey);
 		 
 		
 		 
@@ -127,6 +130,15 @@ public class LeaveServiceImpl extends BaseServiceImpl<Leave> implements LeaveSer
 		
 		
 		return result;
+	}
+
+	@Transactional
+	public void updateLeaveGameover(String businessKey) {
+		  String[] id=businessKey.split(":");
+		 Leave leave = leaveMapper.selectById(Integer.parseInt(id[1]));
+		 leave.setStatus(LeaveEmnu.LEAVE_STATUS_SUCCESS.getCode());
+		 leaveMapper.update(leave);
+		
 	}
 	
 	

@@ -9,54 +9,55 @@
 	padding: 0;
 	margin: 0;
 }
+#wrap{
 
-#image {
+	margin: 0 auto;
 	border: 1px solid red;
 	width: 1056px;
 	height: 908px;
-	margin: 0 auto;
-	position: relative;
+}
+
+#image {
+  float: left;
+	
 }
 
 #current {
 	border : 1px solid red;
-	position: absolute;
-    z-index: 10;
+ 	/* position: relative; */
+ 
 }
 </style>
 <script type="text/javascript">
 	$(function() {
 
-		var top = $("#current").attr("x");
+		var top = $("#current").attr("x")*1 ;
+		var left = $("#current").attr("y")*1;
+		var w = $("#current").attr("width")*1;
+		var h = $("#current").attr("height")*1;
+		
+		 $("#current").css({
+		   "width":w,
+		    "height":h,
+	       "position": "relative",
+	         "left":left,
+	         "top":top
+		 });
 		
 		
-		var left = $("#current").attr("y")*1+430;
-		var w = $("#current").attr("width");
-		var h = $("#current").attr("height");
-
-		$("#current").height(h);
-		$("#current").width(w);
-		$("#current").offset({
-			top : top,
-			left : left
-		});
-
-		
-
 	});
 </script>
 
 </head>
 <body>
 
-
+    <div id="wrap">
 	<div id="image">
 		<img alt="" src="" th:src="@{${path}}">
-   
+       
 	</div>
-	 <div id="current" th:x="${actInfo.x}" th:y="${actInfo.y}"
-		th:width="${actInfo.width}" th:height="${actInfo.height}"></div>
-
+	 <div id="current" th:x="${actInfo.x}" th:y="${actInfo.y}" th:width="${actInfo.width}" th:height="${actInfo.height}"></div>
+    </div>
 
 
 </body>

@@ -339,7 +339,7 @@ var columns = [[
 		case 12:
 		  return "审核中";
 		  break;
-		case 13:
+		case 14:
 		  return "已完结";
 		  break;  
 		  }

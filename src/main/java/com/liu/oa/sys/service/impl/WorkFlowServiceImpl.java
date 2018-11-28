@@ -8,13 +8,14 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.zip.ZipInputStream;
 
+import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.impl.RepositoryServiceImpl;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
-import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.impl.pvm.PvmTransition;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.repository.Deployment;
@@ -40,7 +41,10 @@ public class WorkFlowServiceImpl implements WorkFlowService {
 	@Autowired  
 	private RuntimeService runtimeService;  
 	@Autowired  
-	private TaskService taskService;  
+	private TaskService taskService; 
+	
+	@Autowired
+	private HistoryService historyService;
 
 
 	
@@ -350,12 +354,14 @@ public class WorkFlowServiceImpl implements WorkFlowService {
 
 	@Override
 	public String getDeployMentIdByProcessIntanceId(String processInstanceId) {
-	return runtimeService.createProcessInstanceQuery()
-			.processInstanceId(processInstanceId)
-			.singleResult()
-			.getDeploymentId();
-	
+
+			String processDefinitionId =historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult().getProcessDefinitionId();
+			
 		
+			
+			return 	repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult().getDeploymentId();
+			
+			
 	}
 
 
@@ -366,27 +372,59 @@ public class WorkFlowServiceImpl implements WorkFlowService {
 		 ProcessInstance process= runtimeService.createProcessInstanceQuery()
 			.processInstanceId(processInstanceId)
 			.singleResult();
-		
-		 String processInstanceBusinessKey =process.getBusinessKey();
-		Task task= getTaskByProcessId(processInstanceBusinessKey);
 		 
-		 // 通过任务获得执行实例		
-			ExecutionEntity execution = (ExecutionEntity)runtimeService.createExecutionQuery().executionId(task.getExecutionId()).singleResult();
-	       // 通过执行实例获得活动任务节点	
-			String activitiId =execution.getActivityId();
 		 
-		String prodefId= process.getProcessDefinitionId();
-		ProcessDefinitionEntity def = (ProcessDefinitionEntity) ((RepositoryServiceImpl)repositoryService)
-                .getDeployedProcessDefinition(prodefId);
+		 if(process==null) {
+			 
+			 HistoricProcessInstance  processInstance = historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+			 String end="endevent1";
+				String prodefId= processInstance.getProcessDefinitionId();
+				ProcessDefinitionEntity def = (ProcessDefinitionEntity) ((RepositoryServiceImpl)repositoryService)
+		                .getDeployedProcessDefinition(prodefId);
+				
+				//通过流程定义 获得所有的节点
+				   List<ActivityImpl> activityImpls =def.getActivities();
+				   
+				   for(ActivityImpl activityImpl : activityImpls) {
+					   log.info("actId{}",activityImpl.getId());
+				   }
+				   
+				   for (ActivityImpl activityImpl : activityImpls) {
+					   if(end.equals(activityImpl.getId())){
+						   
+						  return activityImpl;
+					   }
+				}
+			 
+		 }else {
+			 
+			 String processInstanceBusinessKey =process.getBusinessKey();
+				Task task= getTaskByProcessId(processInstanceBusinessKey);
+				 
+				 // 通过任务获得执行实例		
+					ExecutionEntity execution = (ExecutionEntity)runtimeService.createExecutionQuery().executionId(task.getExecutionId()).singleResult();
+			       // 通过执行实例获得活动任务节点	
+					String activitiId =execution.getActivityId();
+				 
+				String prodefId= process.getProcessDefinitionId();
+				ProcessDefinitionEntity def = (ProcessDefinitionEntity) ((RepositoryServiceImpl)repositoryService)
+		                .getDeployedProcessDefinition(prodefId);
+				
+				 
+				//通过流程定义 获得所有的节点
+				   List<ActivityImpl> activityImpls =def.getActivities();
+				   for(ActivityImpl activityImpl : activityImpls) {
+					   log.info("actId{}",activityImpl.getId());
+				   }
+				   for (ActivityImpl activityImpl : activityImpls) {
+					   if(activitiId.equals(activityImpl.getId())){
+						  return activityImpl;
+					   }
+				}
+		 }
+		 
 		
-		//通过流程定义 获得所有的节点
-		   List<ActivityImpl> activityImpls =def.getActivities();
-		   for (ActivityImpl activityImpl : activityImpls) {
-			   if(activitiId.equals(activityImpl.getId())){
-				  return activityImpl;
-			   }
-		}
-		   
+		
 		   
 		   
 		return null;
