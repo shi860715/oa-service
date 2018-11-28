@@ -46,9 +46,14 @@ public interface LeaveService extends BaseService<Leave> {
       * @throws Exception
       */
 	Map<String, Object> completeTask(int leaveId)throws Exception;
-    
-	
-	void updateLeaveGameover(String businessKey);
+	    
+	/**
+	 * 修改请假单状态
+	 * @param businessKey
+	 * @param status
+	 */
+	void updateLeaveStatus(String businessKey,int status);
+
 	
 	
 	

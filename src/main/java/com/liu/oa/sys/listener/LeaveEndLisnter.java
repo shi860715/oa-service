@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.liu.oa.common.ApplicationContextHandler;
+import com.liu.oa.common.enums.LeaveEmnu;
 import com.liu.oa.sys.service.LeaveService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +31,7 @@ public class LeaveEndLisnter implements ExecutionListener {
 	   log.info("节点 :   {}      业务主键{}",eventName,businessKey);
 	   if("end".equals(eventName)){
 		   
-		   leaveService.updateLeaveGameover(businessKey);
+		   leaveService.updateLeaveStatus(businessKey,LeaveEmnu.LEAVE_STATUS_SUCCESS.getCode());
 		   
 	   }
 		

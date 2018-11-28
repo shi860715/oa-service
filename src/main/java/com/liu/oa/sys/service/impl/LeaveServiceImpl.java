@@ -133,13 +133,15 @@ public class LeaveServiceImpl extends BaseServiceImpl<Leave> implements LeaveSer
 	}
 
 	@Transactional
-	public void updateLeaveGameover(String businessKey) {
+	public void updateLeaveStatus(String businessKey,int statuts) {
 		  String[] id=businessKey.split(":");
 		 Leave leave = leaveMapper.selectById(Integer.parseInt(id[1]));
-		 leave.setStatus(LeaveEmnu.LEAVE_STATUS_SUCCESS.getCode());
+		 leave.setStatus(statuts);
 		 leaveMapper.update(leave);
 		
 	}
+
+
 	
 	
 	

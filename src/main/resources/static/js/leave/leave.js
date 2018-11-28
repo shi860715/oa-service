@@ -54,8 +54,6 @@ $(function(){
 	/*查询框  start */  
  $("#ss").searchbox({
 		searcher : function(value, name) {
-			
-		
 			$('#datagrid').datagrid('load', {query : value});
 		},
 		prompt : '查询关键字'
@@ -221,7 +219,6 @@ function completeTask(leaveId){
 function showImageTask(){
 	
 	var row =$("#datagrid").datagrid('getSelections')[0];
-	alert("查看流程图");
 	window.open("/sys/workFlow/showImage?processInstanceId="+row.processId);
 	
 }
@@ -232,16 +229,8 @@ function showImageTask(){
 
 var columns = [[
   {field:'leaveId',title:'请假单编号',checkbox:true,width:180}, 
-  
   {field:'userName',title:'姓名',width:60,align:'center'}, 
-  {field:'leaveTime',title:'请假时间',width:120,align:'center'/*,editor:{
-		type:'datetimebox',
-		options:{
-   			formatter:myformatterTime,
-   			parser:myparserTime
-   		}
-		
-	}*/},  
+  {field:'leaveTime',title:'请假时间',width:120,align:'center'},  
 	{field:'startTime',title:'开始时间',width:120,align:'center',editor:{
 		type:'datetimebox',
 		options:{
@@ -356,10 +345,18 @@ var columns = [[
 				var c = '<a href="#" onclick="cancelRow('+ index + ')">取消</a>';
 				return s + '&nbsp&nbsp' + c;
 			} else {
+				
+				
 				var f = '<a id ="startProcess" href="#" onclick="completeTask('+ leaveId + ')">提交审核</a>';
 				var e = '<a href="#" onclick="editRow('+ index + ')">编辑</a>';
 				var d = '<a href="#" onclick="deleteRow('+ index + ')">删除</a>';
-				return f+'&nbsp&nbsp'+e + '&nbsp&nbsp' + d;
+				
+				if(row.status==11){
+					return f+'&nbsp&nbsp'+e + '&nbsp&nbsp' + d;
+				}else{
+					return e + '&nbsp&nbsp' + d;
+				}
+				
 			}
 		}
 	}

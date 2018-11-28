@@ -274,11 +274,10 @@ public class WorkFlowServiceImpl implements WorkFlowService {
 
 	@Override
 	public void completeTask(String taskId, Map<String, Object> variables) throws Exception {
-	  Double	days =(Double) taskService.getVariable(taskId, "days");
-	  
-	    variables.put("days", days);
+
 		log.info("variables{}",variables);
 		taskService.complete(taskId, variables);
+	/*	taskService.complete(taskId, variables, true);*/
 		
 		
 	}

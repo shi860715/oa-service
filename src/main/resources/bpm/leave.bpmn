@@ -5,7 +5,7 @@
     <userTask id="user" name="请假申请" activiti:assignee="${userId}"></userTask>
     <userTask id="dept" name="部门审批">
       <extensionElements>
-        <activiti:taskListener event="create" class="com.liu.oa.sys.listener.DeptListener"></activiti:taskListener>
+        <activiti:taskListener event="all" class="com.liu.oa.sys.listener.DeptListener"></activiti:taskListener>
       </extensionElements>
     </userTask>
     <userTask id="manager" name="经理审批">
