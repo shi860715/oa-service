@@ -1,10 +1,18 @@
 package com.liu.oa.sys.model;
 
+import java.util.Date;
+
+import com.liu.oa.sys.model.Away.AwayBuilder;
+
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Area { 
 	
 	private String id;
@@ -17,19 +25,6 @@ public class Area {
 	
 	private String code;
 
-	public Area(String id, String name, Integer level, String parentId, String code) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.level = level;
-		this.parentId = parentId;
-		this.code = code;
-	}
-
-	public Area() {
-		super();
-	
-	}
 	
 	
 	 

@@ -33,7 +33,7 @@ function compeleTask(dom){
 		data : {taskId:taskId,button:button},
 		/* contentType : 'application/json;charset=UTF-8', */
 		success : function(data) {
-		        alert(data.message);
+		      
 		        window.location.href="/index"
 		
 		}
@@ -57,7 +57,7 @@ function compeleTask(dom){
 				
 					<fieldset>
 						<legend>请假申请单</legend>
-					       <input id ="taskId" name="taskId" th:value="${taskId}">
+					       <input id ="taskId" name="taskId" th:value="${taskId}" style="display: none">
 						<div>
 							<label>申请时间：</label><input th:value="${#dates.format(leave.leaveTime,'yyyy-MM-dd HH:mm')}" type="text"/>
 						</div>

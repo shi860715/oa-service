@@ -1,0 +1,102 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.liu.oa.sys.mapper.AwayMapper">
+
+ <select id="selectById" resultType="away" parameterType="int">
+ 
+ select * from  sys_away where  flag= 0 and away_id=#{awayId}
+ 
+ </select>
+	
+  <insert id="insert" parameterType="away"  useGeneratedKeys="true" keyProperty="awayId">
+  
+   insert into sys_away (user_id,user_name,reson,status,leave_time,days,start_time,end_time,flag,remark,source,destation) 
+      values (#{userId},#{userName},#{reson},,#{status},#{leaveTime},#{days},#{startTime},#{endTime},0,#{remark},#{source},#{destation}) 
+  
+  </insert>
+  
+  
+ 
+	<update id="deleteById" parameterType="int" >
+	 
+	update sys_away set flag=1  where away_id = #{awayId} 
+	
+	</update>
+	
+	<select id="findAll" resultType="away">
+	
+	 select * from sys_away where flag=0 
+	 
+	 <if test="query!=null">
+	 and (user_name like '%${query}%' or reson like '%${query}%' or remark  like '%${query}%' )
+	
+	</if>
+	
+	</select>
+	
+	
+	<select id="findawayByUserId" resultType="away">
+	
+	      
+	 select * from sys_away where  flag=0 
+	<if test="query!=null">
+	 and (user_name like '%${query}%' or reson like '%${query}%' or remark  like '%${query}%' )
+	
+	</if>
+	and user_id =#{userId} 
+	
+	</select>
+	
+	
+	<update id="update" parameterType="away">
+	
+	 update sys_away
+	 <set>
+	  <if test="userName!=null">
+	  user_name = #{userName} ,
+	 </if>
+	 <if test="userId!=null">
+	  user_id = #{userId} ,
+	 </if>
+	 <if test="reson!=null">
+	  reson = #{reson} ,
+	 </if>
+	  <if test="source!=null">
+	   source = #{source} ,
+	 </if>
+	  <if test="destation!=null">
+	   destation = #{destation} ,
+	 </if>
+	 <if test="status!=null">
+	   status = #{status} ,
+	 </if>
+	  <if test="leaveTime!=null">
+	   leave_time = #{leaveTime} ,
+	 </if>
+	 <if test="days!=null">
+	   days = #{days} ,
+	 </if>
+	 <if test="startTime!=null">
+	   start_time = #{startTime} ,
+	 </if>
+	 <if test="endTime!=null">
+	   end_time = #{endTime} ,
+	 </if>
+	 <if test="flag!=null">
+	   flag = #{flag} ,
+	 </if>
+	  <if test="processId!=null">
+	   process_id = #{processId} ,
+	 </if>
+	 
+	<if test="remark!=null">
+	   remark = #{remark} 
+	 </if>
+	 </set>
+	 <where>
+	  away_id =#{awayId}
+	 </where>
+	</update>
+</mapper>
