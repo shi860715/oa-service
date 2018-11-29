@@ -2,10 +2,16 @@ package com.liu.oa.sys.model;
 
 import java.util.Date;
 
+import com.liu.oa.sys.model.Away.AwayBuilder;
+
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Role {
 	
 	
@@ -18,21 +24,6 @@ public class Role {
 	
 	private Date updateTime;
 
-	public Role(Integer roleId, String name, String remark, Integer flag, Date createTime, Date updateTime) {
-		super();
-		this.roleId = roleId;
-		this.name = name;
-		this.remark = remark;
-		this.flag = flag;
-		this.createTime = createTime;
-		this.updateTime = updateTime;
-	}
-
-	public Role() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	
 	
 
 }

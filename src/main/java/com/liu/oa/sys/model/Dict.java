@@ -1,10 +1,14 @@
 package com.liu.oa.sys.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Dict {
 	
 	
@@ -24,21 +28,6 @@ public class Dict {
 
 
 
-	public Dict() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public Dict(Integer dictId, String name, String type, Integer sort, String value, Integer parentId, Integer flag) {
-		super();
-		this.dictId = dictId;
-		this.name = name;
-		this.type = type;
-		this.sort = sort;
-		this.value = value;
-		this.parentId = parentId;
-		this.flag = flag;
-	}
 	
 	
 	

@@ -4,13 +4,18 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.liu.oa.sys.model.Away.AwayBuilder;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Leave implements Serializable{
 	
 	private Integer leaveId;
@@ -48,33 +53,6 @@ public class Leave implements Serializable{
 
 
 
-	public Leave() {
-		super();
-	}
-
-
-
-	public Leave(Integer leaveId, Integer userId, String userName, String reson, Integer type, String remark,
-			Integer status, Double days, Date leaveTime, Date startTime, Date endTime, Date createTime, Date updateTime,
-			String processId, Integer flag) {
-		super();
-		this.leaveId = leaveId;
-		this.userId = userId;
-		this.userName = userName;
-		this.reson = reson;
-		this.type = type;
-		this.remark = remark;
-		this.status = status;
-		this.days = days;
-		this.leaveTime = leaveTime;
-		this.startTime = startTime;
-		this.endTime = endTime;
-		this.createTime = createTime;
-		this.updateTime = updateTime;
-		this.processId = processId;
-		this.flag = flag;
-	}
-	
 	
 	
 	
