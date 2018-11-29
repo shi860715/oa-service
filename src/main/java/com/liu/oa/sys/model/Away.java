@@ -47,5 +47,7 @@ public class Away implements Serializable{
 	
 	private Integer flag;
 	
+	private String processId;
+	
 
 }

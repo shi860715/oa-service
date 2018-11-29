@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -42,12 +43,17 @@ public class AwayController {
 	
 	
 	@RequestMapping("/saveOrUpdate")
-	public @ResponseBody Map<String,Object> saveOrUpdate(Away away){
+	public @ResponseBody Map<String,Object> saveOrUpdate(@RequestBody Away away){
 		
 		Map<String,Object> result = new HashMap<String, Object>();
 		log.info("【创建请假单】{}",away);
 		
-		
+		try {
+			awayService.saveAndStartProcess(away);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 		
