@@ -64,13 +64,21 @@ overflow: hidden;
      
       padding:5px 15px;
       line-height: 20px;
-      font-size: 18px;
+      font-size: 14px;
       /* border: 1px solid red; */
       position: absolute;
       right: 50px;
       bottom:4%;
+      vertical-align: middle;
+      text-align: center;
+      
 }
-
+.userPic{
+   width:40px;
+   height:40px;
+   border-radius: 50%;
+ vertical-align: middle;
+}
 
  </style>
  
@@ -196,8 +204,11 @@ overflow: hidden;
 <body class="easyui-layout">
 	<div data-options="region:'north'" style="overflow:hidden;" >
 	 <div class="top">
-	    <div class="top-header">企业OA 办公自动化管理系统 </div>  
-	    <div class="userInfo">欢迎&nbsp;&nbsp;<span style="color:red;">[[${user.userName}]]</span>&nbsp;&nbsp;,<a href="/logout">退出</a></div> 
+	    <div class="top-header">生兴科技信息公共服务平台 </div>  
+	    
+	    <div class="userInfo"><img class="userPic" alt="" src="/image/123.jpg">
+	    欢迎&nbsp;&nbsp;<span style="color:red;">[[${user.userName}]]</span>&nbsp;&nbsp;,<a href="/logout">退出</a>
+	    </div> 
 	 </div>
 	</div>   
     <div data-options="region:'south'"  >
