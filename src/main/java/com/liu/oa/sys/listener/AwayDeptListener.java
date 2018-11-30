@@ -45,7 +45,7 @@ public class AwayDeptListener implements TaskListener{
 		if(eventName.equals("complete")) {
 			
 			try {
-				awayService.updateAwayStatus(businessKey,WorkFlowEmnu.STATUS_UNPOST.getCode());
+				awayService.updatestatus(businessKey,WorkFlowEmnu.STATUS_UNPOST.getCode());
 			} catch (Exception e) {
 				
 				e.printStackTrace();

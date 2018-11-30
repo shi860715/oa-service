@@ -57,9 +57,10 @@ public class AwayServiceImpl extends BaseServiceImpl<Away> implements AwayServic
 		
 		Map<String, Object> variables = new HashMap<>();
 		Dept dept =deptMapper.selectById(user.getDeptId());
-		variables.put("businessKey", businessKey);
-		variables.put("user", user);
-		variables.put("userId", user.getUserId().toString());
+//		variables.put("businessKey", businessKey);
+//		variables.put("user", user);
+//		variables.put("userId", user.getUserId().toString());
+		variables =this.setProcessVariables(businessKey);
 		variables.put("dept", dept);
 	
 		
@@ -77,12 +78,6 @@ public class AwayServiceImpl extends BaseServiceImpl<Away> implements AwayServic
 	}
 
 
-	@Override
-	public void updateAwayStatus(String businessKey, Integer status) throws Exception {
-		String [] id = businessKey.split(":");
-		
-		updatestatus(id[1], status);
-	}
 
 
 	@Override
