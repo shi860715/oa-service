@@ -42,4 +42,17 @@ public interface BaseService<T> {
 	public void completeTask(String businessKey,Map<String,Object> variables) throws Exception;
 	
 	
+	/**
+	 * 设置参数
+	 * @param businessKey
+	 * @return
+	 */
+	public Map<String,Object> setProcessVariables(String businessKey);
+	
+	/**
+	 * @return 
+	 * 
+	 */
+	public void startProcess(T t,String businessKey);
+	
 }

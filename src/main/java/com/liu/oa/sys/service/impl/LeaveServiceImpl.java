@@ -70,11 +70,14 @@ public class LeaveServiceImpl extends BaseServiceImpl<Leave> implements LeaveSer
 		User user =RequestHolder.getCurrentUser();
 		Dept dept = deptMapper.selectById(user.getDeptId());
 		
-		 variables.put("userId", user.getUserId().toString());
+		 
 		 variables.put("days",leave.getDays());
 		 variables.put("reson",leave.getReson());
-		 variables.put("user",user);
+		
 		 variables.put("dept",dept);
+		 
+		 variables.put("userId", user.getUserId().toString());
+		 variables.put("user",user);
 		 variables.put("businessKey",businessKey);
 		 
 		
@@ -113,14 +116,6 @@ public class LeaveServiceImpl extends BaseServiceImpl<Leave> implements LeaveSer
 
 	
 
-	@Transactional
-	public void updateLeaveStatus(String businessKey,int statuts) {
-		  String[] id=businessKey.split(":");
-		 Leave leave = leaveMapper.selectById(Integer.parseInt(id[1]));
-		 leave.setStatus(statuts);
-		 leaveMapper.update(leave);
-		
-	}
 
 
 	

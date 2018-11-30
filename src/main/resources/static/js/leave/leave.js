@@ -205,11 +205,12 @@ $.ajax({
 
 function completeTask(id){
 	var flag=false;
+	var button ="提交";
 	
-	var variables ={"button":"提交"};
-	var obj ={};
-	obj.id=id;
-	obj.variables=variables;
+	var obj =getJsonObj(id,button);
+	
+	
+	
 	$.ajax({
 		type : 'post',
 		url : '/sys/leave/completeTask',

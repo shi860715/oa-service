@@ -173,3 +173,10 @@ function createContent(name,url) {
     return strHtml;
 }
 
+function getJsonObj(id,button) {
+	var variables ={"button":button};
+	var obj ={"id":id,"variables":variables};
+	
+	return obj;
+	
+}

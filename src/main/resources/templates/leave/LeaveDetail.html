@@ -22,17 +22,21 @@ form div{
 
 <script type="text/javascript">
 
+function getJsonObj(id,button) {
+	var variables ={"button":button};
+	var obj ={"id":id,"variables":variables};
+	
+	return obj;
+	
+}
+
 function compeleTask(dom){
 
 	var button =$(dom).text();
 	var taskId = $("#taskId").val();
 	var id = $("#leaveId").val();
 	
-	var obj = {"id":id};
-	var variables={"button":button};
-	obj.variables=variables;
-	
-	
+   var obj=	getJsonObj(id,button);
 	
 
 	$.ajax({
@@ -44,9 +48,7 @@ function compeleTask(dom){
 		success : function(data) {
 		      alert(data.message);
 		     
-		   $(".mydiv").css({
-			   "display":"none"
-		   });
+		      window.open("/index");
 		}
 		
 		

@@ -48,13 +48,27 @@ public class AwayController {
 		
 		Map<String,Object> result = new HashMap<String, Object>();
 		log.info("【创建请假单】{}",away);
-		
-		try {
-			result=awayService.saveAndStartProcess(away);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(away.getAwayId()!=null) {
+			
+			try {
+				awayService.update(away);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}else {
+			
+			try {
+				result=awayService.saveAndStartProcess(away);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
 		}
+		
 		
 		return result;
 	}

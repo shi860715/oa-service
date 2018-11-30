@@ -100,7 +100,24 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 		
 	}
 
-	
+	@Override
+	public Map<String, Object> setProcessVariables(String businessKey) {
+		Map<String, Object> variables = new HashMap<>();
+		
+		User user =RequestHolder.getCurrentUser();
+		variables.put("userId", user.getUserId());
+		variables.put("user", user);	
+		variables.put("businessKey", businessKey);
+		return variables;
+	}
+
+	@Override
+	public void startProcess(T t, String businessKey) {
+		
+		
+	}
+
+
 
 
 

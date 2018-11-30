@@ -59,8 +59,9 @@ public class AwayServiceImpl extends BaseServiceImpl<Away> implements AwayServic
 		Dept dept =deptMapper.selectById(user.getDeptId());
 		variables.put("businessKey", businessKey);
 		variables.put("user", user);
-		variables.put("dept", dept);
 		variables.put("userId", user.getUserId().toString());
+		variables.put("dept", dept);
+	
 		
 		
 		ProcessInstance process = workFlowService.startProcessBybusinessKey(processDefinitionKey, businessKey, variables);
