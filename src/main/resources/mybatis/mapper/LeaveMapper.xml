@@ -91,4 +91,18 @@
 	  leave_id =#{leaveId}
 	 </where>
 	</update>
+	
+    <update id="updatestatus">
+	
+	 update sys_leave set   status = #{status} where  leave_id =#{id}
+	
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>

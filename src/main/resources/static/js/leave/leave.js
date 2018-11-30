@@ -203,15 +203,18 @@ $.ajax({
 
 }
 
-function completeTask(leaveId){
+function completeTask(id){
 	var flag=false;
 	
+	var variables ={"button":"提交"};
+	var obj ={};
+	obj.id=id;
+	obj.variables=variables;
 	$.ajax({
 		type : 'post',
 		url : '/sys/leave/completeTask',
-		data : {
-			"leaveId" : leaveId
-		},
+		data : JSON.stringify(obj),
+		contentType : 'application/json;charset=UTF-8',
 		success : function(data) {
 				parent.$.messager.alert('提示消息', data.message);
 				$('#datagrid').datagrid('reload');

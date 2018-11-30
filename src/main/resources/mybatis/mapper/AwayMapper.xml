@@ -14,7 +14,7 @@
   
    insert into sys_away (user_id,user_name,reson,status,leave_time,days,start_time,end_time,flag,remark,source,destation,process_id) 
       values (#{userId},#{userName},#{reson},#{status},#{leaveTime},#{days},#{startTime},#{endTime},0,#{remark},#{source},#{destation},#{processId}) 
-  
+   
   </insert>
   
   
@@ -33,6 +33,19 @@
 	 and (user_name like '%${query}%' or reson like '%${query}%' or remark  like '%${query}%' )
 	
 	</if>
+	
+	</select>
+	
+	
+	<select id="findAllByUserId" resultType="away">
+	
+	 select * from sys_away where flag=0 
+	 
+	 <if test="query!=null">
+	 and (user_name like '%${query}%' or reson like '%${query}%' or remark  like '%${query}%' )
+	
+	</if>
+	and user_id =#{userId}
 	
 	</select>
 	
@@ -99,4 +112,19 @@
 	  away_id =#{awayId}
 	 </where>
 	</update>
+	
+	<update id="updatestatus">
+	
+	 update sys_away set   status = #{status} where  away_id =#{id}
+	
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>

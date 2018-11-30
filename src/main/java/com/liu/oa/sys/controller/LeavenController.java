@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.liu.oa.common.RequestHolder;
-import com.liu.oa.common.enums.LeaveEmnu;
+import com.liu.oa.common.enums.WorkFlowEmnu;
 import com.liu.oa.framwork.utils.JacksonUtil;
+import com.liu.oa.sys.form.ComTaskForm;
 import com.liu.oa.sys.model.Leave;
 import com.liu.oa.sys.model.User;
 import com.liu.oa.sys.service.LeaveService;
@@ -72,7 +73,7 @@ public class LeavenController {
 		
 	
 	     //初始化 请假单状态,请假单状态为未提交
-         leave.setStatus(LeaveEmnu.LEAVE_STATUS_UNPOST.getCode());
+         leave.setStatus(WorkFlowEmnu.STATUS_UNPOST.getCode());
 		if (leave.getLeaveId() != null) {
 
 			try {
@@ -125,11 +126,12 @@ public class LeavenController {
 		
 		log.info("fromId{}",fromId);
 		
+		
 		try {
 			Leave leave =leaveService.selectById(Integer.parseInt(fromId));
 			User user = userService.selectById(leave.getUserId());
 			List<PvmTransition> outcoms=workFlowService.getPvmTransitionByBusinessKey("leave:"+leave.getLeaveId());
-			Task task =workFlowService.getTaskByProcessId("leave:"+leave.getLeaveId());
+			Task task =workFlowService.getTaskByBusinessKey("leave:"+leave.getLeaveId());
 			String taskId=task.getId();
 			
 			
@@ -159,14 +161,15 @@ public class LeavenController {
 	
 
 	@RequestMapping("/completeTask")
-	public @ResponseBody Map<String, Object> completeTask(int leaveId) {
+	public @ResponseBody Map<String, Object> completeTask(@RequestBody ComTaskForm taskForm) {
 		Map<String, Object> result = new HashMap<>();
 		
 		try {
-			result=leaveService.completeTask(leaveId);
+		    leaveService.completeTask("leave:"+taskForm.getId(), taskForm.getVariables());
+		    result.put("message","申请提交成功");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			 result.put("message",e.getMessage());
 		}
 		
 		return result;
@@ -174,32 +177,7 @@ public class LeavenController {
 	
 	
 	
-	@RequestMapping("/completeTaskByTaskId")
-	public @ResponseBody Map<String,Object> completeTask(String taskId,String button){
-		
-		log.info("taskId:{}",taskId);
-		log.info("button:{}",button);
-		
-		Map<String,Object> variables = new HashMap<>();
-		Map<String,Object> result = new HashMap<>();
-		
-		
-		
-		variables.put("button", button);
-		
-	    
-		
-		
-		result.put("message", "任务提交完成");
-		try {
-			workFlowService.completeTask(taskId, variables);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return result;
-	}
+
 	
 	
 	

@@ -13,10 +13,7 @@ public enum LeaveEmnu implements CodeEmnu{
 	LEAVE_D(6,"丧假"),
 	LEAVE_B(7,"病假"),
 	
-	LEAVE_STATUS_UNPOST(11,"待提交"),
-	LEAVE_STATUS_WATING(12,"审核中"),
-	LEAVE_STATUS_FAILED(13,"审核不通过"),
-	LEAVE_STATUS_SUCCESS(14,"审核通过"),
+
 	;
 	
 	private Integer code;

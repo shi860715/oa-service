@@ -190,7 +190,7 @@ $.ajax({
 	type : 'post',
 	url : '/sys/away/delete',
 	data : {
-		"leaveId" : editId
+		"awayId" : editId
 	},
 	success : function(data) {
 		
@@ -203,14 +203,14 @@ $.ajax({
 
 }
 
-function completeTask(leaveId){
+function completeTask(prcessId){
 	var flag=false;
 	
 	$.ajax({
 		type : 'post',
 		url : '/sys/away/completeTask',
 		data : {
-			"leaveId" : leaveId
+			"prcessId" : prcessId
 		},
 		success : function(data) {
 				parent.$.messager.alert('提示消息', data.message);
@@ -235,7 +235,7 @@ function showImageTask(){
 var columns = [[
   {field:'awayId',title:'请假单编号',checkbox:true,width:180}, 
   {field:'userName',title:'姓名',width:60,align:'center'}, 
-  {field:'createTime',title:'制单时间',width:120,align:'center'},  
+  {field:'leaveTime',title:'制单时间',width:120,align:'center'},  
 	{field:'startTime',title:'开始时间',width:120,align:'center',editor:{
 		type:'datebox',
 		options:{
@@ -295,7 +295,7 @@ var columns = [[
 			if(row.status==12 || row.status==14){
 				row.edit=false;
 			}
-			var leaveId = row.leaveId;
+			var processId = row.processId;
 			if (row.edit) {
 				var s = '<a href="#" onclick="saveRow('+ index + ')">保存</a>';
 				var c = '<a href="#" onclick="cancelRow('+ index + ')">取消</a>';
@@ -303,7 +303,7 @@ var columns = [[
 			} else {
 				
 				
-				var f = '<a id ="startProcess" href="#" onclick="completeTask('+ leaveId + ')">提交审核</a>';
+				var f = '<a id ="startProcess" href="#" onclick="completeTask('+ processId + ')">提交审核</a>';
 				var e = '<a href="#" onclick="editRow('+ index + ')">编辑</a>';
 				var d = '<a href="#" onclick="deleteRow('+ index + ')">删除</a>';
 				

@@ -122,15 +122,17 @@ public class WrokFlowController {
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
-	public Map<String,Object> delete(String deploymentId){
+	public Map<String,Object> delete(String deploymentId,boolean flag){
 		Map<String,Object> result = new HashMap<>();
 		
-		try {
-			result =wrokFlowService.deleteDefinitionByDeployMentId(deploymentId);
-			log.info("【删除流程】{}",result);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			try {
+				result =wrokFlowService.deleteDefinitionByDeployMentId(deploymentId,flag);
+				log.info("【删除流程】{}",result);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+		
 		
 		
 		return result;

@@ -108,11 +108,11 @@ public class WorkFlowServiceImpl implements WorkFlowService {
 
 
 	@Override
-	public Map<String, Object> deleteDefinitionByDeployMentId(String deploymentId) throws Exception {
+	public Map<String, Object> deleteDefinitionByDeployMentId(String deploymentId,boolean flag) throws Exception {
 		Map<String,Object> result = new HashMap<>();
 		
 		try {
-			repositoryService.deleteDeployment(deploymentId);
+			repositoryService.deleteDeployment(deploymentId,flag);
 			result.put("code", Contant.SUCCESS.getCode());
 			result.put("message","流程删除成功");
 		}catch (Exception e) {
@@ -305,7 +305,10 @@ public class WorkFlowServiceImpl implements WorkFlowService {
 
 
 	@Override
-	public Task getTaskByProcessId(String processInstanceBusinessKey) {
+	public Task getTaskByBusinessKey(String processInstanceBusinessKey) {
+		
+		
+		
 		
 		return taskService.createTaskQuery().processInstanceBusinessKey(processInstanceBusinessKey).singleResult();
 		
@@ -398,7 +401,7 @@ public class WorkFlowServiceImpl implements WorkFlowService {
 		 }else {
 			 
 			 String processInstanceBusinessKey =process.getBusinessKey();
-				Task task= getTaskByProcessId(processInstanceBusinessKey);
+				Task task= getTaskByBusinessKey(processInstanceBusinessKey);
 				 
 				 // 通过任务获得执行实例		
 					ExecutionEntity execution = (ExecutionEntity)runtimeService.createExecutionQuery().executionId(task.getExecutionId()).singleResult();

@@ -139,7 +139,7 @@ function deleteRow(index) {
 		if (r) {
 			var rows = $('#datagrid').datagrid('getRows');
 			var row = rows[index];
-			deleteObject(row.deploymentId);
+			deleteObject(row.deploymentId,false);
 		}
 	});
 }
@@ -192,14 +192,16 @@ function saveOrUpdateObject(row){
 	
 }
 
-/*删除角色*/
-function deleteObject(editId) {
+
+function deleteObject(editId,flag) {
 
 	$.ajax({
 		type : 'post',
 		url : '/sys/workFlow/delete',
 		data : {
-			"deploymentId" : editId
+			"deploymentId" : editId,
+			"flag":flag
+			
 		},
 		success : function(data) {
 			
@@ -268,9 +270,15 @@ var toolbars =[{text : "检索：<input type='text' id='ss' />"},
 	        	  
 	        	  
 	          }},
-	          {iconCls : 'icon-edit',text : '授予资源',handler : function() {
+	          {iconCls : 'icon-edit',text : '强制删除流程',handler : function() {
 	        	
-	        	  
+	        	  parent.$.messager.confirm('删除提示', '您确定要删除现在的流程吗?删除后流程相关数据将丢失', function(r) {
+	        			if (r) {
+	        				var rows = $('#datagrid').datagrid('getSelections');
+	        				var row = rows[0];
+	        				deleteObject(row.deploymentId,true);
+	        			}
+	        		});
 	        	  
 	        	  
 	          }}]

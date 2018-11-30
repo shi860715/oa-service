@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.liu.oa.common.RequestHolder;
 import com.liu.oa.sys.model.Away;
 import com.liu.oa.sys.service.AwayService;
 import com.liu.oa.sys.service.UserService;
@@ -49,18 +50,52 @@ public class AwayController {
 		log.info("【创建请假单】{}",away);
 		
 		try {
-			awayService.saveAndStartProcess(away);
+			result=awayService.saveAndStartProcess(away);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		return result;
+	}
+	
+	@RequestMapping("/awaysByUserId")
+	public @ResponseBody Map<String ,Object > awaysByUserId(int page,int rows,String query){
+		Map<String,Object> result = new HashMap<String, Object>();
 		
+		
+		result=awayService.findAllByUserId(page,rows,query);
 		
 		
 		return result;
 	}
-	
-	
 
+	
+	
+	@RequestMapping("/completeTask")
+	public @ResponseBody Map<String ,Object > completeTask(String processId){
+		
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		
+		result =awayService.completeTask(processId);
+		
+		
+		
+		
+		return result;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

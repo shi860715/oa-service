@@ -2,7 +2,11 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
   <process id="leave" name="请假流程" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
-    <userTask id="user" name="请假申请" activiti:assignee="${userId}"></userTask>
+    <userTask id="user" name="请假申请">
+      <extensionElements>
+        <activiti:taskListener event="all" class="com.liu.oa.sys.listener.LeavePostListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <userTask id="dept" name="部门审批">
       <extensionElements>
         <activiti:taskListener event="all" class="com.liu.oa.sys.listener.DeptListener"></activiti:taskListener>

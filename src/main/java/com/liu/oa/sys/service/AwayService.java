@@ -9,4 +9,10 @@ public interface AwayService extends BaseService<Away> {
 	
 	public Map<String,Object> saveAndStartProcess(Away t)throws Exception;
 
+	public void updateAwayStatus(String businessKey, Integer status)throws Exception;
+
+	public Map<String, Object> completeTask(String processId);
+
+	/*public Map<String, Object> findAllByUserId(int page, int rows, String query);*/
+
 }

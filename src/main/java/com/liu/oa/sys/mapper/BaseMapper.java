@@ -18,6 +18,10 @@ public interface BaseMapper<T> {
 	int update(T t);
 	
 	List<T> findAll(@Param("query") String query);
+
+	List<T> findAllByUserId(@Param("userId") Integer userId, @Param("query")String query);
+
+	void updatestatus(@Param("id") Serializable id,@Param("status") Integer status);
 	
 	
 	

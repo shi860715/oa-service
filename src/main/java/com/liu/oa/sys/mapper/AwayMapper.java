@@ -12,4 +12,8 @@ public interface AwayMapper extends BaseMapper<Away>{
 
 	List<Away> findAwayByUserId(@Param("userId")Integer userId,@Param("query") String query);
 
+	void updateAwayStatus(@Param("status")int status, @Param("awayId") int awayId);
+
+
+
 }

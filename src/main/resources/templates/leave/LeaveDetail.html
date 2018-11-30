@@ -26,16 +26,27 @@ function compeleTask(dom){
 
 	var button =$(dom).text();
 	var taskId = $("#taskId").val();
+	var id = $("#leaveId").val();
+	
+	var obj = {"id":id};
+	var variables={"button":button};
+	obj.variables=variables;
+	
+	
+	
 
 	$.ajax({
 		type : 'post',
-		url : '/sys/leave/completeTaskByTaskId',
-		data : {taskId:taskId,button:button},
-		/* contentType : 'application/json;charset=UTF-8', */
+		url : '/sys/leave/completeTask',
+		data : JSON.stringify(obj),
+		contentType : 'application/json;charset=UTF-8',
+	
 		success : function(data) {
-		      
-		        window.location.href="/index"
-		
+		      alert(data.message);
+		     
+		   $(".mydiv").css({
+			   "display":"none"
+		   });
 		}
 		
 		
@@ -58,6 +69,7 @@ function compeleTask(dom){
 					<fieldset>
 						<legend>请假申请单</legend>
 					       <input id ="taskId" name="taskId" th:value="${taskId}" style="display: none">
+					       <input id ="leaveId" name="leaveId" th:value="${leave.leaveId}" style="display: none">
 						<div>
 							<label>申请时间：</label><input th:value="${#dates.format(leave.leaveTime,'yyyy-MM-dd HH:mm')}" type="text"/>
 						</div>

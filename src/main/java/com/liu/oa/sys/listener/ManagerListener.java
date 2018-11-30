@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.liu.oa.common.ApplicationContextHandler;
 import com.liu.oa.common.enums.LeaveEmnu;
+import com.liu.oa.common.enums.WorkFlowEmnu;
 import com.liu.oa.sys.model.Dept;
 import com.liu.oa.sys.service.LeaveService;
 
@@ -50,7 +51,7 @@ public class ManagerListener implements TaskListener {
 			
 			if(button.equals("驳回")) {
 				
-				leaveService.updateLeaveStatus(businessKey,LeaveEmnu.LEAVE_STATUS_UNPOST.getCode());
+				leaveService.updatestatus(businessKey,WorkFlowEmnu.STATUS_UNPOST.getCode());
 			}
 		}
 		

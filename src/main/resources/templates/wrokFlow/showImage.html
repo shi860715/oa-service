@@ -13,8 +13,7 @@
 
 	margin: 0 auto;
 	border: 1px solid red;
-	width: 1056px;
-	height: 908px;
+	
 }
 
 #image {
@@ -44,6 +43,26 @@
 	         "top":top
 		 });
 		
+		    
+		
+		 $("<img/>").attr("src",$("img").attr("src")).load(function(){
+			 
+			var realWidth = this.width;
+             var realHeight = this.height;
+             $("#wrap").css({
+     			"width":realWidth,
+     		    "height":realHeight
+     		});
+			 
+		 })
+		 
+		 
+		
+		
+		
+		
+		 
+		 
 		
 	});
 </script>

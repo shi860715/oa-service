@@ -45,7 +45,7 @@ public interface WorkFlowService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Map<String, Object> deleteDefinitionByDeployMentId(String deploymentId)throws Exception; 
+	public Map<String, Object> deleteDefinitionByDeployMentId(String deploymentId,boolean flag)throws Exception; 
 	
 	
 	/**
@@ -171,10 +171,10 @@ public interface WorkFlowService {
 	
     /**
      * 通过业务主键获取任务 获取任务
-     * @param processId
+     * @param BusinessKey
      * @return
      */
-	public Task getTaskByProcessId(String processInstanceBusinessKey);
+	public Task getTaskByBusinessKey(String processInstanceBusinessKey);
 	
 	/**
 	 * 通过业务主键获得连出线
@@ -195,5 +195,12 @@ public interface WorkFlowService {
 	 * @return
 	 */
 	public ActivityImpl getActivityImpl(String processInstanceId);
+	
+	
+	
+	
+	
+	
+	
 	
 }

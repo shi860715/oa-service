@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.liu.oa.common.RequestHolder;
-import com.liu.oa.common.enums.LeaveEmnu;
 import com.liu.oa.framwork.utils.JacksonUtil;
 import com.liu.oa.sys.mapper.DeptMapper;
 import com.liu.oa.sys.mapper.LeaveMapper;
@@ -113,24 +111,7 @@ public class LeaveServiceImpl extends BaseServiceImpl<Leave> implements LeaveSer
 		return result;
 	}
 
-	@Override
-	@Transactional
-	public Map<String, Object> completeTask(int leaveId) throws Exception {
-		Map<String,Object>  result = new HashMap<>();
-		Map<String,Object>  variables = new HashMap<>();
-		Leave leave =leaveMapper.selectById(leaveId);
-		String processInstanceBusinessKey="leave:"+leave.getLeaveId();
-		Task task =workFlowService.getTaskByProcessId(processInstanceBusinessKey);
-		variables.put("button", "提交");
-		workFlowService.completeTask(task.getId(),variables);
-		//更新请假单状态
-		leave.setStatus(LeaveEmnu.LEAVE_STATUS_WATING.getCode());
-		leaveMapper.update(leave);
-		result.put("message", "任务提交成功");
-		
-		
-		return result;
-	}
+	
 
 	@Transactional
 	public void updateLeaveStatus(String businessKey,int statuts) {

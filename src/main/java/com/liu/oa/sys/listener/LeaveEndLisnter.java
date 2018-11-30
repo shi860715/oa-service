@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.liu.oa.common.ApplicationContextHandler;
 import com.liu.oa.common.enums.LeaveEmnu;
+import com.liu.oa.common.enums.WorkFlowEmnu;
 import com.liu.oa.sys.service.LeaveService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,8 +31,7 @@ public class LeaveEndLisnter implements ExecutionListener {
 	   String businessKey =(String) execution.getVariable("businessKey");
 	   log.info("节点 :   {}      业务主键{}",eventName,businessKey);
 	   if("end".equals(eventName)){
-		   
-		   leaveService.updateLeaveStatus(businessKey,LeaveEmnu.LEAVE_STATUS_SUCCESS.getCode());
+		   leaveService.updatestatus(businessKey,WorkFlowEmnu.STATUS_SUCCESS.getCode());
 		   
 	   }
 		
