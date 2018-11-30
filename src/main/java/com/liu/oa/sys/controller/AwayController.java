@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.liu.oa.common.RequestHolder;
+import com.liu.oa.common.enums.WorkFlowEmnu;
 import com.liu.oa.sys.model.Away;
 import com.liu.oa.sys.service.AwayService;
 import com.liu.oa.sys.service.UserService;
@@ -48,6 +49,9 @@ public class AwayController {
 		
 		Map<String,Object> result = new HashMap<String, Object>();
 		log.info("【创建请假单】{}",away);
+		
+		
+		away.setStatus(WorkFlowEmnu.STATUS_UNPOST.getCode());
 		if(away.getAwayId()!=null) {
 			
 			try {
@@ -90,13 +94,7 @@ public class AwayController {
 	public @ResponseBody Map<String ,Object > completeTask(String processId){
 		
 		Map<String,Object> result = new HashMap<String, Object>();
-		
-		
 		result =awayService.completeTask(processId);
-		
-		
-		
-		
 		return result;
 		
 	}

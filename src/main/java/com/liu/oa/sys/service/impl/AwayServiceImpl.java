@@ -41,7 +41,7 @@ public class AwayServiceImpl extends BaseServiceImpl<Away> implements AwayServic
 		t.setUserName(user.getUserName());
 		t.setFlag(0);
 		t.setLeaveTime(new Date());
-		t.setStatus(WorkFlowEmnu.STATUS_UNPOST.getCode());
+		
 		
 		
 		
