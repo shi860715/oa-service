@@ -28,6 +28,8 @@ public class AwayDeptListener implements TaskListener{
 		}
 		
 		String businessKey =(String) delegateTask.getVariable("businessKey");
+		
+		String button = (String) delegateTask.getVariable("button");
 		Dept dept =(Dept) delegateTask.getVariable("dept");
 		
 		String eventName =delegateTask.getEventName();
@@ -44,12 +46,18 @@ public class AwayDeptListener implements TaskListener{
 		}
 		if(eventName.equals("complete")) {
 			
-			try {
-				awayService.updatestatus(businessKey,WorkFlowEmnu.STATUS_UNPOST.getCode());
-			} catch (Exception e) {
+			if(button.equals("驳回")) {
 				
-				e.printStackTrace();
+				try {
+					awayService.updatestatus(businessKey,WorkFlowEmnu.STATUS_UNPOST.getCode());
+				} catch (Exception e) {
+					
+					e.printStackTrace();
+				}
+				
 			}
+			
+			
 			System.out.println("complete............");
 			
 		}

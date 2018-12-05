@@ -2,13 +2,21 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
   <process id="away" name="出差流程" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
-    <userTask id="user" name="用户申请" activiti:assignee="${userId}"></userTask>
+    <userTask id="user" name="用户申请" activiti:assignee="${userId}">
+      <extensionElements>
+        <activiti:taskListener event="all" class="com.liu.oa.sys.listener.AwayUserListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <userTask id="dept" name="部门审批">
       <extensionElements>
         <activiti:taskListener event="all" class="com.liu.oa.sys.listener.AwayDeptListener"></activiti:taskListener>
       </extensionElements>
     </userTask>
-    <endEvent id="endevent1" name="End"></endEvent>
+    <endEvent id="endevent1" name="End">
+      <extensionElements>
+        <activiti:executionListener event="end" class="com.liu.oa.sys.listener.AwayEndListener"></activiti:executionListener>
+      </extensionElements>
+    </endEvent>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="user"></sequenceFlow>
     <sequenceFlow id="flow2" name="提交" sourceRef="user" targetRef="dept">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${button=='提交'}]]></conditionExpression>
@@ -49,7 +57,7 @@
         <omgdi:waypoint x="527.0" y="405.0"></omgdi:waypoint>
         <omgdi:waypoint x="527.0" y="470.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="100.0" x="527.0" y="419.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="24.0" x="527.0" y="419.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
@@ -58,7 +66,7 @@
         <omgdi:waypoint x="672.0" y="267.0"></omgdi:waypoint>
         <omgdi:waypoint x="580.0" y="267.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="100.0" x="670.0" y="318.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="24.0" x="670.0" y="318.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>

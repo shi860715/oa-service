@@ -114,7 +114,7 @@ var myparserTime=function(s){
 	var sss =ss[0].split("-");
 	var hhh =ss[1].split(":");
 	
-	console.log(ss);
+	/*console.log(ss);*/
 	
 	
 	
@@ -127,7 +127,7 @@ var myparserTime=function(s){
     var mm = parseInt(hhh[1],10);
     var dd = parseInt(hhh[2],10);
     
-	console.log(d);
+	/*console.log(d);*/
     if (!isNaN(y) && !isNaN(m) && !isNaN(d)&& !isNaN(hh)&& !isNaN(mm)&& !isNaN(dd)){
         return new Date(y,m-1,d,hh,mm,dd);
         
@@ -180,3 +180,10 @@ function getJsonObj(id,button) {
 	return obj;
 	
 }
+
+
+
+
+
+
+

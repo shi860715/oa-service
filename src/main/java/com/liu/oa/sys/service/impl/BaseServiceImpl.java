@@ -95,9 +95,6 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	            }else {
 					throw new Exception("您没有权限操作，该任务");
 				}
-	          
-	  
-		
 	}
 
 	@Override

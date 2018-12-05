@@ -21,5 +21,21 @@ public class CostPayController {
 	}
 	
 	
+	@RequestMapping("/costpays")
+	public String costpays() {
+		
+		
+		
+		
+		
+	return "/costpay/costpayList";
+		
+		
+		
+	}
+	
+	
+	
+	
 
 }

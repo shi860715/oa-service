@@ -3,7 +3,7 @@ $(function(){
 	
 	  $('#datagrid').datagrid({  
 		    fit:true,
-		    url:'/sys/away/awaysByUserId',    
+		    url:'/sys/costpay/costpayByUserId',    
 		    loadMsg : '正在准备数据，请稍后。。。。。。',
 		    
 		    striped : true,//斑马线效果
@@ -237,22 +237,7 @@ var columns = [[
   {field:'awayId',title:'请假单编号',checkbox:true,width:180}, 
   {field:'userName',title:'姓名',width:60,align:'center'}, 
   {field:'leaveTime',title:'制单时间',width:120,align:'center'},  
-	{field:'startTime',title:'开始时间',width:120,align:'center',editor:{
-		type:'datebox',
-		options:{
-   			formatter:myformatter,
-   			parser:myparser
-   		}
-		
-	}},  
-	{field:'endTime',title:'结束时间',width:120,align:'center',editor:{
-		type:'datebox',
-		options:{
-   			formatter:myformatter,
-   			parser:myparser
-   		}
-		
-	}},  
+	
 	{field:'source',title:'出发城市',width:200,align:'center',editor:{
 		type:'text'
 		
@@ -296,7 +281,7 @@ var columns = [[
 			if(row.status==12 || row.status==14){
 				row.edit=false;
 			}
-			var awayId = row.awayId;
+			var costpayId = row.costpayId;
 			if (row.edit) {
 				var s = '<a href="#" onclick="saveRow('+ index + ')">保存</a>';
 				var c = '<a href="#" onclick="cancelRow('+ index + ')">取消</a>';
@@ -304,7 +289,7 @@ var columns = [[
 			} else {
 				
 				
-				var f = '<a id ="completeTask" href="#" onclick="completeTask('+ awayId + ')">提交审核</a>';
+				var f = '<a id ="completeTask" href="#" onclick="completeTask('+ costpayId + ')">提交审核</a>';
 				var e = '<a href="#" onclick="editRow('+ index + ')">编辑</a>';
 				var d = '<a href="#" onclick="deleteRow('+ index + ')">删除</a>';
 				
@@ -325,7 +310,7 @@ var columns = [[
 
 
 var toolbars =[{text : "检索：<input type='text' id='ss' />"}, 
-        {iconCls : 'icon-add',text : '出差申请',
+        {iconCls : 'icon-add',text : '报销申请',
 	       handler:function() {
 	        	insert();
 	            }
