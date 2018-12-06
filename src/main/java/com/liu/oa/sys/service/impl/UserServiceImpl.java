@@ -50,13 +50,16 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 
 	
 	@Override
-	public User create(UserForm user) throws UserException {
+	public User create(UserForm user) throws Exception {
 		
 		if(user!=null) {
 			User u = EncryptPassword(user);
+			try {
+				userMapper.insert(u);
+			} catch (Exception e) {
 			
-			
-			userMapper.insert(u);
+				e.printStackTrace();
+			}
 			return u;
 		}
 		
@@ -79,7 +82,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	/**
 	 * 分页查询用户列表
 	 */
-	public  Map<String, Object> findUserByPage(String query, int page, int rows) {
+	public  Map<String, Object> findUserByPage(String query, int page, int rows) throws Exception{
 		Map<String, Object> result = new HashMap<>();
 		 PageHelper.startPage(page, rows);
 		
@@ -98,7 +101,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	}
 
 	@Override
-	public Map<String, Object> findUserByDeptParentId(Integer id, String query, Integer page, Integer rows) {
+	public Map<String, Object> findUserByDeptParentId(Integer id, String query, Integer page, Integer rows)throws Exception {
 		  Map<String, Object> result = new HashMap<>();
 		  Dept dept = deptMapper.selectById(id);
 		  List<User> users = new ArrayList<>();
@@ -163,7 +166,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	}
 
 	@Override
-	public Map<String, Object> getUserPhone(int page, int rows, String query) {
+	public Map<String, Object> getUserPhone(int page, int rows, String query) throws Exception {
 		 Map<String, Object> result = new HashMap<>();
 		 PageHelper.startPage(page, rows);
 		 List<User> users =userMapper.findAll(query);

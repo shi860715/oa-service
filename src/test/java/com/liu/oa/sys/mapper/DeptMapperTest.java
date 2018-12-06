@@ -18,7 +18,7 @@ public class DeptMapperTest extends BaseTest{
 	DeptMapper deptMapper;
 
 	@Test
-	public void testGetDept() {
+	public void testGetDept() throws Exception {
 	Dept dept=	deptMapper.selectById(1);
 	
 	log.info("查询部门信息为：{}",dept);

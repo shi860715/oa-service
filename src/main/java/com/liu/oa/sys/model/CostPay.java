@@ -35,6 +35,8 @@ public class CostPay implements Serializable{
 
 	
 	private BigDecimal total;// 总金额
+	
+	private Integer type;// 报销方式 1.现金 2 转账 3 支付宝 、4微信
 
 	
 	private Integer status; //状态

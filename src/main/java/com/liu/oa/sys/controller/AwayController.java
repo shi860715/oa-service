@@ -90,7 +90,12 @@ public class AwayController {
 		Map<String,Object> result = new HashMap<String, Object>();
 		
 		
-		result=awayService.findAllByUserId(page,rows,query);
+		try {
+			result=awayService.findAllByUserId(page,rows,query);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 		return result;

@@ -59,8 +59,15 @@ public class UserController {
 	@ResponseBody
 	public ResultVO create(UserForm user) {
 		Map<String, Object> result =new HashMap<>();
-		User u =userService.create(user);
-		result.put("id", u.getUserId());
+		User u;
+		try {
+			u = userService.create(user);
+			result.put("id", u.getUserId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
 	    
 		return ResultUtils.success("用户创建成功！",result);
 	}
@@ -76,11 +83,22 @@ public class UserController {
       
       
         	 if(id==1 ) {
-            	result =userService.findUserByPage(query,page,rows);
+            	try {
+					result =userService.findUserByPage(query,page,rows);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
                 
             }else {
             	
-            	result= userService.findUserByDeptParentId(id,query,page,rows);
+            	try {
+					result= userService.findUserByDeptParentId(id,query,page,rows);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					
+				}
               
             }
         return result;
@@ -199,7 +217,12 @@ public class UserController {
 		 Map<String, Object> result = new HashMap<>();
 		 
 		 
-		 result= userService.getUserPhone(page,rows,query);
+		 try {
+			result= userService.getUserPhone(page,rows,query);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 		

@@ -164,7 +164,7 @@ function saveOrUpdateObject(row){
 	
 $.ajax({
 	type : 'post',
-	url : '/sys/away/saveOrUpdate',
+	url : '/sys/costpay/saveOrUpdate',
 	data : JSON.stringify(row),
 	contentType : 'application/json;charset=UTF-8',
 	success : function(data) {
@@ -184,13 +184,13 @@ $.ajax({
 }
 
 /*删除角色*/
-function deleteObject(awayId) {
+function deleteObject(costpayId) {
 
 $.ajax({
 	type : 'post',
-	url : '/sys/away/delete',
+	url : '/sys/costpay/delete',
 	data : {
-		"awayId" : awayId
+		"costpayId" : costpayId
 	},
 	success : function(data) {
 		
@@ -202,15 +202,15 @@ $.ajax({
 
 }
 
-function completeTask(awayId){
+function completeTask(costpayId){
 	var flag=false;
 	
-	var obj =getJsonObj(awayId,"提交");
+	var obj =getJsonObj(costpayId,"提交");
 	
 	
 	$.ajax({
 		type : 'post',
-		url : '/sys/away/completeTask',
+		url : '/sys/costpay/completeTask',
 		data : JSON.stringify(obj),
 		contentType : 'application/json;charset=UTF-8',
 		success : function(data) {
@@ -234,31 +234,70 @@ function showImageTask(){
 
 
 var columns = [[
-  {field:'awayId',title:'请假单编号',checkbox:true,width:180}, 
+  {field:'costpayId',title:'请假单编号',checkbox:true,width:180}, 
   {field:'userName',title:'姓名',width:60,align:'center'}, 
-  {field:'leaveTime',title:'制单时间',width:120,align:'center'},  
+  {field:'createTime',title:'制单时间',width:120,align:'center'},  
 	
-	{field:'source',title:'出发城市',width:200,align:'center',editor:{
-		type:'text'
-		
-	}}, 
-	{field:'destation',title:'目标城市',width:200,align:'center',editor:{
-		type:'text'
-		
-	}}, 
+	
 	 
-	{field:'reson',title:'出差事由',width:200,align:'center',editor:{
+  {field:'total',title:'报销金额',width:200,align:'center',editor:{
+	  type:'numberbox',
+	  options:{
+		  min:0,    
+		  precision:2  
+	  }
+		  
+  }}, 
+	{field:'reson',title:'报销事由',width:200,align:'center',editor:{
 		type:'text'
 		
 	}}, 
-	{field:'days',title:'天数',width:60,align:'center',editor:{
-		type:'numberbox',
+	
+	{field:'type',title:'报销方式',width:200,align:'center',editor:{
+		type:'combobox',
 		options:{
-			   min:0,    
-			   precision:2   
+			valueField:'value',
+			textField:'text',
+			data:[{
+				value:1,
+				text:'现金'
+			},{
+				value:2,
+				text:'转账'
+			},{
+				value:3,
+				text:'支付宝'
+			},{
+				value:4,
+				text:'微信'
+			}
+				]
+				
 		}
+			
+			
+			
+			
+	},formatter:function(value){
+		
+		switch(value){
+		case 1:
+		  return "现金";
+		  break;
+		case 2:
+		  return "转账";
+		  break;
+		case 3:
+		  return "支付宝";
+		  break;  
+		case 4:
+			return "微信";
+			break;  
+		  }
+		
 		
 	}}, 
+	
 	{field:'status',title:'状态',width:60,align:'center',formatter:function(value){
 		switch(value){
 		case 11:

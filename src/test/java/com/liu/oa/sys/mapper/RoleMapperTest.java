@@ -17,7 +17,7 @@ public class RoleMapperTest extends BaseTest {
 	
 	
 	@Test
-	public void insert() {
+	public void insert() throws Exception {
 		
 		Role role = Role.builder().name("超级管理员").remark("可以做任何的事情的超级人类").build();
 		rolemapper.insert(role);
@@ -27,7 +27,7 @@ public class RoleMapperTest extends BaseTest {
 	
 	
 	@Test
-	public void selectById() {
+	public void selectById() throws Exception {
 		Role role = rolemapper.selectById(6);
 		log.info("打印role {}",role);
 		
@@ -35,7 +35,7 @@ public class RoleMapperTest extends BaseTest {
 	}
 	
 	@Test
-	public void updateRole() {
+	public void updateRole() throws Exception {
 		
 		Role selectById = rolemapper.selectById(6);
 		selectById.setName("超级二号");

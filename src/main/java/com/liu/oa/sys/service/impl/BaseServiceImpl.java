@@ -26,25 +26,25 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	private BaseMapper<T> baseMapper;
 
 	@Override
-	public T save(T t) {
+	public T save(T t) throws Exception {
 		int id = baseMapper.insert(t);
 
 		return baseMapper.selectById(id);
 	}
 
 	@Override
-	public T selectById(Serializable id) {
+	public T selectById(Serializable id) throws Exception{
 		return baseMapper.selectById(id);
 	}
 
 	@Override
-	public List<T> findAll() {
+	public List<T> findAll() throws Exception {
 		// TODO Auto-generated method stub
 		return baseMapper.findAll();
 	}
 
 	@Override
-	public boolean deleteById(Serializable id) {
+	public boolean deleteById(Serializable id)throws Exception {
 		boolean flag = false;
 		baseMapper.deleteById(id);
 		flag = true;
@@ -52,13 +52,13 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	}
 
 	@Override
-	public void update(T t) {
+	public void update(T t) throws Exception {
 		baseMapper.update(t);
 
 	}
 
 	@Override
-	public Map<String, Object> findAllByUserId(int page, int rows, String query) {
+	public Map<String, Object> findAllByUserId(int page, int rows, String query) throws Exception {
 
 		Map<String, Object> result = new HashMap<>();
 
@@ -77,10 +77,15 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	}
 
 	@Override
-	public boolean updatestatus(String businessKey, Integer status){
+	public boolean updatestatus(String businessKey, Integer status) {
 		boolean flag = false;
 		String [] id =businessKey.split(":");
-		baseMapper.updatestatus(id[1],status);
+		try {
+			baseMapper.updatestatus(id[1],status);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		flag=true;
 		
 		return flag;
@@ -98,7 +103,7 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	}
 
 	@Override
-	public Map<String, Object> setProcessVariables(String businessKey) {
+	public Map<String, Object> setProcessVariables(String businessKey){
 		Map<String, Object> variables = new HashMap<>();
 		
 		User user =RequestHolder.getCurrentUser();
@@ -108,12 +113,7 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 		return variables;
 	}
 
-	@Override
-	public void startProcess(T t, String businessKey) {
-		
-		
-	}
-
+	
 
 
 

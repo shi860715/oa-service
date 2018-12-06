@@ -21,7 +21,7 @@ public interface BaseService<T> {
 	void update(T t) throws Exception;
 	
 	
-	public Map<String, Object> findAllByUserId(int page, int rows, String query);
+	public Map<String, Object> findAllByUserId(int page, int rows, String query)  throws Exception ;
 	
 	
 	
@@ -49,10 +49,6 @@ public interface BaseService<T> {
 	 */
 	public Map<String,Object> setProcessVariables(String businessKey);
 	
-	/**
-	 * @return 
-	 * 
-	 */
-	public void startProcess(T t,String businessKey);
+
 	
 }

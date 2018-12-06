@@ -30,7 +30,7 @@ public class UserMapperTest extends BaseTest {
 
 	
 	@Test
-	public void selectById() {
+	public void selectById() throws Exception {
 		User user = userMapper.selectById(1);
 		log.info("用户信息：{}",user);
 	
@@ -38,7 +38,7 @@ public class UserMapperTest extends BaseTest {
 	
 	
 	@Test
-	public void insert() {
+	public void insert() throws Exception {
 		String password = EncryptUtil.sha1("123456lw".getBytes(),shaConfig.getSalt().getBytes(),shaConfig.getIterations()).toString();
 		User user = User.builder().userName("小王").userNo("8801")
 				.loginName("admin123").password(password).deptId(1).build();

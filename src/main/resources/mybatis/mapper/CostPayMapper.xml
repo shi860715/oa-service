@@ -1,0 +1,108 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.liu.oa.sys.mapper.CostPayMapper">
+
+ <select id="selectById" resultType="costPay" parameterType="int">
+ 
+ select * from  sys_costpay where  flag= 0 and costpay_id=#{costpayId}
+ 
+ </select>
+	
+  <insert id="insert" parameterType="costPay"  useGeneratedKeys="true" keyProperty="costpayId">
+  
+   insert into sys_costpay (user_id,user_name,reson,total,type,status,remark,create_time,flag,process_id) 
+      values (#{userId},#{userName},#{reson},#{total},#{type},#{status},#{remark},#{createTime},#{flag},#{processId}) 
+   
+  </insert>
+  
+  
+ 
+	<update id="deleteById" parameterType="int" >
+	 
+	update sys_costpay set flag=1  where costpay_id = #{costpayId} 
+	
+	</update>
+	
+	<select id="findAll" resultType="costPay">
+	
+	 select * from sys_costpay where flag=0 
+	 
+	 <if test="query!=null">
+	 and (user_name like '%${query}%' or reson like '%${query}%' or remark  like '%${query}%' )
+	
+	</if>
+	
+	</select>
+	
+	
+	<select id="findAllByUserId" resultType="costPay">
+	
+	 select * from sys_costpay where flag=0 
+	 
+	 <if test="query!=null">
+	 and (user_name like '%${query}%' or reson like '%${query}%' or remark  like '%${query}%' )
+	
+	</if>
+	and user_id =#{userId}
+	
+	</select>
+	
+	
+   <update id="updatestatus">
+	
+	 update sys_costpay set   status = #{status} where  costpay_id =#{id}
+	
+	</update>
+	
+	
+	<update id="update" parameterType="costPay">
+	
+	 update sys_costpay
+	 <set>
+	  <if test="userId!=null">
+	  user_id = #{userId} ,
+	 </if>
+	  <if test="userName!=null">
+	  user_name = #{userName} ,
+	 </if>
+	
+	 <if test="reson!=null">
+	  reson = #{reson} ,
+	 </if>
+	 <if test="total!=null">
+	  total = #{total} ,
+	 </if>
+	 <if test="status!=null">
+	  status = #{status} ,
+	 </if>
+	 <if test="remark!=null">
+	   remark = #{remark} ,
+	 </if>
+	 <if test="create_time!=null">
+	   create_time = #{createTime} ,
+	 </if>
+	 <if test="flag!=null">
+	   flag = #{flag} ,
+	 </if>
+	  <if test="processId!=null">
+	   process_id = #{processId} 
+	 </if>
+	 </set>
+	 <where>
+	  costpay_id =#{costpayId}
+	 </where>
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</mapper>

@@ -17,7 +17,7 @@ public class MenuMapperTest extends BaseTest{
 	MenuMapper menuMapper;
 
 	@Test
-	public void insert() {
+	public void insert() throws Exception {
 		
 		Menu build = Menu.builder().name("系统").type(0).sort(10).url("/main").icon("menu").build();
 		

@@ -17,7 +17,7 @@ public class DeptServiceImpl extends BaseServiceImpl<Dept> implements DeptServic
 
 	@Override
 	@Transactional
-	public void updateDeptManager(DeptManager deptManager) {
+	public void updateDeptManager(DeptManager deptManager)throws Exception {
 		
 		Dept dept =deptMapper.selectById(deptManager.getDeptId());
 		dept.setManager(deptManager.getUserId());

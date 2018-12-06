@@ -4,4 +4,6 @@ import com.liu.oa.sys.model.CostPay;
 
 public interface CostPayService extends BaseService<CostPay>{
 
+	 void saveAndProcess(CostPay costPay) throws Exception;
+
 }

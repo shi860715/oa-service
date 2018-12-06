@@ -24,7 +24,7 @@ public class LeaveMapperTest extends BaseTest{
 	
 	
 	@Test
-	public void update() {
+	public void update() throws Exception {
 		
 		Leave leave =leaveMapper.selectById(1);
 		
@@ -35,7 +35,7 @@ public class LeaveMapperTest extends BaseTest{
 	}
 	
 	@Test
-	public void delById() {
+	public void delById() throws Exception {
 		
 	
 		leaveMapper.deleteById(1);
@@ -43,7 +43,7 @@ public class LeaveMapperTest extends BaseTest{
 	}
 	
 	@Test
-	public void findAll() {
+	public void findAll() throws Exception {
 		List<Leave> leaves =leaveMapper.findAll();
 		
 		for (Leave leave : leaves) {

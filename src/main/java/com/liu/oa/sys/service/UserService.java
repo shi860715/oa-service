@@ -11,18 +11,18 @@ import com.liu.oa.sys.model.User;
 public interface UserService extends BaseService<User> {
 	
 	
-	User create(UserForm user ) throws UserException;
+	User create(UserForm user ) throws Exception;
 
-	Map<String, Object> findUserByPage(String query, int page, int rows);
+	Map<String, Object> findUserByPage(String query, int page, int rows) throws Exception;
 
 
-	Map<String, Object> findUserByDeptParentId(Integer id, String query, Integer page, Integer rows);
+	Map<String, Object> findUserByDeptParentId(Integer id, String query, Integer page, Integer rows) throws Exception;
 
 	void updateUserRoles(UserRoles userRoles) throws Exception;
 
 	User loginUser(String userNo, String password)throws Exception;
 
-	Map<String, Object> getUserPhone(int page, int rows, String query);
+	Map<String, Object> getUserPhone(int page, int rows, String query) throws Exception;
 
 
 
