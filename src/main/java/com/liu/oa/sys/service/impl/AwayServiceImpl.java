@@ -78,20 +78,16 @@ public class AwayServiceImpl extends BaseServiceImpl<Away> implements AwayServic
 	}
 
 
-
-
 	@Override
 	public Map<String, Object> completeTask(String processId) {
-		
-	/*   Task task = workFlowService.getTaskByProcessId(processInstanceBusinessKey)*/
-		
-		
-		
-		
-		
+		// TODO Auto-generated method stub
 		return null;
 	}
 
+
+
+
+	
 
 	
 	

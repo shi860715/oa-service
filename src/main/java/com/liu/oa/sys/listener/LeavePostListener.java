@@ -33,7 +33,12 @@ public class LeavePostListener implements TaskListener {
 		}
 		
 		if(eventName.equals("complete")) {
-			leaveService.updatestatus(businessKey, WorkFlowEmnu.STATUS_WATING.getCode());
+			try {
+				leaveService.updatestatus(businessKey, WorkFlowEmnu.STATUS_WATING.getCode());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	      
 		

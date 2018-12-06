@@ -43,7 +43,12 @@ public class MasterListener implements TaskListener {
 			System.out.println("complete.................");
 			
 			if(button.equals("驳回")) {
-				leaveService.updatestatus(businessKey,WorkFlowEmnu.STATUS_UNPOST.getCode());
+				try {
+					leaveService.updatestatus(businessKey,WorkFlowEmnu.STATUS_UNPOST.getCode());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}	
 		

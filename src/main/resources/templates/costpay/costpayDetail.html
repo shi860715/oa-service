@@ -1,19 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>报销申请</title>
- <div th:replace="commons/easyui::easyui"></div>
- <script  src="/js/utils.js" th:src="@{/js/utils.js}"></script>
+<title>请假单申请</title>
+<div th:replace="commons/easyui::bootstrap"></div>
 
- 
+<style type="text/css">
+
+.mydiv{
+      margin-top: 20px;
+
+
+}
+form div{
+   margin: 10px 20px;
+  }
+  legend{
+     margin: 10px 20px;
+  }
+</style>
+
+<script type="text/javascript">
+
+function getJsonObj(id,button) {
+	var variables ={"button":button};
+	var obj ={"id":id,"variables":variables};
+	
+	return obj;
+	
+}
+
+function compeleTask(dom){
+
+	var button =$(dom).text();
+	var taskId = $("#taskId").val();
+	var id = $("#costpayId").val();
+	
+   var obj=	getJsonObj(id,button);
+	
+
+	$.ajax({
+		type : 'post',
+		url : '/sys/costpay/completeTask',
+		data : JSON.stringify(obj),
+		contentType : 'application/json;charset=UTF-8',
+	
+		success : function(data) {
+		      alert(data.message);
+		     
+		      window.open("/index");
+		}
+		
+		
+	});
+	
+	
+	
+}
+
+
+</script>
+
 </head>
 <body>
-    <div>
-        <div>报销申请</div>
-        
-    
-    </div>
-    
+	<div class="container-fluid">
+		<div class="row-fluid">
+
+			<div class="col-lg-4 col-lg-offset-3">
+				
+					<fieldset>
+						<legend>报销申请</legend>
+					       <input id ="taskId" name="taskId" th:value="${taskId}" style="display: none">
+					       <input id ="costpayId" name="costpayId" th:value="${costpay.costpayId}" style="display: none">
+						<div>
+							<label>申请时间：</label><input th:value="${#dates.format(costpay.createTime,'yyyy-MM-dd HH:mm')}" type="text"/>
+						</div>
+						
+						<div>
+							<label>报销金额：</label><input  th:value="${costpay.total}" type="text" />
+						</div>
+						<div>
+							<label>出差原因：</label><input  th:value="${costpay.reson}" type="text" />
+						</div>
+						<legend>申请人信息</legend>
+						
+						<div>
+							<label>申请人员：</label><input th:value="${user.userName}" type="text" />
+						</div>
+						<div>
+							<label>联系方式：</label><input th:value="${user.phone}" type="text" />
+						</div>
+						<div>
+							<label>工作年限：</label><input th:value="${user.age}" type="text" />
+						</div>
+						<div>
+							<label>所在部门：</label><input th:value="${user.deptName}" type="text" />
+						</div>
+                        <legend>审批</legend>
+                        <div>
+							<label>审批意见：</label><input  type="text" />
+						</div>
+                         <div class="mydiv" >
+                            
+                         	<button th:each="button:${buttons}" class="btn btn-primary" type="button" th:text="${button}"  onclick="compeleTask(this)" >提交</button>
+                         
+                         </div>
+					
+					</fieldset>
+			</div>
+
+
+		</div>
+	</div>
+
 </body>
 </html>

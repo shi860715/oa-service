@@ -16,7 +16,7 @@ public interface BaseService<T> {
 	List<T> findAll() throws Exception;
 	
 	
-	boolean deleteById(Serializable id) throws Exception;
+	void deleteById(Serializable id) throws Exception;
 
 	void update(T t) throws Exception;
 	
@@ -31,7 +31,7 @@ public interface BaseService<T> {
 	 * @param status
 	 * @return
 	 */
-	public boolean updatestatus(String businessKey  ,Integer status) ;
+	public void updatestatus(String businessKey  ,Integer status) throws Exception;
 	
 	
 	/**

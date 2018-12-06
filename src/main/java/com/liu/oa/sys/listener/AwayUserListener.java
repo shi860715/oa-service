@@ -29,7 +29,12 @@ public class AwayUserListener implements TaskListener {
 		String  eventName =delegateTask.getEventName();
 		if(eventName.equals("complete")) {
 			
-				awayService.updatestatus(businessKey, WorkFlowEmnu.STATUS_WATING.getCode());
+				try {
+					awayService.updatestatus(businessKey, WorkFlowEmnu.STATUS_WATING.getCode());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			
 		}
 	}

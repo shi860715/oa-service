@@ -113,7 +113,7 @@ public class AwayController {
 		
 		
 	} catch (Exception e) {
-		// TODO Auto-generated catch block
+	
 		e.printStackTrace();
 		result.put("message", e.getMessage());
 	}

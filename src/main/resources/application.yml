@@ -37,7 +37,7 @@ spring:
     host: 127.0.0.1 
     port: 6379
     password: 
-    timeout: 30
+    timeout: 5000
     database: 1
     jedis:
       pool:

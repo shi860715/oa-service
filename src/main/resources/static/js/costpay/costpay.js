@@ -129,7 +129,7 @@ parent.$.messager.confirm('Confirm', 'Are you sure?', function(r) {
 	if (r) {
 		var rows = $('#datagrid').datagrid('getRows');
 		var row = rows[index];
-		deleteObject(row.awayId);
+		deleteObject(row.costpayId);
 		
 	}
 });
@@ -183,7 +183,7 @@ $.ajax({
 
 }
 
-/*删除角色*/
+
 function deleteObject(costpayId) {
 
 $.ajax({
@@ -237,16 +237,12 @@ var columns = [[
   {field:'costpayId',title:'请假单编号',checkbox:true,width:180}, 
   {field:'userName',title:'姓名',width:60,align:'center'}, 
   {field:'createTime',title:'制单时间',width:120,align:'center'},  
-	
-	
-	 
   {field:'total',title:'报销金额',width:200,align:'center',editor:{
 	  type:'numberbox',
 	  options:{
 		  min:0,    
 		  precision:2  
 	  }
-		  
   }}, 
 	{field:'reson',title:'报销事由',width:200,align:'center',editor:{
 		type:'text'
@@ -260,7 +256,8 @@ var columns = [[
 			textField:'text',
 			data:[{
 				value:1,
-				text:'现金'
+				text:'现金',
+				selected:true  
 			},{
 				value:2,
 				text:'转账'

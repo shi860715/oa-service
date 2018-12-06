@@ -44,11 +44,10 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	}
 
 	@Override
-	public boolean deleteById(Serializable id)throws Exception {
-		boolean flag = false;
+	public void deleteById(Serializable id)throws Exception {
+		
 		baseMapper.deleteById(id);
-		flag = true;
-		return flag;
+		
 	}
 
 	@Override
@@ -77,8 +76,7 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	}
 
 	@Override
-	public boolean updatestatus(String businessKey, Integer status) {
-		boolean flag = false;
+	public void updatestatus(String businessKey, Integer status) throws Exception{
 		String [] id =businessKey.split(":");
 		try {
 			baseMapper.updatestatus(id[1],status);
@@ -86,9 +84,7 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		flag=true;
-		
-		return flag;
+	
 	}
 
 	@Override
