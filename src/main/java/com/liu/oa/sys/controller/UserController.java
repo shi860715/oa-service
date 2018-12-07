@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.liu.oa.common.RequestHolder;
 import com.liu.oa.common.contants.CookiesConstant;
 import com.liu.oa.common.enums.ReslutEmnu;
 import com.liu.oa.framwork.utils.CookiesUtil;
@@ -231,7 +232,18 @@ public class UserController {
 	}
 	
 	
-	
+	@RequestMapping("/userInfo")
+	public String userInfo(Model model) {
+		
+	User user=	RequestHolder.getCurrentUser();
+		
+		model.addAttribute("user", user);
+		
+		
+		
+		
+		return "/user/userInfo";
+	}
 	
 	
 	

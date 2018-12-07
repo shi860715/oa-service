@@ -105,7 +105,7 @@ public class MenuController {
 	   
 		List<Menu> menus = new ArrayList<>();
 		try {
-			menus=menuService.findAll();
+			menus=menuService.findMenuByUserId();
 			log.debug("菜单列表{}",JacksonUtil.printJson(menus));
 			result.put("total", menus.size());
 			result.put("rows", menus);

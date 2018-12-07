@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>请假单申请</title>
+<div th:replace="commons/easyui::bootstrap"></div>
+
+<style type="text/css">
+body{
+ background-color: #eee;
+ }
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+.wrap{
+   width: 50%;
+   /*  margin: 0 auto;  */
+
+ }
+
+.mypanel {
+	
+ background-color: #fff;
+ padding:10px 5px;	
+}
+
+.header {
+	background-color: #438eb9;
+	text-align: left;
+	padding: 5px 0 5px 10px;
+}
+
+.content {
+	
+}
+
+.content ul li {
+    padding:0 40px;
+	text-align: left; 
+	list-style : none;
+	margin-top: 20px;
+	list-style: none;
+}
+
+.content ul li input {
+	width: 100%;
+/* 	border-bottom: 1px red solid; */
+}
+</style>
+
+<script type="text/javascript">
+	
+</script>
+
+</head>
+<body>
+
+	<div class="wrap">
+		<div class="mypanel">
+			<div class="header">基本信息</div>
+			<div class=content>
+				<ul>
+				    <li ><span>员工ID：</span><span>[(${user.userId})]</span></li>
+					<li><span>员工编号：</span><span>[(${user.userNo})]</span></li>
+					<li><span>姓名：</span><span>[(${user.userName})]</span></li>
+					<li><span>性别：</span><span>[(${user.sexString})]</span></li>
+					<li><span>出生日期：</span><span>[(${#dates.format(user.brith,'yyyy-MM-dd')})]</span></li>
+					<li><span>年龄：</span><span>[(${user.age})]</span></li>
+					<li><span>电话：</span><span>[(${user.tel})]</span></li>
+					<li><span>手机：</span><span>[(${user.phone})]</span></li>
+					<li><span>邮箱：</span><span>[(${user.email})]</span></li>
+					<li><span>状态：</span><span>[(${user.statusString})]</span></li>
+					
+				</ul>
+			</div>
+		</div>
+
+
+		<div class="mypanel">
+			<div class="header">部门信息</div>
+			<div class=content>
+				<ul>
+				       <li><span>部门编号：</span><span>[(${user.dept.deptId})]</span></li>
+					<li><span>部门名称：</span><span>[(${user.dept.name})]</span></li>
+					
+					<li><span>部门经理：</span><span>[(${user.dept.userName})]</span></li>
+				</ul>
+
+			</div>
+
+		</div>
+		<div class="mypanel">
+			<div class="header">角色信息</div>
+			<div class=content>
+				<ul>
+					<li ><span th:each="role:${user.roles}"  th:text="${#strings.append(role.name,' ') }"></span></li>
+					
+				</ul>
+
+			</div>
+
+		</div>
+	</div>
+
+
+</body>
+</html>

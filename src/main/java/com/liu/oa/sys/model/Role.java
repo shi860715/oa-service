@@ -1,5 +1,6 @@
 package com.liu.oa.sys.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.liu.oa.sys.model.Away.AwayBuilder;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Role {
+public class Role implements Serializable{
 	
 	
 	private Integer roleId;

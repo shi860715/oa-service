@@ -7,6 +7,9 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.liu.oa.common.enums.SexEmnu;
+import com.liu.oa.common.enums.StatusEmnu;
+import com.liu.oa.framwork.utils.EnumUtil;
 import com.liu.oa.sys.model.Away.AwayBuilder;
 
 import lombok.AllArgsConstructor;
@@ -59,5 +62,26 @@ public class User implements Serializable {
 	private String deptName;
 
 	private List<Role> roles;
+	
+	private Dept dept;
+	
+	
+	private String sexString;
+	
+	private String statusString;
+	
+	
+	public String getSexString() {
+		
+		return EnumUtil.getByCode(sex, SexEmnu.class).getMsg();
+	}
+	
 
+   public String getStatusString() {
+		
+		return EnumUtil.getByCode(sex, StatusEmnu.class).getMsg();
+	}
+	
+	
+	
 }

@@ -11,6 +11,8 @@ public enum Contant implements CodeEmnu{
     SUCCESS(1,"成功"),
     FAILED(2,"失败"),
     
+
+    
     ;
 
     private Integer code;
