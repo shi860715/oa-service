@@ -13,6 +13,10 @@ public enum WorkFlowEmnu implements CodeEmnu{
 	STATUS_SUCCESS(14,"审核通过"),
 	;
 	
+	
+	
+	
+	
 	private Integer code;
 	
 	private String msg;

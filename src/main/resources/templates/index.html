@@ -113,20 +113,21 @@ overflow: hidden;
 
 		});
 		
-		addTab("首页",'/common/index');
+		addTab("首页",'/common/index'); 
 		
 		
 		$("#nav-accordion ul li").click(function() {
 			$("#nav-accordion ul li").css({
-				"background" : "#B4CDCD"
-			})
+				"background" : "#B4CDCD" 
+			});
+				
 			$(this).css({
 				"background" : "#AEEEEE"
 			})
 
 		});
 	 
-		
+		 
 		
 		
 		
@@ -143,6 +144,14 @@ overflow: hidden;
 			success : function(data) {
 				
 				createMenus(data.rows);
+				
+			
+			
+			
+			
+			
+				
+				
 			}
 		});
 		

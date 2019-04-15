@@ -67,7 +67,7 @@ $(function(){
 	   
 	   parent.$("#menu_dialog").dialog({
 		   
-		   title: '分配资源',    
+		    title: '分配资源',    
 		    width: 1200,    
 		    height: 800,    
 		    closed: true,    
